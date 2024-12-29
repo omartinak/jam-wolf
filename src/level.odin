@@ -95,6 +95,9 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
         case .Armor:    item.tex = gs.textures["armor"]
         }
     }
+    for &enemy in level.enemies {
+        enemy.tex = gs.textures["cobra0"]
+    }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
     defer rl.UnloadImage(im_map)

@@ -9,12 +9,23 @@ create_textures :: proc() -> Textures {
     textures := Textures {
         "level01_atlas" = rl.LoadTexture("data/graphics/walls.png"),
         "level01" = rl.LoadTexture("data/levels/level01.png"),
-        "gun1" = rl.LoadTexture("data/graphics/lab/guns/gun1a.png"),
-        "gun2" = rl.LoadTexture("data/graphics/lab/guns/gun2.png"),
-        "gun2b" = rl.LoadTexture("data/graphics/lab/guns/gun2b.png"),
-        "gun2c" = rl.LoadTexture("data/graphics/lab/guns/gun2c.png"),
-        "gun4" = rl.LoadTexture("data/graphics/lab/guns/gun4.png"),
-        "gun5" = rl.LoadTexture("data/graphics/lab/guns/gun5a.png"),
+
+        "pistol01" = rl.LoadTexture("data/graphics/lab/guns/gun2.png"),
+        "pistol02" = rl.LoadTexture("data/graphics/lab/guns/gun2b.png"),
+        "pistol03" = rl.LoadTexture("data/graphics/lab/guns/gun2c.png"),
+
+        "rifle01" = rl.LoadTexture("data/graphics/lab/guns/gun5a.png"),
+        "rifle02" = rl.LoadTexture("data/graphics/lab/guns/gun5b.png"),
+        "rifle03" = rl.LoadTexture("data/graphics/lab/guns/gun5c.png"),
+
+        "machinegun01" = rl.LoadTexture("data/graphics/lab/guns/gun1a.png"),
+        "machinegun02" = rl.LoadTexture("data/graphics/lab/guns/gun1b.png"),
+        "machinegun03" = rl.LoadTexture("data/graphics/lab/guns/gun1c.png"),
+
+        "nuker01" = rl.LoadTexture("data/graphics/lab/guns/gun4.png"),
+        "nuker02" = rl.LoadTexture("data/graphics/lab/guns/gun4b.png"),
+        "nuker03" = rl.LoadTexture("data/graphics/lab/guns/gun4c.png"),
+
         "clip" = rl.LoadTexture("data/graphics/lab/sprites/i_clip.png"),
         "ammobox" = rl.LoadTexture("data/graphics/lab/sprites/i_ammobox.png"),
         "armor" = rl.LoadTexture("data/graphics/lab/sprites/i_armor.png"),

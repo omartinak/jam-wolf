@@ -77,25 +77,37 @@ init :: proc() {
 
     gs.weapons = {
         .Pistol = {
-            tex = gs.textures["gun2"],
+            tex = {
+                gs.textures["pistol01"],
+                gs.textures["pistol02"],
+                gs.textures["pistol03"],
+            },
             x_off = 0,
             damage = 5,
         },
         .Rifle = {
-            tex = gs.textures["gun5"],
+            tex = {
+                gs.textures["rifle01"],
+                gs.textures["rifle02"],
+                gs.textures["rifle03"],
+            },
             x_off = 2,
             damage = 5,
         },
         .Machine_Gun = {
-            tex = gs.textures["gun1"],
+            tex = {
+                gs.textures["machinegun01"],
+                gs.textures["machinegun02"],
+                gs.textures["machinegun03"],
+            },
             x_off = -1,
             damage = 10,
         },
-        .Nuker = {
-            tex = gs.textures["gun4"],
-            x_off = -8,
-            damage = 50,
-        },
+//        .Nuker = {
+//            tex = gs.textures["gun4"],
+//            x_off = -8,
+//            damage = 50,
+//        },
     }
 
     gs.player.pos = gs.level.player_start
@@ -163,22 +175,15 @@ update :: proc() {
     if gs.editor.active {
         update_editor_input(&gs.editor)
     } else {
-        if rl.IsMouseButtonPressed(.LEFT) {
-            dmg := player_shoot()
-
-            if dmg > 0 {
-                ray := rl.Ray {
-                    // TODO: use player direction/rotation
-                    position = gs.camera.position,
-                    direction = rl.Vector3Normalize(gs.camera.target - gs.camera.position),
-                }
-
-                enemy_hit := get_enemy_hit(ray)
-                if enemy_hit.hit {
-                    show_message("hit")
-                    enemy_hit.enemy.hp -= dmg
-                    if enemy_hit.enemy.hp <= 0 do enemy_hit.enemy.dead = true
-                }
+        switch gs.cur_weapon {
+        case .Pistol:
+            if rl.IsMouseButtonPressed(.LEFT) && !gs.weapons[gs.cur_weapon].anim {
+                player_shoot()
+            }
+        case .Rifle: fallthrough
+        case .Machine_Gun:
+            if rl.IsMouseButtonDown(.LEFT) && !gs.weapons[gs.cur_weapon].anim {
+                player_shoot()
             }
         }
         // TODO: mouse wheel to switch weapons
@@ -187,13 +192,15 @@ update :: proc() {
         case rl.IsKeyPressed(.ONE):   gs.cur_weapon = .Pistol
         case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
         case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
-        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
+//        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
         }
     }
 
+    update_weapon(dt)
+
     velocity: Vec3
     player_move(&gs.player, &gs.camera, &velocity, dt)
-    dbg_print(0, "player %.2f", gs.player.pos.xz)
+//    dbg_print(0, "player %.2f", gs.player.pos.xz)
 
     // TODO: optimize - spatial accel struct, check only adjacent tiles, merge tiles
     for y in 0..<gs.level_runtime.grid_tex.height {

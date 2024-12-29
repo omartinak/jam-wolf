@@ -62,10 +62,26 @@ slide :: proc(pos, velocity: Vec3, rc_tile: rl.Rectangle) -> Vec3 {
     return {}
 }
 
-player_shoot :: proc() -> int {
+player_shoot :: proc() {
+    dmg := 0
     if gs.ammo > 0 {
+        play_weapon_anim()
         gs.ammo -= 1
-        return gs.weapons[gs.cur_weapon].damage
+        dmg = gs.weapons[gs.cur_weapon].damage
     }
-    return 0
+
+    if dmg > 0 {
+        ray := rl.Ray {
+        // TODO: use player direction/rotation
+            position = gs.camera.position,
+            direction = rl.Vector3Normalize(gs.camera.target - gs.camera.position),
+        }
+
+        enemy_hit := get_enemy_hit(ray)
+        if enemy_hit.hit {
+            show_message("hit")
+            enemy_hit.enemy.hp -= dmg
+            if enemy_hit.enemy.hp <= 0 do enemy_hit.enemy.dead = true
+        }
+    }
 }
