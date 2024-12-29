@@ -109,6 +109,7 @@ enemy_hit_anim :: proc(enemy: ^Enemy) {
 }
 
 enemy_death_anim :: proc(enemy: ^Enemy) {
+    // TODO: death anim is bugged
     enemy.death_anim = true
     enemy.anim_time = 0.1
 }

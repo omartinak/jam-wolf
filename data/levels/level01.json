@@ -14,110 +14,1610 @@
 	"items": [
 		{
 			"tex": {
-				"id": 13,
+				"id": 18,
 				"width": 48,
 				"height": 48,
 				"mipmaps": 1,
 				"format": 7
 			},
 			"pos": [
-				22.00000000,
+				26.12565613,
 				0.20000000,
-				38.00000000
+				-4.74880743
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				43.01356888,
+				0.20000000,
+				22.65546417
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				25.01748657,
+				0.20000000,
+				-4.65306282
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				26.19186401,
+				0.20000000,
+				-3.55011630
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				25.02578545,
+				0.20000000,
+				-3.50057268
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				41.87049484,
+				0.20000000,
+				27.44036102
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				41.98580170,
+				0.20000000,
+				30.70880318
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				40.08855438,
+				0.20000000,
+				22.62418365
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				40.01533508,
+				0.20000000,
+				27.40554237
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				39.93718719,
+				0.20000000,
+				30.63024330
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				37.94382477,
+				0.20000000,
+				27.39251518
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				38.08274460,
+				0.20000000,
+				30.66920090
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				35.97121811,
+				0.20000000,
+				27.45556450
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				36.00413895,
+				0.20000000,
+				30.65378952
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				-9.14963627,
+				0.20000000,
+				-5.37055492
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				-7.05553675,
+				0.20000000,
+				-5.06465340
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 19,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				-7.51153994,
+				0.20000000,
+				-4.24009609
 			],
 			"type": 2
 		},
 		{
 			"tex": {
-				"id": 12,
+				"id": 18,
 				"width": 48,
 				"height": 48,
 				"mipmaps": 1,
 				"format": 7
 			},
 			"pos": [
-				22.20907593,
+				-6.96986246,
 				0.20000000,
-				42.97151566
+				-3.59011483
 			],
 			"type": 1
 		},
 		{
 			"tex": {
-				"id": 12,
+				"id": 18,
 				"width": 48,
 				"height": 48,
 				"mipmaps": 1,
 				"format": 7
 			},
 			"pos": [
-				17.59644508,
+				-9.14444828,
 				0.20000000,
-				40.75679779
+				-3.07703519
 			],
 			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				20.10011673,
+				0.20000000,
+				6.94665194
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				5.19550705,
+				0.20000000,
+				1.21907163
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				5.30249310,
+				0.20000000,
+				2.67616963
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				12.98217297,
+				0.20000000,
+				8.01095200
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				12.01146126,
+				0.20000000,
+				7.96423769
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				12.92127323,
+				0.20000000,
+				9.19047260
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				22.66481972,
+				0.20000000,
+				43.36648941
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				22.93515778,
+				0.20000000,
+				42.27463531
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				12.03287029,
+				0.20000000,
+				9.13102055
+			],
+			"type": 1
+		},
+		{
+			"tex": {
+				"id": 19,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				23.44041443,
+				0.20000000,
+				38.00895691
+			],
+			"type": 2
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				21.19022942,
+				0.20000000,
+				43.37111282
+			],
+			"type": 0
+		},
+		{
+			"tex": {
+				"id": 17,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				21.46596909,
+				0.20000000,
+				42.34325790
+			],
+			"type": 0
 		}
 	],
 	"enemies": [
 		{
-			"tex": {
-				"id": 14,
-				"width": 64,
-				"height": 64,
-				"mipmaps": 1,
-				"format": 7
-			},
-			"pos": [
-				21.44870758,
-				0.38000000,
-				46.95351791
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
 			],
-			"hp": 20
+			"pos": [
+				42.82129288,
+				0.38000000,
+				15.29523277
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
 		},
 		{
-			"tex": {
-				"id": 14,
-				"width": 64,
-				"height": 64,
-				"mipmaps": 1,
-				"format": 7
-			},
-			"pos": [
-				13.96846294,
-				0.38000000,
-				47.03678894
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
 			],
-			"hp": 20
+			"pos": [
+				44.12882614,
+				0.38000000,
+				20.05038452
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
 		},
 		{
-			"tex": {
-				"id": 14,
-				"width": 64,
-				"height": 64,
-				"mipmaps": 1,
-				"format": 7
-			},
-			"pos": [
-				18.11786461,
-				0.38000000,
-				41.01754761
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
 			],
-			"hp": 20
+			"pos": [
+				21.86183739,
+				0.38000000,
+				-5.54140186
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
 		},
 		{
-			"tex": {
-				"id": 14,
-				"width": 64,
-				"height": 64,
-				"mipmaps": 1,
-				"format": 7
-			},
-			"pos": [
-				18.26841927,
-				0.38000000,
-				41.93514633
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
 			],
-			"hp": 20
+			"pos": [
+				39.92253494,
+				0.38000000,
+				18.42532539
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				22.42452431,
+				0.38000000,
+				-2.11575508
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				14.21502590,
+				0.38000000,
+				-5.81485033
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				14.42074108,
+				0.38000000,
+				-1.70296288
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				-5.45057869,
+				0.38000000,
+				2.21070623
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				22.08821869,
+				0.38000000,
+				46.95198822
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				21.51528358,
+				0.38000000,
+				16.93366432
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				22.98320961,
+				0.38000000,
+				20.03112411
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				13.98992538,
+				0.38000000,
+				47.08346558
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				14.32477951,
+				0.38000000,
+				20.12538147
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				18.02083015,
+				0.38000000,
+				30.15661240
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				-8.30781841,
+				0.38000000,
+				17.85127258
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				-3.99050713,
+				0.38000000,
+				17.77179909
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				5.25016832,
+				0.38000000,
+				31.99066353
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				4.15543365,
+				0.38000000,
+				32.86878967
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				3.82340145,
+				0.38000000,
+				31.31598282
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
+		},
+		{
+			"frames": [
+				{
+					"id": 20,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 21,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 22,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 23,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 24,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				},
+				{
+					"id": 25,
+					"width": 64,
+					"height": 64,
+					"mipmaps": 1,
+					"format": 7
+				}
+			],
+			"pos": [
+				-5.87587929,
+				0.38000000,
+				28.07942009
+			],
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000
 		}
 	]
 }

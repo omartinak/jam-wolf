@@ -79,7 +79,6 @@ player_shoot :: proc() {
 
         enemy_hit := get_enemy_hit(ray)
         if enemy_hit.hit {
-            show_message("hit")
             enemy_hit.enemy.hp -= dmg
             enemy_hit_anim(enemy_hit.enemy)
 
