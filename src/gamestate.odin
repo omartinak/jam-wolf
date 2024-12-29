@@ -19,6 +19,7 @@ Game_State :: struct {
     player: Player,
     weapons: Weapons,
     cur_weapon: Weapon_Type,
+    ammo: int,
 
     editor: Editor,
     dbg: Debug_Data,

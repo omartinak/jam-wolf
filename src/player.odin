@@ -62,9 +62,10 @@ slide :: proc(pos, velocity: Vec3, rc_tile: rl.Rectangle) -> Vec3 {
     return {}
 }
 
-player_shoot :: proc() {
-    weapon := &gs.weapons[gs.cur_weapon]
-    if weapon.ammo > 0 {
-        weapon.ammo -= 1
+player_shoot :: proc() -> int {
+    if gs.ammo > 0 {
+        gs.ammo -= 1
+        return gs.weapons[gs.cur_weapon].damage
     }
+    return 0
 }

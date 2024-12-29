@@ -78,7 +78,7 @@ update_editor_input :: proc(editor: ^Editor) {
             editor.cur_item = Enemy {
                 tex = gs.textures["cobra0"],
                 pos = {0, 0.38, 0},
-//                type = .Armor,
+                hp = 20,
             }
         }
     }

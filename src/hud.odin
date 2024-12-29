@@ -23,7 +23,7 @@ draw_hud :: proc() {
     armor := fmt.ctprintf("armor: %d", gs.player.armor)
     rl.DrawTextEx({}, armor, center - {350, 0}, 40, 2, rl.RAYWHITE)
 
-    ammo := fmt.ctprintf("ammo: %d", gs.weapons[gs.cur_weapon].ammo)
+    ammo := fmt.ctprintf("ammo: %d", gs.ammo)
     rl.DrawTextEx({}, ammo, center + {400, 0}, 40, 2, rl.RAYWHITE)
 }
 

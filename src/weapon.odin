@@ -13,7 +13,7 @@ Weapon :: struct {
     tex: rl.Texture2D,
     x_off: i32,
 
-    ammo: int, // TODO: max ammo
+    damage: int,
 }
 
 Weapons :: [Weapon_Type]Weapon

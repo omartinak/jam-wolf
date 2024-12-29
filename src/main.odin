@@ -68,6 +68,7 @@ init :: proc() {
             hp = 100,
             armor = 0,
         },
+        ammo = 50,
     }
     gss = &gs
 
@@ -78,22 +79,22 @@ init :: proc() {
         .Pistol = {
             tex = gs.textures["gun2"],
             x_off = 0,
-            ammo = 20,
+            damage = 5,
         },
         .Rifle = {
             tex = gs.textures["gun5"],
             x_off = 2,
-            ammo = 100,
+            damage = 5,
         },
         .Machine_Gun = {
             tex = gs.textures["gun1"],
             x_off = -1,
-            ammo = 200,
+            damage = 10,
         },
         .Nuker = {
             tex = gs.textures["gun4"],
             x_off = -8,
-            ammo = 10,
+            damage = 50,
         },
     }
 
@@ -163,7 +164,22 @@ update :: proc() {
         update_editor_input(&gs.editor)
     } else {
         if rl.IsMouseButtonPressed(.LEFT) {
-            player_shoot()
+            dmg := player_shoot()
+
+            if dmg > 0 {
+                ray := rl.Ray {
+                    // TODO: use player direction/rotation
+                    position = gs.camera.position,
+                    direction = rl.Vector3Normalize(gs.camera.target - gs.camera.position),
+                }
+
+                enemy_hit := get_enemy_hit(ray)
+                if enemy_hit.hit {
+                    show_message("hit")
+                    enemy_hit.enemy.hp -= dmg
+                    if enemy_hit.enemy.hp <= 0 do enemy_hit.enemy.dead = true
+                }
+            }
         }
         // TODO: mouse wheel to switch weapons
 
@@ -206,11 +222,11 @@ update :: proc() {
             if rl.Vector3Distance(gs.player.pos, item.pos) < 0.5 {
                 switch item.type {
                 case .Clip:
-                    gs.weapons[gs.cur_weapon].ammo += 1
+                    gs.ammo += 1
                     show_message("+1 ammo")
 
                 case .Ammo_Box:
-                    gs.weapons[gs.cur_weapon].ammo += 5
+                    gs.ammo += 5
                     show_message("+5 ammo")
 
                 case .Armor:
