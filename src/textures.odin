@@ -15,8 +15,11 @@ create_textures :: proc() -> Textures {
         "gun2c" = rl.LoadTexture("data/graphics/lab/guns/gun2c.png"),
         "gun4" = rl.LoadTexture("data/graphics/lab/guns/gun4.png"),
         "gun5" = rl.LoadTexture("data/graphics/lab/guns/gun5a.png"),
+        "clip" = rl.LoadTexture("data/graphics/lab/sprites/i_clip.png"),
         "ammobox" = rl.LoadTexture("data/graphics/lab/sprites/i_ammobox.png"),
         "armor" = rl.LoadTexture("data/graphics/lab/sprites/i_armor.png"),
+
+        "cobra0" = rl.LoadTexture("data/graphics/lab/sprites/cobra0.png"),
     }
     return textures
 }

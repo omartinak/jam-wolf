@@ -34,6 +34,8 @@ main :: proc() {
     rl.InitWindow(1280, 800, "jam-wolf")
     rl.InitAudioDevice()
     rl.DisableCursor()
+//    rl.SetWindowState({.VSYNC_HINT, .WINDOW_RESIZABLE})
+    rl.SetWindowState({.WINDOW_RESIZABLE})
 
     init()
 
@@ -101,11 +103,7 @@ init :: proc() {
     gs.camera.position = gs.player.pos
     gs.camera.target = gs.camera.position + {1, 0, 0}
 
-    gs.editor_item = {
-        tex = gs.textures["ammobox"],
-        pos = {0, 0.2, 0},
-        type = .Ammo_Box,
-    }
+    gs.editor = init_editor()
 }
 
 destroy :: proc() {
@@ -120,6 +118,7 @@ draw :: proc() {
     rl.BeginMode3D(gs.camera)
 
     rl.DrawModel(gs.level_runtime.model, gs.level.pos, 1, rl.WHITE)
+
     slice.sort_by(gs.level.items[:], proc(a, b: Item) -> bool {
         a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
         b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
@@ -127,9 +126,14 @@ draw :: proc() {
     })
     for item in gs.level.items do draw_item(item)
 
-    if gs.editor {
-        draw_item(gs.editor_item, opacity = 128)
-    }
+    slice.sort_by(gs.level.enemies[:], proc(a, b: Enemy) -> bool {
+        a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
+        b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
+        return a_dist > b_dist
+    })
+    for enemy in gs.level.enemies do draw_enemy(enemy)
+
+    draw_editor(gs.editor)
 
     rl.EndMode3D()
 
@@ -137,6 +141,7 @@ draw :: proc() {
     draw_crosshair()
     draw_weapon()
     draw_hud()
+    draw_editor_hud(gs.editor)
 
     if gs.message_time > 0 {
 //        w := rl.MeasureTextEx({}, gs.message, 20, 2)
@@ -153,17 +158,9 @@ draw :: proc() {
 update :: proc() {
     dt := rl.GetFrameTime()
 
-    if rl.IsKeyPressed(.F2) do gs.editor = !gs.editor
-    if gs.editor {
-        if rl.IsMouseButtonPressed(.LEFT) {
-            append(&gs.level.items, gs.editor_item)
-        }
-
-        switch {
-        case rl.IsKeyPressed(.F5):
-            save_level("data/levels/level01.json", gs.level)
-            show_message("lavel01 saved...")
-        }
+    if rl.IsKeyPressed(.F2) do gs.editor.active = !gs.editor.active
+    if gs.editor.active {
+        update_editor_input(&gs.editor)
     } else {
         if rl.IsMouseButtonPressed(.LEFT) {
             player_shoot()
@@ -202,12 +199,16 @@ update :: proc() {
             }
         }
     }
-    gs.editor_item.pos.xz = gs.camera.target.xz
+    update_editor(&gs.editor)
 
-    if !gs.editor {
+    if !gs.editor.active {
         for item, i in gs.level.items {
             if rl.Vector3Distance(gs.player.pos, item.pos) < 0.5 {
                 switch item.type {
+                case .Clip:
+                    gs.weapons[gs.cur_weapon].ammo += 1
+                    show_message("+1 ammo")
+
                 case .Ammo_Box:
                     gs.weapons[gs.cur_weapon].ammo += 5
                     show_message("+5 ammo")

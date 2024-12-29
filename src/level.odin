@@ -14,6 +14,7 @@ Level :: struct {
     player_start: Vec3,
 
     items: Items,
+    enemies: Enemies,
 }
 
 // TODO: can mark field for marshalling?
@@ -68,6 +69,7 @@ init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
 
 destroy_level :: proc(level: Level, runtime: Level_Runtime) {
     delete(level.items)
+    delete(level.enemies)
     delete(level.grid_file)
     delete(level.atlas)
 
@@ -84,6 +86,15 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
     }
 
     json.unmarshal(level_data, &level) // TODO: handle error
+
+    // TODO: temp solution
+    for &item in level.items {
+        switch item.type {
+        case .Clip:     item.tex = gs.textures["clip"]
+        case .Ammo_Box: item.tex = gs.textures["ammobox"]
+        case .Armor:    item.tex = gs.textures["armor"]
+        }
+    }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
     defer rl.UnloadImage(im_map)
