@@ -16,6 +16,6 @@ Item :: struct {
 
 Items :: [dynamic]Item
 
-draw_item :: proc(item: Item) {
-    rl.DrawBillboard(gs.camera, item.tex, item.pos, 0.25, rl.WHITE)
+draw_item :: proc(item: Item, opacity: u8 = 255) {
+    rl.DrawBillboard(gs.camera, item.tex, item.pos, 0.25, {255, 255, 255, opacity})
 }

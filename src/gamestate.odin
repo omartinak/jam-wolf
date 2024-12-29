@@ -8,10 +8,8 @@ Vec2 :: rl.Vector2
 Game_State :: struct {
     textures: Textures,
 
-    cubicmap: rl.Texture2D,
-    map_pixels: [^]rl.Color,
-    map_model: rl.Model,
-    map_pos: Vec3,
+    level: Level,
+    level_runtime: Level_Runtime,
 
     message: cstring,
     message_time: f32,
@@ -22,9 +20,11 @@ Game_State :: struct {
     weapons: Weapons,
     cur_weapon: Weapon_Type,
 
-    items: Items,
+    editor: bool,
+    editor_item: Item,
 
     dbg: Debug_Data,
 }
 
 gs: Game_State // TODO
+gss: ^Game_State // NOTE: gs is shadowed by the gs register in radbg, we need a different name

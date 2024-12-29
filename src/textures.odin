@@ -7,7 +7,7 @@ Textures :: map[string]rl.Texture2D
 
 create_textures :: proc() -> Textures {
     textures := Textures {
-        "atlas" = rl.LoadTexture("data/graphics/walls.png"),
+        "level01_atlas" = rl.LoadTexture("data/graphics/walls.png"),
         "level01" = rl.LoadTexture("data/levels/level01.png"),
         "gun1" = rl.LoadTexture("data/graphics/lab/guns/gun1a.png"),
         "gun2" = rl.LoadTexture("data/graphics/lab/guns/gun2.png"),

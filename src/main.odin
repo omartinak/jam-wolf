@@ -50,31 +50,27 @@ main :: proc() {
 }
 
 init :: proc() {
-    im_map := rl.LoadImage("data/levels/level01.png") // TODO: path, to textures?
-    defer rl.UnloadImage(im_map)
-
     gs = Game_State {
         textures = create_textures(),
 
-        cubicmap = rl.LoadTextureFromImage(im_map),
-        map_model = rl.LoadModelFromMesh(rl.GenMeshCubicmap(im_map, {1, 1, 1})),
-        map_pixels = rl.LoadImageColors(im_map),
-        map_pos = Vec3{-16, 0, -8},
-
         camera = {
-            position = {0, 0.5, 0},
-            target = {0, 0.5, -1.0},
+//            position = {0, 0.5, 0},
+//            target = {0, 0.5, -1.0},
             up = {0, 1, 0},
             fovy = 45, // TODO
             projection = .PERSPECTIVE,
         },
         player = {
 //            pos = {0, 0.5, 0},
-            pos = {13.5, 0.5, 43},
+//            pos = {13.5, 0.5, 43},
             hp = 100,
             armor = 0,
         },
     }
+    gss = &gs
+
+//    gs.level, gs.level_runtime = init_level()
+    gs.level, gs.level_runtime = load_level("data/levels/level01.json")
 
     gs.weapons = {
         .Pistol = {
@@ -89,7 +85,7 @@ init :: proc() {
         },
         .Machine_Gun = {
             tex = gs.textures["gun1"],
-            x_off = 0,
+            x_off = -1,
             ammo = 200,
         },
         .Nuker = {
@@ -99,44 +95,21 @@ init :: proc() {
         },
     }
 
-    gs.items = {
-        {
-            tex = gs.textures["ammobox"],
-            pos = {18, 0.2, 43},
-            type = .Ammo_Box,
-        },
-        {
-            tex = gs.textures["ammobox"],
-            pos = {18, 0.2, 42},
-            type = .Ammo_Box,
-        },
-        {
-            tex = gs.textures["ammobox"],
-            pos = {18, 0.2, 41},
-            type = .Ammo_Box,
-        },
-        {
-            tex = gs.textures["armor"],
-            pos = {22, 0.2, 38},
-            type = .Armor,
-        },
-    }
-
+    gs.player.pos = gs.level.player_start
     gs.player.pos.z += 0.01 // TODO: fixes visible seams between tiles - wtf?
     // TODO
     gs.camera.position = gs.player.pos
     gs.camera.target = gs.camera.position + {1, 0, 0}
 
-    gs.map_model.materials[0].maps[rl.MaterialMapIndex.ALBEDO].texture = gs.textures["atlas"]
+    gs.editor_item = {
+        tex = gs.textures["ammobox"],
+        pos = {0, 0.2, 0},
+        type = .Ammo_Box,
+    }
 }
 
 destroy :: proc() {
-    delete(gs.items)
-
-    rl.UnloadImageColors(gs.map_pixels)
-    rl.UnloadTexture(gs.cubicmap)
-    rl.UnloadModel(gs.map_model)
-
+    destroy_level(gs.level, gs.level_runtime)
     destroy_textures(gs.textures)
 }
 
@@ -146,13 +119,17 @@ draw :: proc() {
 
     rl.BeginMode3D(gs.camera)
 
-    rl.DrawModel(gs.map_model, gs.map_pos, 1, rl.WHITE)
-    slice.sort_by(gs.items[:], proc(a, b: Item) -> bool {
+    rl.DrawModel(gs.level_runtime.model, gs.level.pos, 1, rl.WHITE)
+    slice.sort_by(gs.level.items[:], proc(a, b: Item) -> bool {
         a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
         b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
         return a_dist > b_dist
     })
-    for item in gs.items do draw_item(item)
+    for item in gs.level.items do draw_item(item)
+
+    if gs.editor {
+        draw_item(gs.editor_item, opacity = 128)
+    }
 
     rl.EndMode3D()
 
@@ -176,16 +153,29 @@ draw :: proc() {
 update :: proc() {
     dt := rl.GetFrameTime()
 
-    if rl.IsMouseButtonPressed(.LEFT) {
-        player_shoot()
-    }
-    // TODO: mouse wheel to switch weapons
+    if rl.IsKeyPressed(.F2) do gs.editor = !gs.editor
+    if gs.editor {
+        if rl.IsMouseButtonPressed(.LEFT) {
+            append(&gs.level.items, gs.editor_item)
+        }
 
-    switch {
-    case rl.IsKeyPressed(.ONE):   gs.cur_weapon = .Pistol
-    case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
-    case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
-    case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
+        switch {
+        case rl.IsKeyPressed(.F5):
+            save_level("data/levels/level01.json", gs.level)
+            show_message("lavel01 saved...")
+        }
+    } else {
+        if rl.IsMouseButtonPressed(.LEFT) {
+            player_shoot()
+        }
+        // TODO: mouse wheel to switch weapons
+
+        switch {
+        case rl.IsKeyPressed(.ONE):   gs.cur_weapon = .Pistol
+        case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
+        case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
+        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
+        }
     }
 
     velocity: Vec3
@@ -193,16 +183,16 @@ update :: proc() {
     dbg_print(0, "player %.2f", gs.player.pos.xz)
 
     // TODO: optimize - spatial accel struct, check only adjacent tiles, merge tiles
-    for y in 0..<gs.cubicmap.height {
-        for x in 0..<gs.cubicmap.width {
+    for y in 0..<gs.level_runtime.grid_tex.height {
+        for x in 0..<gs.level_runtime.grid_tex.width {
             rc := rl.Rectangle {
-                x = gs.map_pos.x - 0.5 + f32(x),
-                y = gs.map_pos.z - 0.5 + f32(y),
+                x = gs.level.pos.x - 0.5 + f32(x),
+                y = gs.level.pos.z - 0.5 + f32(y),
                 width = 1,
                 height = 1,
             }
 
-            if gs.map_pixels[x + y * gs.cubicmap.width].r == 255 && rl.CheckCollisionCircleRec(gs.player.pos.xz, PLAYER_RADIUS, rc) {
+            if gs.level_runtime.grid[x + y * gs.level_runtime.grid_tex.width].r == 255 && rl.CheckCollisionCircleRec(gs.player.pos.xz, PLAYER_RADIUS, rc) {
                 correction := slide(gs.player.pos, velocity, rc)
 
                 // TODO: update camera based on player automatically when frame starts
@@ -212,19 +202,22 @@ update :: proc() {
             }
         }
     }
+    gs.editor_item.pos.xz = gs.camera.target.xz
 
-    for item, i in gs.items {
-        if rl.Vector3Distance(gs.player.pos, item.pos) < 0.5 {
-            switch item.type {
-            case .Ammo_Box:
-                gs.weapons[gs.cur_weapon].ammo += 5
-                show_message("+5 ammo")
+    if !gs.editor {
+        for item, i in gs.level.items {
+            if rl.Vector3Distance(gs.player.pos, item.pos) < 0.5 {
+                switch item.type {
+                case .Ammo_Box:
+                    gs.weapons[gs.cur_weapon].ammo += 5
+                    show_message("+5 ammo")
 
-            case .Armor:
-                gs.player.armor = 100
-                show_message("full armor")
+                case .Armor:
+                    gs.player.armor = 100
+                    show_message("full armor")
+                }
+                unordered_remove(&gs.level.items, i)
             }
-            unordered_remove(&gs.items, i)
         }
     }
 

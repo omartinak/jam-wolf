@@ -25,6 +25,11 @@ draw_hud :: proc() {
 
     ammo := fmt.ctprintf("ammo: %d", gs.weapons[gs.cur_weapon].ammo)
     rl.DrawTextEx({}, ammo, center + {400, 0}, 40, 2, rl.RAYWHITE)
+
+    if gs.editor {
+        rc := rl.Rectangle{0, 0, f32(rl.GetScreenWidth()), f32(rl.GetScreenHeight())}
+        rl.DrawRectangleLinesEx(rc, 2, rl.ORANGE)
+    }
 }
 
 show_message :: proc(msg: cstring) {
