@@ -81,7 +81,12 @@ player_shoot :: proc() {
         if enemy_hit.hit {
             show_message("hit")
             enemy_hit.enemy.hp -= dmg
-            if enemy_hit.enemy.hp <= 0 do enemy_hit.enemy.dead = true
+            enemy_hit_anim(enemy_hit.enemy)
+
+            if enemy_hit.enemy.hp <= 0 {
+                enemy_hit.enemy.dead = true
+                enemy_death_anim(enemy_hit.enemy)
+            }
         }
     }
 }

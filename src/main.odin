@@ -132,6 +132,7 @@ draw :: proc() {
 
     rl.DrawModel(gs.level_runtime.model, gs.level.pos, 1, rl.WHITE)
 
+    // TODO: sort items and enemies together
     slice.sort_by(gs.level.items[:], proc(a, b: Item) -> bool {
         a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
         b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
@@ -222,6 +223,9 @@ update :: proc() {
             }
         }
     }
+
+    for &enemy in gs.level.enemies do update_enemy(&enemy, dt)
+
     update_editor(&gs.editor)
 
     if !gs.editor.active {

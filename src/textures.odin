@@ -31,6 +31,11 @@ create_textures :: proc() -> Textures {
         "armor" = rl.LoadTexture("data/graphics/lab/sprites/i_armor.png"),
 
         "cobra0" = rl.LoadTexture("data/graphics/lab/sprites/cobra0.png"),
+        "cobra_hit0" = rl.LoadTexture("data/graphics/lab/sprites/cobrahit0.png"),
+        "cobra_hit1" = rl.LoadTexture("data/graphics/lab/sprites/cobrahit1.png"),
+        "cobra_hit2" = rl.LoadTexture("data/graphics/lab/sprites/cobrahit2.png"),
+        "cobra_hit3" = rl.LoadTexture("data/graphics/lab/sprites/cobrahit3.png"),
+        "cobra_hit4" = rl.LoadTexture("data/graphics/lab/sprites/cobrahit4.png"),
     }
     return textures
 }

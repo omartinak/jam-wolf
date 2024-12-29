@@ -76,7 +76,15 @@ update_editor_input :: proc(editor: ^Editor) {
             }
         case 3:
             editor.cur_item = Enemy {
-                tex = gs.textures["cobra0"],
+                // TODO
+                frames = {
+                    gs.textures["cobra0"],
+                    gs.textures["cobra_hit0"],
+                    gs.textures["cobra_hit1"],
+                    gs.textures["cobra_hit2"],
+                    gs.textures["cobra_hit3"],
+                    gs.textures["cobra_hit4"],
+                },
                 pos = {0, 0.38, 0},
                 hp = 20,
             }

@@ -96,7 +96,14 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
         }
     }
     for &enemy in level.enemies {
-        enemy.tex = gs.textures["cobra0"]
+        enemy.frames = {
+            gs.textures["cobra0"],
+            gs.textures["cobra_hit0"],
+            gs.textures["cobra_hit1"],
+            gs.textures["cobra_hit2"],
+            gs.textures["cobra_hit3"],
+            gs.textures["cobra_hit4"],
+        }
     }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
