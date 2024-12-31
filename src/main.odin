@@ -77,29 +77,29 @@ init :: proc() {
 
     gs.weapons = {
         .Pistol = {
-            tex = {
-                gs.textures["pistol01"],
-                gs.textures["pistol02"],
-                gs.textures["pistol03"],
-            },
+//            tex = {
+//                gs.textures["pistol01"],
+//                gs.textures["pistol02"],
+//                gs.textures["pistol03"],
+//            },
             x_off = 0,
             damage = 5,
         },
         .Rifle = {
-            tex = {
-                gs.textures["rifle01"],
-                gs.textures["rifle02"],
-                gs.textures["rifle03"],
-            },
+//            tex = {
+//                gs.textures["rifle01"],
+//                gs.textures["rifle02"],
+//                gs.textures["rifle03"],
+//            },
             x_off = 2,
             damage = 5,
         },
         .Machine_Gun = {
-            tex = {
-                gs.textures["machinegun01"],
-                gs.textures["machinegun02"],
-                gs.textures["machinegun03"],
-            },
+//            tex = {
+//                gs.textures["machinegun01"],
+//                gs.textures["machinegun02"],
+//                gs.textures["machinegun03"],
+//            },
             x_off = -1,
             damage = 10,
         },
@@ -109,6 +109,14 @@ init :: proc() {
 //            damage = 50,
 //        },
     }
+    add_anim(&gs.weapons[.Pistol].anim, Weapon_Anim.Idle, 0.05, gs.textures["pistol01"])
+    add_anim(&gs.weapons[.Pistol].anim, Weapon_Anim.Fire, 0.05, gs.textures["pistol01"], gs.textures["pistol02"], gs.textures["pistol03"])
+
+    add_anim(&gs.weapons[.Rifle].anim, Weapon_Anim.Idle, 0.05, gs.textures["rifle01"])
+    add_anim(&gs.weapons[.Rifle].anim, Weapon_Anim.Fire, 0.05, gs.textures["rifle01"], gs.textures["rifle02"], gs.textures["rifle03"])
+
+    add_anim(&gs.weapons[.Machine_Gun].anim, Weapon_Anim.Idle, 0.05, gs.textures["machinegun01"])
+    add_anim(&gs.weapons[.Machine_Gun].anim, Weapon_Anim.Fire, 0.05, gs.textures["machinegun01"], gs.textures["machinegun02"], gs.textures["machinegun03"])
 
     gs.player.pos = gs.level.player_start
     gs.player.pos.z += 0.01 // TODO: fixes visible seams between tiles - wtf?
@@ -120,6 +128,9 @@ init :: proc() {
 }
 
 destroy :: proc() {
+    for weapon in gs.weapons {
+        destroy_weapon(weapon)
+    }
     destroy_level(gs.level, gs.level_runtime)
     destroy_textures(gs.textures)
 }
@@ -178,12 +189,14 @@ update :: proc() {
     } else {
         switch gs.cur_weapon {
         case .Pistol:
-            if rl.IsMouseButtonPressed(.LEFT) && !gs.weapons[gs.cur_weapon].anim {
+//            if rl.IsMouseButtonPressed(.LEFT) && gs.weapons[gs.cur_weapon].anim.cur_anim == .Idle {
+            if rl.IsMouseButtonPressed(.LEFT) && !gs.weapons[gs.cur_weapon].anim.playing {
                 player_shoot()
             }
         case .Rifle: fallthrough
         case .Machine_Gun:
-            if rl.IsMouseButtonDown(.LEFT) && !gs.weapons[gs.cur_weapon].anim {
+//            if rl.IsMouseButtonDown(.LEFT) && gs.weapons[gs.cur_weapon].anim.cur_anim == .Idle {
+            if rl.IsMouseButtonDown(.LEFT) && !gs.weapons[gs.cur_weapon].anim.playing {
                 player_shoot()
             }
         }
