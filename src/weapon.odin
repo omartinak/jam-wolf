@@ -17,19 +17,25 @@ Weapon_Anim :: enum {
 Weapon :: struct {
     anim: Anim(Weapon_Anim),
     x_off: i32,
+    damage: int,
+}
 
+Weapon_Cfg :: struct {
+    anim: [Weapon_Anim]Anim_Cfg(Weapon_Anim),
+    x_off: i32,
     damage: int,
 }
 
 Weapons :: [Weapon_Type]Weapon
 
-//create_weapon :: proc() -> Weapon {
-//    weapon: Weapon
-//    add_anim(&weapon.anim, Weapon_Anim.Idle, 0.05)
-//    add_anim(&weapon.anim, Weapon_Anim.Fire, 0.05)
-//
-//    return weapon
-//}
+create_weapon :: proc(cfg: Weapon_Cfg) -> Weapon {
+    weapon := Weapon {
+        anim = create_anim(cfg.anim),
+        x_off = cfg.x_off,
+        damage = cfg.damage,
+    }
+    return weapon
+}
 
 destroy_weapon :: proc(weapon: Weapon) {
     destroy_anim(weapon.anim)
@@ -49,27 +55,16 @@ draw_weapon :: proc() {
 }
 
 update_weapon :: proc(dt: f32) {
-//    weapon := &gs.weapons[gs.cur_weapon]
-//    if !weapon.anim do return
-//
-//    weapon.anim_time -= dt
-//    if weapon.anim_time <= 0 {
-//        weapon.anim_frame += 1
-//        weapon.anim_time = 0.05
-//
-//        if weapon.anim_frame >= len(weapon.tex) {
-//            weapon.anim_frame = 0
-//            weapon.anim = false
-//        }
-//    }
     weapon := &gs.weapons[gs.cur_weapon]
     update_anim(&weapon.anim, dt)
 }
 
+can_weapon_shoot :: proc() -> bool {
+    weapon := &gs.weapons[gs.cur_weapon]
+    return weapon.anim.cur_anim == .Idle
+}
+
 play_weapon_anim :: proc() {
-//    weapon := &gs.weapons[gs.cur_weapon]
-//    weapon.anim = true
-//    weapon.anim_time = 0.05
     weapon := &gs.weapons[gs.cur_weapon]
     play_anim(&weapon.anim, Weapon_Anim.Fire)
 }

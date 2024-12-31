@@ -3,8 +3,14 @@ package game
 import "core:slice"
 import rl "vendor:raylib"
 
+Enemy_Anim :: enum {
+    Idle,
+    Hit,
+    Death,
+}
+
 Enemy :: struct {
-    frames: [6]rl.Texture2D,
+    anim: Anim(Enemy_Anim),
     pos: Vec3,
 
     dead: bool,
@@ -24,8 +30,12 @@ EnemyHit :: struct {
     dist: f32,
 }
 
+destroy_enemy :: proc(enemy: Enemy) {
+    destroy_anim(enemy.anim)
+}
+
 draw_enemy :: proc(enemy: Enemy, opacity: u8 = 255) {
-    frame := enemy.frames[enemy.anim_frame]
+    frame := get_anim_frame(enemy.anim)
     rl.DrawBillboard(gs.camera, frame, enemy.pos, 0.75, {255, 255, 255, opacity})
 
 //    bodyPos := enemy.pos
@@ -37,25 +47,7 @@ draw_enemy :: proc(enemy: Enemy, opacity: u8 = 255) {
 }
 
 update_enemy :: proc(enemy: ^Enemy, dt: f32) {
-    if enemy.hit_anim {
-        enemy.anim_time -= dt
-        if enemy.anim_time <= 0 {
-            enemy.anim_frame = 0
-            enemy.hit_anim = false
-        }
-    }
-
-    if enemy.death_anim {
-        enemy.anim_time -= dt
-        if enemy.anim_time <= 0 {
-            if enemy.anim_frame < len(enemy.frames)-1 {
-                enemy.anim_frame += 1
-                enemy.anim_time = 0.1
-            } else {
-                enemy.death_anim = false
-            }
-        }
-    }
+    update_anim(&enemy.anim, dt)
 }
 
 check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray) -> bool {

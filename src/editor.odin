@@ -76,15 +76,8 @@ update_editor_input :: proc(editor: ^Editor) {
             }
         case 3:
             editor.cur_item = Enemy {
-                // TODO
-                frames = {
-                    gs.textures[.Cobra],
-                    gs.textures[.Cobra_Hit0],
-                    gs.textures[.Cobra_Hit1],
-                    gs.textures[.Cobra_Hit2],
-                    gs.textures[.Cobra_Hit3],
-                    gs.textures[.Cobra_Hit4],
-                },
+                // TODO: replace with cfg
+                anim = create_anim(cobra_anim_cfg),
                 pos = {0, 0.38, 0},
                 hp = 20,
             }

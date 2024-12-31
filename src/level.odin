@@ -70,6 +70,7 @@ init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
 
 destroy_level :: proc(level: Level, runtime: Level_Runtime) {
     delete(level.items)
+    for enemy in level.enemies do destroy_enemy(enemy)
     delete(level.enemies)
     delete(level.grid_file)
 
@@ -96,14 +97,15 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
         }
     }
     for &enemy in level.enemies {
-        enemy.frames = {
-            gs.textures[.Cobra],
-            gs.textures[.Cobra_Hit0],
-            gs.textures[.Cobra_Hit1],
-            gs.textures[.Cobra_Hit2],
-            gs.textures[.Cobra_Hit3],
-            gs.textures[.Cobra_Hit4],
-        }
+//        enemy.frames = {
+//            gs.textures[.Cobra],
+//            gs.textures[.Cobra_Hit0],
+//            gs.textures[.Cobra_Hit1],
+//            gs.textures[.Cobra_Hit2],
+//            gs.textures[.Cobra_Hit3],
+//            gs.textures[.Cobra_Hit4],
+//        }
+        enemy.anim = create_anim(cobra_anim_cfg)
     }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?

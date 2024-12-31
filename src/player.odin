@@ -80,11 +80,12 @@ player_shoot :: proc() {
         enemy_hit := get_enemy_hit(ray)
         if enemy_hit.hit {
             enemy_hit.enemy.hp -= dmg
-            enemy_hit_anim(enemy_hit.enemy)
 
-            if enemy_hit.enemy.hp <= 0 {
+            if enemy_hit.enemy.hp > 0 {
+                play_anim(&enemy_hit.enemy.anim, Enemy_Anim.Hit)
+            } else {
                 enemy_hit.enemy.dead = true
-                enemy_death_anim(enemy_hit.enemy)
+                play_anim(&enemy_hit.enemy.anim, Enemy_Anim.Death)
             }
         }
     }
