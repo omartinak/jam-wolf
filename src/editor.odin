@@ -14,7 +14,7 @@ init_editor :: proc() -> Editor {
     editor := Editor {
         snap = true,
         cur_item = Item {
-            tex = gs.textures["ammobox"],
+            tex = gs.textures[.Ammo_Box],
             pos = {0, 0.2, 0},
             type = .Ammo_Box,
         },
@@ -58,19 +58,19 @@ update_editor_input :: proc(editor: ^Editor) {
         switch editor.cur_item_index {
         case 0:
             editor.cur_item = Item {
-                tex = gs.textures["clip"],
+                tex = gs.textures[.Clip],
                 pos = {0, 0.2, 0},
                 type = .Clip,
             }
         case 1:
             editor.cur_item = Item {
-                tex = gs.textures["ammobox"],
+                tex = gs.textures[.Ammo_Box],
                 pos = {0, 0.2, 0},
                 type = .Ammo_Box,
             }
         case 2:
             editor.cur_item = Item {
-                tex = gs.textures["armor"],
+                tex = gs.textures[.Armor],
                 pos = {0, 0.2, 0},
                 type = .Armor,
             }
@@ -78,12 +78,12 @@ update_editor_input :: proc(editor: ^Editor) {
             editor.cur_item = Enemy {
                 // TODO
                 frames = {
-                    gs.textures["cobra0"],
-                    gs.textures["cobra_hit0"],
-                    gs.textures["cobra_hit1"],
-                    gs.textures["cobra_hit2"],
-                    gs.textures["cobra_hit3"],
-                    gs.textures["cobra_hit4"],
+                    gs.textures[.Cobra],
+                    gs.textures[.Cobra_Hit0],
+                    gs.textures[.Cobra_Hit1],
+                    gs.textures[.Cobra_Hit2],
+                    gs.textures[.Cobra_Hit3],
+                    gs.textures[.Cobra_Hit4],
                 },
                 pos = {0, 0.38, 0},
                 hp = 20,

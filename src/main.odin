@@ -109,14 +109,14 @@ init :: proc() {
 //            damage = 50,
 //        },
     }
-    add_anim(&gs.weapons[.Pistol].anim, Weapon_Anim.Idle, 0.05, gs.textures["pistol01"])
-    add_anim(&gs.weapons[.Pistol].anim, Weapon_Anim.Fire, 0.05, gs.textures["pistol01"], gs.textures["pistol02"], gs.textures["pistol03"])
+    add_anim(&gs.weapons[.Pistol].anim, Weapon_Anim.Idle, 0.05, gs.textures[.Pistol01])
+    add_anim(&gs.weapons[.Pistol].anim, Weapon_Anim.Fire, 0.05, gs.textures[.Pistol01], gs.textures[.Pistol02], gs.textures[.Pistol03])
 
-    add_anim(&gs.weapons[.Rifle].anim, Weapon_Anim.Idle, 0.05, gs.textures["rifle01"])
-    add_anim(&gs.weapons[.Rifle].anim, Weapon_Anim.Fire, 0.05, gs.textures["rifle01"], gs.textures["rifle02"], gs.textures["rifle03"])
+    add_anim(&gs.weapons[.Rifle].anim, Weapon_Anim.Idle, 0.05, gs.textures[.Rifle01])
+    add_anim(&gs.weapons[.Rifle].anim, Weapon_Anim.Fire, 0.05, gs.textures[.Rifle01], gs.textures[.Rifle02], gs.textures[.Rifle03])
 
-    add_anim(&gs.weapons[.Machine_Gun].anim, Weapon_Anim.Idle, 0.05, gs.textures["machinegun01"])
-    add_anim(&gs.weapons[.Machine_Gun].anim, Weapon_Anim.Fire, 0.05, gs.textures["machinegun01"], gs.textures["machinegun02"], gs.textures["machinegun03"])
+    add_anim(&gs.weapons[.Machine_Gun].anim, Weapon_Anim.Idle, 0.05, gs.textures[.Machine_Gun01])
+    add_anim(&gs.weapons[.Machine_Gun].anim, Weapon_Anim.Fire, 0.05, gs.textures[.Machine_Gun01], gs.textures[.Machine_Gun02], gs.textures[.Machine_Gun03])
 
     gs.player.pos = gs.level.player_start
     gs.player.pos.z += 0.01 // TODO: fixes visible seams between tiles - wtf?

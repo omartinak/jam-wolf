@@ -8,7 +8,7 @@ import rl "vendor:raylib"
 
 Level :: struct {
     grid_file: string,
-    atlas: string,
+    atlas: Tex,
 
     pos: Vec3,
     player_start: Vec3,
@@ -26,28 +26,29 @@ Level_Runtime :: struct {
 
 init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
     level.grid_file = "data/levels/level01.png"
-    level.atlas = "level01_atlas"
+    level.atlas = .Level01_Atlas
     level.pos = {-16, 0, -8}
     level.player_start = {13.5, 0.5, 43}
 
+    // TODO: not necessary?
     level.items = {
         {
-            tex = gs.textures["ammobox"],
+            tex = gs.textures[.Ammo_Box],
             pos = {18, 0.2, 43},
             type = .Ammo_Box,
         },
         {
-            tex = gs.textures["ammobox"],
+            tex = gs.textures[.Ammo_Box],
             pos = {18, 0.2, 42},
             type = .Ammo_Box,
         },
         {
-            tex = gs.textures["ammobox"],
+            tex = gs.textures[.Ammo_Box],
             pos = {18, 0.2, 41},
             type = .Ammo_Box,
         },
         {
-            tex = gs.textures["armor"],
+            tex = gs.textures[.Armor],
             pos = {22, 0.2, 38},
             type = .Armor,
         },
@@ -71,7 +72,6 @@ destroy_level :: proc(level: Level, runtime: Level_Runtime) {
     delete(level.items)
     delete(level.enemies)
     delete(level.grid_file)
-    delete(level.atlas)
 
     rl.UnloadImageColors(runtime.grid)
     rl.UnloadTexture(runtime.grid_tex)
@@ -90,19 +90,19 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
     // TODO: temp solution
     for &item in level.items {
         switch item.type {
-        case .Clip:     item.tex = gs.textures["clip"]
-        case .Ammo_Box: item.tex = gs.textures["ammobox"]
-        case .Armor:    item.tex = gs.textures["armor"]
+        case .Clip:     item.tex = gs.textures[.Clip]
+        case .Ammo_Box: item.tex = gs.textures[.Ammo_Box]
+        case .Armor:    item.tex = gs.textures[.Armor]
         }
     }
     for &enemy in level.enemies {
         enemy.frames = {
-            gs.textures["cobra0"],
-            gs.textures["cobra_hit0"],
-            gs.textures["cobra_hit1"],
-            gs.textures["cobra_hit2"],
-            gs.textures["cobra_hit3"],
-            gs.textures["cobra_hit4"],
+            gs.textures[.Cobra],
+            gs.textures[.Cobra_Hit0],
+            gs.textures[.Cobra_Hit1],
+            gs.textures[.Cobra_Hit2],
+            gs.textures[.Cobra_Hit3],
+            gs.textures[.Cobra_Hit4],
         }
     }
 

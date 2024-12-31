@@ -3,7 +3,7 @@ package game
 import rl "vendor:raylib"
 
 draw_minimap :: proc() {
-    tex := gs.textures["level01"] // TODO: or_else
+    tex := gs.textures[.Level01] // TODO: or_else
 
 //    rl.DrawTextureEx(tex, {10, 50}, 0, 4, rl.WHITE)
     rl.DrawTextureEx(tex, {10, 50}, 0, 4, {255, 255, 255, 128})
