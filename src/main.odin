@@ -125,8 +125,10 @@ draw :: proc() {
 
     draw_minimap()
     draw_crosshair()
-    draw_weapon()
-    draw_hud()
+    if !gs.editor.active {
+        draw_weapon()
+        draw_hud()
+    }
     draw_editor_hud(gs.editor)
 
     if gs.message_time > 0 {
