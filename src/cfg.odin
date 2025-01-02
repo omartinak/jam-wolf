@@ -33,3 +33,15 @@ cobra_anim_cfg := [Enemy_Anim]Anim_Cfg(Enemy_Anim) {
     .Hit = { tex = {.Cobra_Hit0}, time = 0.1, transition = .Idle, },
     .Death = { tex = {.Cobra_Hit0, .Cobra_Hit1, .Cobra_Hit2, .Cobra_Hit3, .Cobra_Hit4}, time = 0.1, },
 }
+
+clip_cfg := Item_Cfg {
+    type = .Clip,
+}
+
+ammo_box_cfg := Item_Cfg {
+    type = .Ammo_Box,
+}
+
+armor_cfg := Item_Cfg {
+    type = .Armor,
+}

@@ -13,11 +13,7 @@ Editor :: struct {
 init_editor :: proc() -> Editor {
     editor := Editor {
         snap = true,
-        cur_item = Item {
-            tex = gs.textures[.Ammo_Box],
-            pos = {0, 0.2, 0},
-            type = .Ammo_Box,
-        },
+        cur_item = create_item(ammo_box_cfg, {0, 0.2, 0}),
     }
     return editor
 }
@@ -56,24 +52,9 @@ update_editor_input :: proc(editor: ^Editor) {
         NUM :: 4
         editor.cur_item_index = (editor.cur_item_index + int(wheel) + NUM) % NUM
         switch editor.cur_item_index {
-        case 0:
-            editor.cur_item = Item {
-                tex = gs.textures[.Clip],
-                pos = {0, 0.2, 0},
-                type = .Clip,
-            }
-        case 1:
-            editor.cur_item = Item {
-                tex = gs.textures[.Ammo_Box],
-                pos = {0, 0.2, 0},
-                type = .Ammo_Box,
-            }
-        case 2:
-            editor.cur_item = Item {
-                tex = gs.textures[.Armor],
-                pos = {0, 0.2, 0},
-                type = .Armor,
-            }
+        case 0: editor.cur_item = create_item(clip_cfg, {0, 0.2, 0})
+        case 1: editor.cur_item = create_item(ammo_box_cfg, {0, 0.2, 0})
+        case 2: editor.cur_item = create_item(armor_cfg, {0, 0.2, 0})
         case 3:
             editor.cur_item = Enemy {
                 // TODO: replace with cfg
