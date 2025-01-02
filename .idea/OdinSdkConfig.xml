@@ -8,6 +8,6 @@
     <option name="debuggerId" value="odin-win-db-dap" />
     <option name="highlightUnknownReferencesEnabled" value="true" />
     <option name="conditionalSymbolResolutionEnabled" value="true" />
-    <option name="cacheEnabled" value="true" />
+    <option name="cacheEnabled" value="false" />
   </component>
 </project>
