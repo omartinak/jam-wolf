@@ -13,7 +13,7 @@ Tex :: enum {
 
     Clip, Ammo_Box, Armor,
 
-    Cobra, Cobra_Hit0, Cobra_Hit1, Cobra_Hit2, Cobra_Hit3, Cobra_Hit4,
+    Cobra0, Cobra1, Cobra2, Cobra_Hit0, Cobra_Hit1, Cobra_Hit2, Cobra_Hit3, Cobra_Hit4,
 }
 
 Textures :: [Tex]rl.Texture2D
@@ -43,7 +43,9 @@ create_textures :: proc() -> Textures {
         .Ammo_Box = rl.LoadTexture("data/graphics/lab/sprites/i_ammobox.png"),
         .Armor = rl.LoadTexture("data/graphics/lab/sprites/i_armor.png"),
 
-        .Cobra = rl.LoadTexture("data/graphics/lab/sprites/cobra0.png"),
+        .Cobra0 = rl.LoadTexture("data/graphics/lab/sprites/cobra0.png"),
+        .Cobra1 = rl.LoadTexture("data/graphics/lab/sprites/cobra1.png"),
+        .Cobra2 = rl.LoadTexture("data/graphics/lab/sprites/cobra2.png"),
         .Cobra_Hit0 = rl.LoadTexture("data/graphics/lab/sprites/cobrahit0.png"),
         .Cobra_Hit1 = rl.LoadTexture("data/graphics/lab/sprites/cobrahit1.png"),
         .Cobra_Hit2 = rl.LoadTexture("data/graphics/lab/sprites/cobrahit2.png"),

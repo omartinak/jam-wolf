@@ -28,7 +28,8 @@ machinegun_cfg := Weapon_Cfg {
 }
 
 cobra_anim_cfg := [Enemy_Anim]Anim_Cfg(Enemy_Anim) {
-    .Idle = { tex = {.Cobra}, time = 0, transition = .Idle, },
+    .Idle = { tex = {.Cobra0}, time = 0, transition = .Idle, },
+    .Move = { tex = {.Cobra0, .Cobra1, .Cobra2}, time = 0.1, transition = .Idle, },
     .Hit = { tex = {.Cobra_Hit0}, time = 0.1, transition = .Idle, },
     .Death = { tex = {.Cobra_Hit0, .Cobra_Hit1, .Cobra_Hit2, .Cobra_Hit3, .Cobra_Hit4}, time = 0.1, },
 }

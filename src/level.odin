@@ -106,6 +106,7 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
 //            gs.textures[.Cobra_Hit4],
 //        }
         enemy.anim = create_anim(cobra_anim_cfg)
+        enemy.dest = enemy.pos
     }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
@@ -124,4 +125,14 @@ save_level :: proc(level_file: string, level: Level) {
     if level_data, err := json.marshal(level, {pretty = true}, allocator = context.temp_allocator); err == nil {
         os.write_entire_file(level_file, level_data)
     }
+}
+
+// TODO: temp solution
+get_roam_tile :: proc(runtime: Level_Runtime, x, z: i32) -> (ret: [4][2]i32) {
+    ret = {{x, z}, {x, z}, {x, z}, {x, z}}
+    if (x-1) >= 0 && runtime.grid[x-1+z*runtime.grid_tex.width].r != 255 do ret[0] = {x-1, z}
+    if (x+1) < runtime.grid_tex.width && runtime.grid[x+1+z*runtime.grid_tex.width].r != 255 do ret[1] = {x+1, z}
+    if (z-1) >= 0 && runtime.grid[x+(z-1)*runtime.grid_tex.width].r != 255 do ret[2] = {x, z-1}
+    if (z+1) < runtime.grid_tex.height && runtime.grid[x+(z+1)*runtime.grid_tex.width].r != 255 do ret[3] = {x, z+1}
+    return ret
 }

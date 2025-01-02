@@ -121,6 +121,15 @@ draw :: proc() {
 
     draw_editor(gs.editor)
 
+//    player := &gs.player
+//    x := i32(player.pos.x) - i32(gs.level.pos.x)
+//    y := i32(player.pos.z + 0.5) - i32(gs.level.pos.z)
+//    dbg_print(0, "player %.2f", player.pos)
+//    dbg_print(1, "pl tile %d, %d", x, y)
+
+//    rl.DrawCubeWiresV({f32(x+2), 0, f32(y)} + gs.level.pos, {1, 1, 1}, rl.BLUE)
+//    rl.DrawCubeWiresV({f32(x), 0, f32(y)}, {2, 2, 2}, rl.BLUE)
+
     rl.EndMode3D()
 
     draw_minimap()
