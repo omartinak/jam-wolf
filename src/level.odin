@@ -136,3 +136,13 @@ get_roam_tile :: proc(runtime: Level_Runtime, x, z: i32) -> (ret: [4][2]i32) {
     if (z+1) < runtime.grid_tex.height && runtime.grid[x+(z+1)*runtime.grid_tex.width].r != 255 do ret[3] = {x, z+1}
     return ret
 }
+
+is_wall :: proc {is_wall_i32, is_wall_Vec2i}
+
+is_wall_i32 :: proc(x, y: i32) -> bool {
+    return gs.level_runtime.grid[x + y * gs.level_runtime.grid_tex.width].r == 255
+}
+
+is_wall_Vec2i :: proc(t: Vec2i) -> bool {
+    return is_wall_i32(t.x, t.y)
+}

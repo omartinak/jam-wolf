@@ -30,6 +30,8 @@ Enemy :: struct {
     action: Enemy_Action,
     action_time: f32,
     dest: Vec3,
+
+    nav_data: Nav_Data,
 }
 
 Enemies :: [dynamic]Enemy
@@ -68,23 +70,26 @@ draw_enemy :: proc(enemy: Enemy, opacity: u8 = 255) {
 update_enemy :: proc(enemy: ^Enemy, dt: f32) {
     if !enemy.dead {
         enemy.action_time -= dt
+        enemy_path(enemy) // TODO
 
         switch enemy.action {
         case .Idle:
             if enemy.action_time <= 0 {
-                enemy_roam(enemy)
+//                enemy_roam(enemy)
+//                enemy_path(enemy)
                 enemy.action = .Move
             }
         case .Move:
             if rl.Vector3DistanceSqrt(enemy.pos, enemy.dest) < 0.2 {
                 rnd := rl.GetRandomValue(1, 10)
                 switch rnd {
-                case 1..=2:
-                    enemy.action_time = 1
-                    enemy.action = .Idle
+//                case 1..=2:
+//                    enemy.action_time = 1
+//                    enemy.action = .Idle
 
                 case:
-                    enemy_roam(enemy)
+//                    enemy_roam(enemy)
+//                    enemy_path(enemy)
                 }
             } else {
                 dir := rl.Vector2Normalize((enemy.dest - enemy.pos).xz)
@@ -92,7 +97,8 @@ update_enemy :: proc(enemy: ^Enemy, dt: f32) {
                 vel_dt := vel * dt
                 enemy.pos += vel_dt
                 dbg_print(2, "%.2f, %.2f", vel, vel_dt)
-                // TODO: stagge when hit
+                dbg_print(3, "dest %v", enemy.dest)
+                // TODO: stagger when hit
                 if enemy.anim.cur_anim == .Idle do play_anim(&enemy.anim, Enemy_Anim.Move)
             }
         }
@@ -111,8 +117,18 @@ enemy_roam :: proc(enemy: ^Enemy) {
     enemy.dest = {dx, 0, dz}
 }
 
-check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray) -> bool {
-    if enemy.dead do return {}
+enemy_path :: proc(enemy: ^Enemy) {
+    bfs(&enemy.nav_data)
+    if len(enemy.nav_data.path) < 2 do return
+
+    dx := f32(enemy.nav_data.path[1].x) + gs.level.pos.x
+    dz := f32(enemy.nav_data.path[1].y) + gs.level.pos.z
+    enemy.dest = {dx, 0, dz}
+//    fmt.println(enemy.nav_data.path)
+}
+
+check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray, check_dead := false) -> bool {
+    if !check_dead && enemy.dead do return {}
 
 //    bodyPos := enemy.pos - {0, 0.1, 0}
     bodyPos := enemy.pos
@@ -131,14 +147,14 @@ check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray) -> bool {
     return false
 }
 
-get_enemy_hit :: proc(ray: rl.Ray) -> EnemyHit {
+get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
     if len(gs.level.enemies) == 0 do return {}
 
     // TODO: optimize, don't check everyone
     enemiesHit := make([dynamic]EnemyHit, 0, len(gs.level.enemies), context.temp_allocator)
 
     for &enemy in gs.level.enemies {
-        hit := check_enemy_collision(enemy, ray)
+        hit := check_enemy_collision(enemy, ray, check_dead)
         if hit {
             append(&enemiesHit, EnemyHit {
                 enemy = &enemy,

@@ -23,6 +23,7 @@ Game_State :: struct {
 
     editor: Editor,
     dbg: Debug_Data,
+    dbg_enemy: ^Enemy, // TODO: replace with handle to generational pool
 }
 
 gs: Game_State // TODO

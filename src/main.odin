@@ -31,7 +31,8 @@ main :: proc() {
         }
     }
 
-    rl.InitWindow(1280, 800, "jam-wolf")
+    rl.InitWindow(1920, 1200, "jam-wolf")
+//    rl.InitWindow(1280, 800, "jam-wolf")
     rl.InitAudioDevice()
     rl.DisableCursor()
 //    rl.SetWindowState({.VSYNC_HINT, .WINDOW_RESIZABLE})
@@ -73,7 +74,7 @@ init :: proc() {
     gss = &gs
 
 //    gs.level, gs.level_runtime = init_level()
-    gs.level, gs.level_runtime = load_level("data/levels/level01.json")
+    gs.level, gs.level_runtime = load_level("data/levels/level01a.json")
 
     gs.weapons[.Pistol] = create_weapon(pistol_cfg)
     gs.weapons[.Rifle] = create_weapon(rifle_cfg)
@@ -118,6 +119,9 @@ draw :: proc() {
         return a_dist > b_dist
     })
     for enemy in gs.level.enemies do draw_enemy(enemy)
+    if gs.dbg_enemy != nil {
+        rl.DrawSphere(gs.dbg_enemy.pos + {0, 0.5, 0}, 0.05, rl.VIOLET)
+    }
 
     draw_editor(gs.editor)
 
@@ -139,6 +143,9 @@ draw :: proc() {
         draw_hud()
     }
     draw_editor_hud(gs.editor)
+    if gs.dbg_enemy != nil {
+        draw_bfs(gs.dbg_enemy.nav_data)
+    }
 
     if gs.message_time > 0 {
 //        w := rl.MeasureTextEx({}, gs.message, 20, 2)
@@ -156,6 +163,17 @@ update :: proc() {
     dt := rl.GetFrameTime()
 
     if rl.IsKeyPressed(.F2) do gs.editor.active = !gs.editor.active
+    if rl.IsKeyPressed(.APOSTROPHE) || rl.IsKeyPressed(.Q) {
+        ray := rl.Ray {
+            position = gs.camera.position,
+            direction = rl.Vector3Normalize(gs.camera.target - gs.camera.position),
+        }
+        enemy_hit := get_enemy_hit(ray, check_dead = true)
+
+        if enemy_hit.enemy == gs.dbg_enemy do gs.dbg_enemy = nil
+        else do gs.dbg_enemy = enemy_hit.enemy
+    }
+
     if gs.editor.active {
         update_editor_input(&gs.editor)
     } else {
