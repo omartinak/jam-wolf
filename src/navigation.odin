@@ -35,14 +35,17 @@ adj :: proc(tile: Vec2i, visited: []Vec2i) -> [dynamic]Vec2i {
         {tile.x + 1, tile.y + 1},
     }
 
-    for at, i in atiles {
+    for at, _ in atiles {
         wall := is_wall(at)
-        switch i {
-        case 4: if is_wall(at.x - 1, at.y) || is_wall(at.x, at.y - 1) do wall = true
-        case 5: if is_wall(at.x - 1, at.y) || is_wall(at.x, at.y + 1) do wall = true
-        case 6: if is_wall(at.x + 1, at.y) || is_wall(at.x, at.y - 1) do wall = true
-        case 7: if is_wall(at.x + 1, at.y) || is_wall(at.x, at.y + 1) do wall = true
-        }
+        // TODO: it sometimes finds path across corners
+        // Avoid corners
+//        switch i {
+//        case 4: if is_wall(at.x - 1, at.y) || is_wall(at.x, at.y - 1) do wall = true
+//        case 5: if is_wall(at.x - 1, at.y) || is_wall(at.x, at.y + 1) do wall = true
+//        case 6: if is_wall(at.x + 1, at.y) || is_wall(at.x, at.y - 1) do wall = true
+//        case 7: if is_wall(at.x + 1, at.y) || is_wall(at.x, at.y + 1) do wall = true
+//        }
+
         vis: bool
         for vt in visited {
             if at == vt {
@@ -57,22 +60,16 @@ adj :: proc(tile: Vec2i, visited: []Vec2i) -> [dynamic]Vec2i {
     return ret
 }
 
-bfs :: proc(nav_data: ^Nav_Data) {
-    grid := &gs.level_runtime.grid
-    _ = grid
+bfs :: proc(start, end: Vec3, nav_data: ^Nav_Data) {
+    // TODO: helper procs for converting Vec3 <=> Tile
+    nav_data.start = [2]i32{i32(start.x), i32(start.z)}
+    nav_data.end = [2]i32{i32(end.x), i32(end.z)}
 
-    // TODO: z pos error in upper part of the level
-    px := i32(gs.player.pos.x + 0.5) - i32(gs.level.pos.x)
-    pz := i32(gs.player.pos.z + 0.5) - i32(gs.level.pos.z)
-    ex := i32(gs.level.enemies[0].pos.x + 0.5) - i32(gs.level.pos.x)
-    ez := i32(gs.level.enemies[0].pos.z + 0.5) - i32(gs.level.pos.z)
-//    gs.nav_data.start = [2]i32{30, 25}
-
-//    gs.nav_data.start = [2]i32{x, z}
-//    gs.nav_data.end = [2]i32{40, 29}
-
-    nav_data.start = [2]i32{ex, ez}
-    nav_data.end = [2]i32{px, pz}
+    if nav_data.start == nav_data.end {
+        clear(&nav_data.edges)
+        clear(&nav_data.path)
+        return
+    }
 
     nav_data.edges = make([dynamic][2]Vec2i, context.temp_allocator)
 
@@ -95,7 +92,6 @@ bfs :: proc(nav_data: ^Nav_Data) {
             if at == nav_data.end do break outer
         }
     }
-    // TODO: when end == start it calculates all tiles
 
     // TODO: store indices
     nav_data.path = make([dynamic]Vec2i, context.temp_allocator) // TODO: init with len

@@ -7,6 +7,8 @@ import "core:strings"
 import rl "vendor:raylib"
 
 Level :: struct {
+    file_name: string,
+
     grid_file: string,
     atlas: Tex,
 
@@ -25,6 +27,7 @@ Level_Runtime :: struct {
 }
 
 init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
+    level.file_name = "data/levels/level01.json"
     level.grid_file = "data/levels/level01.png"
     level.atlas = .Level01_Atlas
     level.pos = {-16, 0, -8}
@@ -63,7 +66,7 @@ init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
 
     runtime.model.materials[0].maps[rl.MaterialMapIndex.ALBEDO].texture = gs.textures[level.atlas]
 
-    save_level("data/levels/level01.json", level)
+    save_level(level)
 
     return level, runtime
 }
@@ -87,6 +90,7 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
     }
 
     json.unmarshal(level_data, &level) // TODO: handle error
+    level.file_name = level_file // TODO: should not be marshalled
 
     // TODO: temp solution
     for &item in level.items {
@@ -97,16 +101,10 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
         }
     }
     for &enemy in level.enemies {
-//        enemy.frames = {
-//            gs.textures[.Cobra],
-//            gs.textures[.Cobra_Hit0],
-//            gs.textures[.Cobra_Hit1],
-//            gs.textures[.Cobra_Hit2],
-//            gs.textures[.Cobra_Hit3],
-//            gs.textures[.Cobra_Hit4],
-//        }
         enemy.anim = create_anim(cobra_anim_cfg)
         enemy.dest = enemy.pos
+        enemy.col_radius = 0.25
+        enemy.hit_radius = 0.18
     }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
@@ -121,10 +119,16 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
     return level, runtime
 }
 
-save_level :: proc(level_file: string, level: Level) {
+save_level :: proc(level: Level, level_file := "") {
+    file_name := (level_file == "") ? level.file_name : level_file
     if level_data, err := json.marshal(level, {pretty = true}, allocator = context.temp_allocator); err == nil {
-        os.write_entire_file(level_file, level_data)
+        os.write_entire_file(file_name, level_data)
     }
+}
+
+draw_level :: proc(runtime: Level_Runtime) {
+    LEVEL_OFFSET :: Vec3{0.5, 0, 0.5} // Each tile is generated to be -0.5..0.5, so we need to shift the level
+    rl.DrawModel(runtime.model, LEVEL_OFFSET, 1, rl.WHITE)
 }
 
 // TODO: temp solution

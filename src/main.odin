@@ -66,6 +66,7 @@ init :: proc() {
         player = {
 //            pos = {0, 0.5, 0},
 //            pos = {13.5, 0.5, 43},
+            col_radius = 0.1,
             hp = 100,
             armor = 0,
         },
@@ -103,7 +104,7 @@ draw :: proc() {
 
     rl.BeginMode3D(gs.camera)
 
-    rl.DrawModel(gs.level_runtime.model, gs.level.pos, 1, rl.WHITE)
+    draw_level(gs.level_runtime)
 
     // TODO: sort items and enemies together
     slice.sort_by(gs.level.items[:], proc(a, b: Item) -> bool {
@@ -125,11 +126,22 @@ draw :: proc() {
 
     draw_editor(gs.editor)
 
-//    player := &gs.player
-//    x := i32(player.pos.x) - i32(gs.level.pos.x)
-//    y := i32(player.pos.z + 0.5) - i32(gs.level.pos.z)
-//    dbg_print(0, "player %.2f", player.pos)
-//    dbg_print(1, "pl tile %d, %d", x, y)
+    // Debug grid
+//    for y in 0..=57 {
+//        for x in 0..=62 {
+//            box := rl.BoundingBox {
+//                min = {f32(x), 0, f32(y)},
+//                max = {f32(x+1), 1, f32(y+1)},
+//            }
+//            rl.DrawBoundingBox(box, {0, 0, 255, 128})
+//        }
+//    }
+
+    player := &gs.player
+    x := i32(player.pos.x)
+    y := i32(player.pos.z)
+    dbg_print(0, "player %.2f", player.pos)
+    dbg_print(1, "pl tile %d, %d", x, y)
 
 //    rl.DrawCubeWiresV({f32(x+2), 0, f32(y)} + gs.level.pos, {1, 1, 1}, rl.BLUE)
 //    rl.DrawCubeWiresV({f32(x), 0, f32(y)}, {2, 2, 2}, rl.BLUE)
@@ -200,30 +212,8 @@ update :: proc() {
 
     update_weapon(dt)
 
-    velocity: Vec3
-    player_move(&gs.player, &gs.camera, &velocity, dt)
+    player_move(&gs.player, &gs.camera, dt)
 //    dbg_print(0, "player %.2f", gs.player.pos.xz)
-
-    // TODO: optimize - spatial accel struct, check only adjacent tiles, merge tiles
-    for y in 0..<gs.level_runtime.grid_tex.height {
-        for x in 0..<gs.level_runtime.grid_tex.width {
-            rc := rl.Rectangle {
-                x = gs.level.pos.x - 0.5 + f32(x),
-                y = gs.level.pos.z - 0.5 + f32(y),
-                width = 1,
-                height = 1,
-            }
-
-            if gs.level_runtime.grid[x + y * gs.level_runtime.grid_tex.width].r == 255 && rl.CheckCollisionCircleRec(gs.player.pos.xz, PLAYER_RADIUS, rc) {
-                correction := slide(gs.player.pos, velocity, rc)
-
-                // TODO: update camera based on player automatically when frame starts
-                gs.player.pos += correction
-                gs.camera.position += correction
-                gs.camera.target += correction
-            }
-        }
-    }
 
     for &enemy in gs.level.enemies do update_enemy(&enemy, dt)
 

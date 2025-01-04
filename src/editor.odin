@@ -44,7 +44,7 @@ update_editor_input :: proc(editor: ^Editor) {
 
     switch {
     case rl.IsKeyPressed(.F5):
-        save_level("data/levels/level01.json", gs.level)
+        save_level(gs.level)
         show_message("lavel01 saved...")
     }
 
@@ -60,6 +60,8 @@ update_editor_input :: proc(editor: ^Editor) {
                 // TODO: replace with cfg
                 anim = create_anim(cobra_anim_cfg),
                 pos = {0, 0.38, 0},
+                col_radius = 0.25,
+                hit_radius = 0.18,
                 hp = 20,
             }
         }

@@ -2,16 +2,16 @@ package game
 
 import rl "vendor:raylib"
 
-PLAYER_RADIUS :: 0.1
-
 Player :: struct {
     pos: Vec3,
+    velocity: Vec3,
+    col_radius: f32,
 
     hp: int,
     armor: int,
 }
 
-player_move :: proc(player: ^Player, camera: ^rl.Camera, velocity: ^Vec3, dt: f32) {
+player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32) {
     speed :: 5
 
     forward := rl.Vector3Normalize(camera.target - camera.position)
@@ -28,38 +28,21 @@ player_move :: proc(player: ^Player, camera: ^rl.Camera, velocity: ^Vec3, dt: f3
     if rl.IsKeyDown(.D) do right_mag += 1
 
     // TODO: diag movement
-    velocity^ = forward * forward_mag + right * right_mag
-    velocity^ = rl.Vector3Normalize(velocity^)
-    velocity^ *= speed * dt
+    player.velocity = forward * forward_mag + right * right_mag
+    player.velocity = rl.Vector3Normalize(player.velocity)
+    player.velocity *= speed * dt
 
-    player.pos += velocity^
+    player.pos += player.velocity
 
-    // TODO: derive from player pos and direction?
-    camera.position += velocity^
-    camera.target += velocity^
+    slide(&player.pos, &player.velocity, player.col_radius)
+
+    camera_target := camera.target - camera.position
+    camera.position = player.pos
+    camera.target = camera.position + camera_target
 
     mouse_delta := rl.GetMouseDelta()
     camera_yaw(camera, -mouse_delta.x * 0.001)
     camera_pitch(camera, -mouse_delta.y * 0.001)
-}
-
-// TODO: move to a different file
-slide :: proc(pos, velocity: Vec3, rc_tile: rl.Rectangle) -> Vec3 {
-    rc := rl.Rectangle{pos.x - 0.1, pos.z - 0.1, 0.2, 0.2}
-    if rl.CheckCollisionRecs(rc, rc_tile) {
-        xPenetration: f32
-        zPenetration: f32
-
-        if velocity.x < 0 do xPenetration = (rc_tile.x + rc_tile.width) - rc.x
-        else              do xPenetration = rc_tile.x - (rc.x + rc.width)
-
-        if velocity.z < 0 do zPenetration = (rc_tile.y + rc_tile.height) - rc.y
-        else              do zPenetration = rc_tile.y - (rc.y + rc.height)
-
-        if abs(xPenetration) < abs(zPenetration) do return {xPenetration, 0, 0}
-        else                                     do return {0, 0, zPenetration}
-    }
-    return {}
 }
 
 player_shoot :: proc() {

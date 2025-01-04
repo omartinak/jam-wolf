@@ -18,6 +18,9 @@ Enemy_Action :: enum {
 Enemy :: struct {
     anim: Anim(Enemy_Anim),
     pos: Vec3,
+    velocity: Vec3,
+    col_radius: f32,
+    hit_radius: f32,
 
     dead: bool,
     hp: int,
@@ -92,12 +95,18 @@ update_enemy :: proc(enemy: ^Enemy, dt: f32) {
 //                    enemy_path(enemy)
                 }
             } else {
+                SPEED :: 0.5
+
                 dir := rl.Vector2Normalize((enemy.dest - enemy.pos).xz)
-                vel := Vec3{dir.x, 0, dir.y} * 0.5
-                vel_dt := vel * dt
-                enemy.pos += vel_dt
-                dbg_print(2, "%.2f, %.2f", vel, vel_dt)
+                enemy.velocity = {dir.x, 0, dir.y} * SPEED * dt
+                enemy.pos += enemy.velocity
+
+                // TODO: use pathfinding instead of sliding and save performance
+                slide(&enemy.pos, &enemy.velocity, enemy.col_radius)
+
+                dbg_print(2, "%.2f", enemy.velocity)
                 dbg_print(3, "dest %v", enemy.dest)
+
                 // TODO: stagger when hit
                 if enemy.anim.cur_anim == .Idle do play_anim(&enemy.anim, Enemy_Anim.Move)
             }
@@ -107,38 +116,34 @@ update_enemy :: proc(enemy: ^Enemy, dt: f32) {
 }
 
 enemy_roam :: proc(enemy: ^Enemy) {
-    x := i32(enemy.pos.x + 0.5) - i32(gs.level.pos.x)
-    z := i32(enemy.pos.z + 0.5) - i32(gs.level.pos.z)
+    x := i32(enemy.pos.x)
+    z := i32(enemy.pos.z)
 
     rnd_tile := rl.GetRandomValue(0, 3)
     it := get_roam_tile(gs.level_runtime, x, z)[rnd_tile]
-    dx := f32(it.x) + gs.level.pos.x
-    dz := f32(it.y) + gs.level.pos.z
-    enemy.dest = {dx, 0, dz}
+    dx := f32(it.x)
+    dz := f32(it.y)
+    enemy.dest = {dx, 0, dz} + {0.5, 0, 0.5} // Go to the middle of a tile
+//    fmt.println(enemy.nav_data.path)
 }
 
 enemy_path :: proc(enemy: ^Enemy) {
-    bfs(&enemy.nav_data)
+    bfs(enemy.pos, gs.player.pos, &enemy.nav_data)
     if len(enemy.nav_data.path) < 2 do return
 
-    dx := f32(enemy.nav_data.path[1].x) + gs.level.pos.x
-    dz := f32(enemy.nav_data.path[1].y) + gs.level.pos.z
-    enemy.dest = {dx, 0, dz}
+    dx := f32(enemy.nav_data.path[1].x)
+    dz := f32(enemy.nav_data.path[1].y)
+    enemy.dest = {dx, 0, dz} + {0.5, 0, 0.5} // Go to the middle of a tile
 //    fmt.println(enemy.nav_data.path)
 }
 
 check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray, check_dead := false) -> bool {
     if !check_dead && enemy.dead do return {}
 
-//    bodyPos := enemy.pos - {0, 0.1, 0}
     bodyPos := enemy.pos
     body := rl.BoundingBox {
-//        min = bodyPos - {0.12, 0.29, 0.12},
-//        max = bodyPos + {0.12, 0.29, 0.12},
-//        min = bodyPos - {0.2, 0.4, 0.2},
-//        max = bodyPos + {0.2, 0.4, 0.2},
-        min = bodyPos - {0.18, 0.33, 0.18},
-        max = bodyPos + {0.18, 0.33, 0.18},
+        min = bodyPos - {enemy.hit_radius, 0.33, enemy.hit_radius},
+        max = bodyPos + {enemy.hit_radius, 0.33, enemy.hit_radius},
     }
 
     colBody := rl.GetRayCollisionBox(ray, body)
