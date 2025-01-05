@@ -75,7 +75,7 @@ init :: proc() {
     gss = &gs
 
 //    gs.level, gs.level_runtime = init_level()
-    gs.level, gs.level_runtime = load_level("data/levels/level01a.json")
+    gs.level, gs.level_runtime = load_level("data/levels/level01.json")
 
     gs.weapons[.Pistol] = create_weapon(pistol_cfg)
     gs.weapons[.Rifle] = create_weapon(rifle_cfg)
@@ -98,80 +98,8 @@ destroy :: proc() {
     destroy_textures(gs.textures)
 }
 
-draw :: proc() {
-    rl.BeginDrawing()
-    rl.ClearBackground(rl.BLACK)
-
-    rl.BeginMode3D(gs.camera)
-
-    draw_level(gs.level_runtime)
-
-    // TODO: sort items and enemies together
-    slice.sort_by(gs.level.items[:], proc(a, b: Item) -> bool {
-        a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
-        b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
-        return a_dist > b_dist
-    })
-    for item in gs.level.items do draw_item(item)
-
-    slice.sort_by(gs.level.enemies[:], proc(a, b: Enemy) -> bool {
-        a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
-        b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
-        return a_dist > b_dist
-    })
-    for enemy in gs.level.enemies do draw_enemy(enemy)
-    if gs.dbg_enemy != nil {
-        rl.DrawSphere(gs.dbg_enemy.pos + {0, 0.5, 0}, 0.05, rl.VIOLET)
-    }
-
-    draw_editor(gs.editor)
-
-    // Debug grid
-//    for y in 0..=57 {
-//        for x in 0..=62 {
-//            box := rl.BoundingBox {
-//                min = {f32(x), 0, f32(y)},
-//                max = {f32(x+1), 1, f32(y+1)},
-//            }
-//            rl.DrawBoundingBox(box, {0, 0, 255, 128})
-//        }
-//    }
-
-    player := &gs.player
-    x := i32(player.pos.x)
-    y := i32(player.pos.z)
-    dbg_print(0, "player %.2f", player.pos)
-    dbg_print(1, "pl tile %d, %d", x, y)
-
-//    rl.DrawCubeWiresV({f32(x+2), 0, f32(y)} + gs.level.pos, {1, 1, 1}, rl.BLUE)
-//    rl.DrawCubeWiresV({f32(x), 0, f32(y)}, {2, 2, 2}, rl.BLUE)
-
-    rl.EndMode3D()
-
-    draw_minimap()
-    draw_crosshair()
-    if !gs.editor.active {
-        draw_weapon()
-        draw_hud()
-    }
-    draw_editor_hud(gs.editor)
-    if gs.dbg_enemy != nil {
-        draw_bfs(gs.dbg_enemy.nav_data)
-    }
-
-    if gs.message_time > 0 {
-//        w := rl.MeasureTextEx({}, gs.message, 20, 2)
-        w := rl.MeasureText(gs.message, 20)
-        rl.DrawTextEx({}, gs.message, {f32(rl.GetScreenWidth() - w)/2, 0}, 20, 2, rl.RAYWHITE)
-    }
-
-    rl.DrawFPS(10, 10)
-    dbg_draw_messages()
-
-    rl.EndDrawing()
-}
-
 update :: proc() {
+    update_start := rl.GetTime()
     dt := rl.GetFrameTime()
 
     if rl.IsKeyPressed(.F2) do gs.editor.active = !gs.editor.active
@@ -184,6 +112,13 @@ update :: proc() {
 
         if enemy_hit.enemy == gs.dbg_enemy do gs.dbg_enemy = nil
         else do gs.dbg_enemy = enemy_hit.enemy
+    }
+    if rl.IsKeyPressed(.F9) {
+        switch gs.dbg.ui_state {
+        case .None: gs.dbg.ui_state = .Small
+        case .Small: gs.dbg.ui_state = .Full
+        case .Full: gs.dbg.ui_state = .None
+        }
     }
 
     if gs.editor.active {
@@ -241,4 +176,84 @@ update :: proc() {
     }
 
     if gs.message_time > 0 do gs.message_time -= dt
+
+    gs.dbg.update_time = rl.GetTime() - update_start
+}
+
+draw :: proc() {
+    draw_start := rl.GetTime()
+
+    rl.BeginDrawing()
+    rl.ClearBackground(rl.BLACK)
+
+    rl.BeginMode3D(gs.camera)
+
+    draw_level(gs.level_runtime)
+
+    // TODO: sort items and enemies together
+    slice.sort_by(gs.level.items[:], proc(a, b: Item) -> bool {
+        a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
+        b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
+        return a_dist > b_dist
+    })
+    for item in gs.level.items do draw_item(item)
+
+    slice.sort_by(gs.level.enemies[:], proc(a, b: Enemy) -> bool {
+        a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
+        b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
+        return a_dist > b_dist
+    })
+    for enemy in gs.level.enemies do draw_enemy(enemy)
+    if gs.dbg_enemy != nil {
+        rl.DrawSphere(gs.dbg_enemy.pos + {0, 0.5, 0}, 0.05, rl.VIOLET)
+    }
+
+    draw_editor(gs.editor)
+
+    // Debug grid
+    //    for y in 0..=57 {
+    //        for x in 0..=62 {
+    //            box := rl.BoundingBox {
+    //                min = {f32(x), 0, f32(y)},
+    //                max = {f32(x+1), 1, f32(y+1)},
+    //            }
+    //            rl.DrawBoundingBox(box, {0, 0, 255, 128})
+    //        }
+    //    }
+
+    player := &gs.player
+    x := i32(player.pos.x)
+    y := i32(player.pos.z)
+    dbg_print(0, "player %.2f", player.pos)
+    dbg_print(1, "pl tile %d, %d", x, y)
+
+    //    rl.DrawCubeWiresV({f32(x+2), 0, f32(y)} + gs.level.pos, {1, 1, 1}, rl.BLUE)
+    //    rl.DrawCubeWiresV({f32(x), 0, f32(y)}, {2, 2, 2}, rl.BLUE)
+
+    rl.EndMode3D()
+
+    draw_minimap()
+    draw_crosshair()
+    if !gs.editor.active {
+        draw_weapon()
+        draw_hud()
+    }
+    draw_editor_hud(gs.editor)
+    if gs.dbg_enemy != nil {
+        draw_bfs(gs.dbg_enemy.nav_data)
+    }
+
+    if gs.message_time > 0 {
+    //        w := rl.MeasureTextEx({}, gs.message, 20, 2)
+        w := rl.MeasureText(gs.message, 20)
+        rl.DrawTextEx({}, gs.message, {f32(rl.GetScreenWidth() - w)/2, 0}, 20, 2, rl.RAYWHITE)
+    }
+
+    gs.dbg.draw_time = rl.GetTime() - draw_start // Debug UI and frame present is not included
+
+//    rl.DrawFPS(10, 10)
+    dbg_draw_ui()
+    dbg_draw_messages()
+
+    rl.EndDrawing()
 }
