@@ -69,13 +69,20 @@ update_editor_input :: proc(editor: ^Editor) {
 }
 
 update_editor :: proc(editor: ^Editor) {
+    // TODO: fix unions
     switch &i in editor.cur_item {
     case Item:  i.pos.xz = gs.camera.target.xz
     case Enemy: i.pos.xz = gs.camera.target.xz
     }
-//    if editor.snap {
-//        editor.cur_item.pos.x = f32(int(editor.cur_item.pos.x+1))
-//        editor.cur_item.pos.z = f32(int(editor.cur_item.pos.z))
-//    }
-//    dbg_print(1, "item: %0.2f", editor.cur_item.pos)
+
+    if editor.snap {
+        switch &i in editor.cur_item {
+        case Item:
+            i.pos.x = f32(int(i.pos.x+0.5))
+            i.pos.z = f32(int(i.pos.z+0.5))
+        case Enemy:
+            i.pos.x = f32(int(i.pos.x+0.5))
+            i.pos.z = f32(int(i.pos.z+0.5))
+        }
+    }
 }
