@@ -1,7 +1,5 @@
 package game
 
-import rl "vendor:raylib"
-
 Vec2i :: [2]i32
 
 Nav_Data :: struct {
@@ -106,54 +104,6 @@ bfs :: proc(start, end: Vec3, nav_data: ^Nav_Data) {
                 inject_at(&nav_data.path, 0, edge[0])
                 cur = edge[0]
             }
-        }
-    }
-}
-
-draw_bfs :: proc(nav_data: Nav_Data) {
-//    dbg_print(3, "%v", gs.level_runtime.grid_tex.width * gs.level_runtime.grid_tex.height)
-    WIDTH :: 18
-
-    rc := rl.Rectangle {
-        x = f32(nav_data.start.x) * WIDTH + 400,
-        y = f32(nav_data.start.y) * WIDTH,
-        width = WIDTH,
-        height = WIDTH,
-    }
-    rl.DrawRectangleRec(rc, {0, 255, 0, 128})
-    rc = rl.Rectangle {
-        x = f32(nav_data.end.x) * WIDTH + 400,
-        y = f32(nav_data.end.y) * WIDTH,
-        width = WIDTH,
-        height = WIDTH,
-    }
-    rl.DrawRectangleRec(rc, {255, 0, 0, 128})
-
-    for y in 0..<gs.level_runtime.grid_tex.height {
-        for x in 0..<gs.level_runtime.grid_tex.width {
-            rc = rl.Rectangle {
-                x = f32(x) * WIDTH + 400,
-                y = f32(y) * WIDTH,
-                width = WIDTH,
-                height = WIDTH,
-            }
-            if gs.level_runtime.grid[x + y * gs.level_runtime.grid_tex.width].r == 255 {
-                rl.DrawRectangleRec(rc, {255, 255, 255, 128})
-            }
-            rl.DrawRectangleLinesEx(rc, 1, {0, 0, 255, 60})
-        }
-    }
-
-    for edge in nav_data.edges {
-        e0 := edge[0] * WIDTH + WIDTH/2 + {400, 0}
-        e1 := edge[1] * WIDTH + WIDTH/2 + {400, 0}
-        rl.DrawLine(e0.x, e0.y, e1.x, e1.y, {255, 0, 255, 128})
-    }
-    if len(nav_data.path) >= 2 {
-        for _, i in nav_data.path[1:] {
-            e0 := nav_data.path[i] * WIDTH + WIDTH/2 + {400, 0}
-            e1 := nav_data.path[i+1] * WIDTH + WIDTH/2 + {400, 0}
-            rl.DrawLine(e0.x, e0.y, e1.x, e1.y, {0, 255, 0, 128})
         }
     }
 }

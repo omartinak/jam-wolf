@@ -13,6 +13,7 @@ Debug_Data :: struct {
     messages: [10]cstring,
 
     ui_state: Debug_UI_State,
+    show_path: bool,
     update_time: f64,
     draw_time: f64,
 }
@@ -55,5 +56,69 @@ dbg_draw_ui :: proc() {
         rl.DrawText(fmt.ctprintf("memory: %d MB, %d MB", working_set, private_usage), pos, 100, 20, rl.WHITE)
         rl.DrawText(fmt.ctprintf("actors: %d", len(gs.level.enemies) + len(gs.level.items)), pos, 125, 20, rl.WHITE)
         rl.DrawText(fmt.ctprintf("  enemies: %d", len(gs.level.enemies)), pos, 150, 20, rl.WHITE)
+    }
+}
+
+dbg_draw_enemy :: proc() {
+    if gs.dbg_enemy == nil do return
+
+    y_pos := rl.GetScreenHeight() - 400
+    rl.DrawText(fmt.ctprintf("enemy"), 10, y_pos, 20, rl.ORANGE)
+    rl.DrawText(fmt.ctprintf("0: path"), 100, y_pos, 20, gs.dbg.show_path ? rl.DARKBLUE : rl.GRAY)
+    rl.DrawText(fmt.ctprintf("hp: %d", gs.dbg_enemy.hp), 10, y_pos + 25, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("pos: %.2f", gs.dbg_enemy.pos), 10, y_pos + 50, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("anim: %v", gs.dbg_enemy.anim.cur_anim), 10, y_pos + 75, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("action: %v", gs.dbg_enemy.action), 10, y_pos + 100, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("dest: %.2f", gs.dbg_enemy.dest), 10, y_pos + 125, 20, rl.WHITE)
+
+    if gs.dbg.show_path do dbg_draw_bfs(gs.dbg_enemy.nav_data)
+}
+
+dbg_draw_bfs :: proc(nav_data: Nav_Data) {
+    SIZE :: 18 // TODO: derive from screen size
+
+    pos := Vec2i{(rl.GetScreenWidth() - gs.level_runtime.grid_tex.width * SIZE) / 2, 50}
+
+    rc := rl.Rectangle {
+        x = f32(nav_data.start.x * SIZE + pos.x),
+        y = f32(nav_data.start.y * SIZE + pos.y),
+        width = SIZE,
+        height = SIZE,
+    }
+    rl.DrawRectangleRec(rc, {0, 255, 0, 128})
+    rc = rl.Rectangle {
+        x = f32(nav_data.end.x * SIZE + pos.x),
+        y = f32(nav_data.end.y * SIZE + pos.y),
+        width = SIZE,
+        height = SIZE,
+    }
+    rl.DrawRectangleRec(rc, {255, 0, 0, 128})
+
+    for y in 0..<gs.level_runtime.grid_tex.height {
+        for x in 0..<gs.level_runtime.grid_tex.width {
+            rc = rl.Rectangle {
+                x = f32(x * SIZE + pos.x),
+                y = f32(y * SIZE + pos.y),
+                width = SIZE,
+                height = SIZE,
+            }
+            if gs.level_runtime.grid[x + y * gs.level_runtime.grid_tex.width].r == 255 {
+                rl.DrawRectangleRec(rc, {255, 255, 255, 128})
+            }
+            rl.DrawRectangleLinesEx(rc, 1, {0, 0, 255, 60})
+        }
+    }
+
+    for edge in nav_data.edges {
+        e0 := edge[0] * SIZE + SIZE/2 + pos
+        e1 := edge[1] * SIZE + SIZE/2 + pos
+        rl.DrawLine(e0.x, e0.y, e1.x, e1.y, {255, 0, 255, 128})
+    }
+    if len(nav_data.path) >= 2 {
+        for _, i in nav_data.path[1:] { // TODO: indexing is weird
+            e0 := nav_data.path[i] * SIZE + SIZE/2 + pos
+            e1 := nav_data.path[i+1] * SIZE + SIZE/2 + pos
+            rl.DrawLine(e0.x, e0.y, e1.x, e1.y, {0, 255, 0, 128})
+        }
     }
 }

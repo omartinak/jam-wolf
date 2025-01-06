@@ -75,7 +75,7 @@ init :: proc() {
     gss = &gs
 
 //    gs.level, gs.level_runtime = init_level()
-    gs.level, gs.level_runtime = load_level("data/levels/level01.json")
+    gs.level, gs.level_runtime = load_level("data/levels/level01a.json")
 
     gs.weapons[.Pistol] = create_weapon(pistol_cfg)
     gs.weapons[.Rifle] = create_weapon(rifle_cfg)
@@ -120,6 +120,7 @@ update :: proc() {
         case .Full: gs.dbg.ui_state = .None
         }
     }
+    if gs.dbg_enemy != nil && rl.IsKeyPressed(.KP_0) do gs.dbg.show_path = !gs.dbg.show_path
 
     if gs.editor.active {
         update_editor_input(&gs.editor)
@@ -240,7 +241,7 @@ draw :: proc() {
     }
     draw_editor_hud(gs.editor)
     if gs.dbg_enemy != nil {
-        draw_bfs(gs.dbg_enemy.nav_data)
+        dbg_draw_enemy()
     }
 
     if gs.message_time > 0 {
