@@ -272,25 +272,11 @@ draw :: proc() {
         rl.DrawSphere(gs.dbg_enemy.pos + {0, 0.5, 0}, 0.05, rl.VIOLET)
     }
 
-    // Debug grid
-    //    for y in 0..=57 {
-    //        for x in 0..=62 {
-    //            box := rl.BoundingBox {
-    //                min = {f32(x), 0, f32(y)},
-    //                max = {f32(x+1), 1, f32(y+1)},
-    //            }
-    //            rl.DrawBoundingBox(box, {0, 0, 255, 128})
-    //        }
-    //    }
-
     player := &gs.player
     x := i32(player.pos.x)
     y := i32(player.pos.z)
     dbg_print(0, "player %.2f", player.pos)
     dbg_print(1, "pl tile %d, %d", x, y)
-
-    //    rl.DrawCubeWiresV({f32(x+2), 0, f32(y)} + gs.level.pos, {1, 1, 1}, rl.BLUE)
-    //    rl.DrawCubeWiresV({f32(x), 0, f32(y)}, {2, 2, 2}, rl.BLUE)
 
     rl.EndMode3D()
 
@@ -306,14 +292,12 @@ draw :: proc() {
     }
 
     if gs.message_time > 0 {
-    //        w := rl.MeasureTextEx({}, gs.message, 20, 2)
         w := rl.MeasureText(gs.message, 20)
-        rl.DrawTextEx({}, gs.message, {f32(rl.GetScreenWidth() - w)/2, 0}, 20, 2, rl.RAYWHITE)
+        rl.DrawText(gs.message, (rl.GetScreenWidth() - w) / 2, 0, 20, rl.RAYWHITE)
     }
 
     gs.dbg.draw_time = rl.GetTime() - draw_start // Debug UI and frame present is not included
 
-//    rl.DrawFPS(10, 10)
     dbg_draw_ui()
     dbg_draw_messages()
 

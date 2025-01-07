@@ -132,3 +132,15 @@ dbg_draw_bfs :: proc(nav_data: Nav_Data) {
         }
     }
 }
+
+dbg_draw_grid :: proc() {
+    for y in 0..=gs.level_runtime.grid_tex.height {
+        for x in 0..=gs.level_runtime.grid_tex.width {
+            box := rl.BoundingBox {
+                min = {f32(x), 0, f32(y)},
+                max = {f32(x+1), 1, f32(y+1)},
+            }
+            rl.DrawBoundingBox(box, {0, 0, 255, 128})
+        }
+    }
+}
