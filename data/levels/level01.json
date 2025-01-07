@@ -556,300 +556,6 @@
 	"enemies": [
 		{
 			"pos": [
-				38.50000000,
-				0.38000000,
-				55.50000000
-			],
-			"velocity": [
-				0.00000000,
-				0.00000000,
-				0.00000000
-			],
-			"anim": {
-				"frames": [
-					{
-						"tex": [
-							{
-								"id": 21,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.00000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 21,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 22,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 23,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 24,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 24,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 25,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 26,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 27,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 28,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": null
-					}
-				],
-				"playing": false,
-				"cur_anim": 0,
-				"cur_frame": 0,
-				"cur_time": 0.00000000
-			},
-			"col_radius": 0.25000000,
-			"hit_radius": 0.18000001,
-			"half_height": 0.33000001,
-			"dead": false,
-			"hp": 20,
-			"hit_anim": false,
-			"death_anim": false,
-			"anim_frame": 0,
-			"anim_time": 0.00000000,
-			"action": 0,
-			"action_time": 0.00000000,
-			"dest": [
-				0.00000000,
-				0.00000000,
-				0.00000000
-			],
-			"nav_data": {
-				"start": [
-					0,
-					0
-				],
-				"end": [
-					0,
-					0
-				],
-				"edges": [
-
-				],
-				"path": [
-
-				]
-			},
-			"type": 0
-		},
-		{
-			"pos": [
-				30.50000000,
-				0.38000000,
-				55.50000000
-			],
-			"velocity": [
-				0.00000000,
-				0.00000000,
-				0.00000000
-			],
-			"anim": {
-				"frames": [
-					{
-						"tex": [
-							{
-								"id": 21,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.00000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 21,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 22,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 23,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 24,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 24,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 25,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 26,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 27,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 28,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": null
-					}
-				],
-				"playing": false,
-				"cur_anim": 0,
-				"cur_frame": 0,
-				"cur_time": 0.00000000
-			},
-			"col_radius": 0.25000000,
-			"hit_radius": 0.18000001,
-			"half_height": 0.33000001,
-			"dead": false,
-			"hp": 20,
-			"hit_anim": false,
-			"death_anim": false,
-			"anim_frame": 0,
-			"anim_time": 0.00000000,
-			"action": 0,
-			"action_time": 0.00000000,
-			"dest": [
-				0.00000000,
-				0.00000000,
-				0.00000000
-			],
-			"nav_data": {
-				"start": [
-					0,
-					0
-				],
-				"end": [
-					0,
-					0
-				],
-				"edges": [
-
-				],
-				"path": [
-
-				]
-			},
-			"type": 0
-		},
-		{
-			"pos": [
 				34.50000000,
 				0.38000000,
 				38.50000000
@@ -3352,6 +3058,153 @@
 				20.50000000,
 				0.38000000,
 				41.50000000
+			],
+			"velocity": [
+				0.00000000,
+				0.00000000,
+				0.00000000
+			],
+			"anim": {
+				"frames": [
+					{
+						"tex": [
+							{
+								"id": 21,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							}
+						],
+						"time": 0.00000000,
+						"transition": 0
+					},
+					{
+						"tex": [
+							{
+								"id": 21,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 22,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 23,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							}
+						],
+						"time": 0.10000000,
+						"transition": 0
+					},
+					{
+						"tex": [
+							{
+								"id": 24,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							}
+						],
+						"time": 0.10000000,
+						"transition": 0
+					},
+					{
+						"tex": [
+							{
+								"id": 24,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 25,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 26,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 27,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 28,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							}
+						],
+						"time": 0.10000000,
+						"transition": null
+					}
+				],
+				"playing": false,
+				"cur_anim": 0,
+				"cur_frame": 0,
+				"cur_time": 0.00000000
+			},
+			"col_radius": 0.25000000,
+			"hit_radius": 0.18000001,
+			"half_height": 0.33000001,
+			"dead": false,
+			"hp": 20,
+			"hit_anim": false,
+			"death_anim": false,
+			"anim_frame": 0,
+			"anim_time": 0.00000000,
+			"action": 0,
+			"action_time": 0.00000000,
+			"dest": [
+				0.00000000,
+				0.00000000,
+				0.00000000
+			],
+			"nav_data": {
+				"start": [
+					0,
+					0
+				],
+				"end": [
+					0,
+					0
+				],
+				"edges": [
+
+				],
+				"path": [
+
+				]
+			},
+			"type": 0
+		},
+		{
+			"pos": [
+				34.50000000,
+				0.38000000,
+				55.50000000
 			],
 			"velocity": [
 				0.00000000,
