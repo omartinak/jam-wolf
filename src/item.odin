@@ -6,6 +6,7 @@ Item_Type :: enum {
     Clip,
     Ammo_Box,
     Armor,
+    Exit,
 }
 
 Item :: struct {
@@ -38,6 +39,7 @@ create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
     case .Clip:     item.tex = gs.textures[.Clip]
     case .Ammo_Box: item.tex = gs.textures[.Ammo_Box]
     case .Armor:    item.tex = gs.textures[.Armor]
+    case .Exit:     item.tex = gs.textures[.Brain]
     }
     return item
 }
@@ -56,6 +58,11 @@ update_item :: proc(item: Item) -> bool {
         case .Armor:
             gs.player.armor = 100
             show_message("full armor")
+
+        case .Exit:
+            show_message("Congratulations! Restarting level...")
+            gs.should_restart = true
+            return false
         }
         return true
     }

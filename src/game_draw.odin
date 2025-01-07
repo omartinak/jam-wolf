@@ -41,8 +41,9 @@ draw :: proc() {
     }
 
     if gs.message_time > 0 {
-        w := rl.MeasureText(gs.message, 20)
-        rl.DrawText(gs.message, (rl.GetScreenWidth() - w) / 2, 0, 20, rl.RAYWHITE)
+        FONT_SIZE :: 40
+        w := rl.MeasureText(gs.message, FONT_SIZE)
+        rl.DrawText(gs.message, (rl.GetScreenWidth() - w) / 2, 40, FONT_SIZE, rl.GOLD)
     }
 
     gs.dbg.draw_time = rl.GetTime() - draw_start // Debug UI and frame present is not included

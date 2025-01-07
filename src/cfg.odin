@@ -64,4 +64,10 @@ item_cfg := [Item_Type]Item_Cfg {
         y_off = 0.12,
         type = .Armor,
     },
+    .Exit = {
+        col_radius = 0.2,
+        half_height = 0.15,
+        y_off = 0.12,
+        type = .Exit,
+    },
 }

@@ -54,8 +54,7 @@ update_game :: proc(dt: f32) {
     case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
     case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
     //        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
-
-    case rl.IsKeyPressed(.BACKSPACE): restart()
+    case rl.IsKeyPressed(.BACKSPACE): gs.should_restart = true
     }
 
     update_weapon(dt)
@@ -67,6 +66,7 @@ update_game :: proc(dt: f32) {
     }
 
     if gs.message_time > 0 do gs.message_time -= dt
+    if gs.should_restart do restart()
 }
 
 update_editor :: proc(dt: f32) {

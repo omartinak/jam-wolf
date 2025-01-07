@@ -10,6 +10,7 @@ Game_State :: struct {
 
     level: Level,
     level_runtime: Level_Runtime,
+    should_restart: bool,
 
     message: cstring,
     message_time: f32,

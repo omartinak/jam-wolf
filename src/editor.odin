@@ -70,14 +70,15 @@ update_editor_input :: proc(editor: ^Editor) {
     }
 
     if wheel := rl.GetMouseWheelMove(); wheel != 0 {
-        NUM :: 4
+        NUM :: 5
         editor.sel_index = (editor.sel_index + int(wheel) + NUM) % NUM
 
         switch editor.sel_index {
         case 0: editor.sel = create_item(item_cfg[.Clip], {0, 0, 0})
         case 1: editor.sel = create_item(item_cfg[.Ammo_Box], {0, 0, 0})
         case 2: editor.sel = create_item(item_cfg[.Armor], {0, 0, 0})
-        case 3: editor.sel = create_enemy(enemy_cfg[.Cobra], {0, 0, 0})
+        case 3: editor.sel = create_item(item_cfg[.Exit], {0, 0, 0})
+        case 4: editor.sel = create_enemy(enemy_cfg[.Cobra], {0, 0, 0})
         }
     }
 }

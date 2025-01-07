@@ -111,6 +111,7 @@ restart :: proc() {
 
     destroy_level(gs.level, gs.level_runtime)
 
+    gs.should_restart = false
     gs.cur_weapon = .Pistol
     gs.ammo = 50
 
