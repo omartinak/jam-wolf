@@ -32,6 +32,7 @@ update_editor_input :: proc(editor: ^Editor) {
         case Enemy: append(&gs.level.enemies, s)
         }
     }
+    if rl.IsKeyPressed(.KP_MULTIPLY) do editor.snap = !editor.snap
 
     switch {
     case rl.IsKeyPressed(.F5):
