@@ -101,7 +101,7 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
         }
     }
     for &enemy in level.enemies {
-        enemy.anim = create_anim(cobra_anim_cfg)
+        enemy.anim = create_anim(cobra_cfg.anim)
         enemy.dest = enemy.pos
         enemy.col_radius = 0.25
         enemy.hit_radius = 0.18

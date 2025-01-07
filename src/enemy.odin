@@ -37,12 +37,30 @@ Enemy :: struct {
     nav_data: Nav_Data,
 }
 
+Enemy_Cfg :: struct {
+    anim: [Enemy_Anim]Anim_Cfg(Enemy_Anim),
+    col_radius: f32,
+    hit_radius: f32,
+    hp: int,
+}
+
 Enemies :: [dynamic]Enemy
 
 EnemyHit :: struct {
     enemy: ^Enemy,
     hit: bool,
     dist: f32,
+}
+
+create_enemy :: proc(cfg: Enemy_Cfg, pos: Vec3) -> Enemy {
+    enemy := Enemy {
+        anim = create_anim(cfg.anim),
+        pos = pos,
+        col_radius = cfg.col_radius,
+        hit_radius = cfg.hit_radius,
+        hp = cfg.hp,
+    }
+    return enemy
 }
 
 destroy_enemy :: proc(enemy: Enemy) {

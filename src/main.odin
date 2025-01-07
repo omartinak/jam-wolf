@@ -53,7 +53,7 @@ main :: proc() {
 
     buffer_backing := make([]u8, spall.BUFFER_DEFAULT_SIZE)
     spall_buffer = spall.buffer_create(buffer_backing, u32(sync.current_thread_id()))
-    defer spall.buffer_destroy(&spall_ctx, &spall_buffer)
+    defer spall.buffer_destroy(&spall_ctx, &spall_buffer) // TODO: it's not deallocated
 
     rl.InitWindow(1920, 1200, "jam-wolf")
 //    rl.InitWindow(1280, 800, "jam-wolf")
@@ -211,6 +211,51 @@ update_editor :: proc(dt: f32) {
     update_editor_item(&gs.editor)
 }
 
+sort_and_draw_billboards :: proc() {
+    Billboard :: struct {
+        dist: f32,
+        actor: union{^Item, ^Enemy},
+        opacity: u8,
+    }
+
+    num := len(gs.level.items) + len(gs.level.enemies)
+    if gs.editor.active do num += 1
+
+    billboards := make([]Billboard, num, context.temp_allocator)
+
+    for &item, i in gs.level.items {
+        billboards[i] = Billboard {
+            dist = rl.Vector3DistanceSqrt(gs.camera.position, item.pos),
+            actor = &item,
+            opacity = 255,
+        }
+    }
+    for &enemy, i in gs.level.enemies {
+        billboards[len(gs.level.items)+i] = Billboard {
+            dist = rl.Vector3DistanceSqrt(gs.camera.position, enemy.pos),
+            actor = &enemy,
+            opacity = 255,
+        }
+    }
+    if gs.editor.active {
+        switch &s in gs.editor.sel {
+        case Item: billboards[num-1] = Billboard {rl.Vector3DistanceSqrt(gs.camera.position, s.pos), &s, 128}
+        case Enemy: billboards[num-1] = Billboard {rl.Vector3DistanceSqrt(gs.camera.position, s.pos), &s, 128}
+        }
+    }
+
+    slice.sort_by(billboards[:], proc(a, b: Billboard) -> bool {
+        return a.dist > b.dist
+    })
+
+    for billboard in billboards {
+        switch a in billboard.actor {
+        case ^Item: draw_item(a^, billboard.opacity)
+        case ^Enemy: draw_enemy(a^, billboard.opacity)
+        }
+    }
+}
+
 draw :: proc() {
     draw_start := rl.GetTime()
 
@@ -221,25 +266,11 @@ draw :: proc() {
 
     draw_level(gs.level_runtime)
 
-    // TODO: sort items and enemies together
-    slice.sort_by(gs.level.items[:], proc(a, b: Item) -> bool {
-        a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
-        b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
-        return a_dist > b_dist
-    })
-    for item in gs.level.items do draw_item(item)
+    sort_and_draw_billboards()
 
-    slice.sort_by(gs.level.enemies[:], proc(a, b: Enemy) -> bool {
-        a_dist := rl.Vector3DistanceSqrt(gs.camera.position, a.pos)
-        b_dist := rl.Vector3DistanceSqrt(gs.camera.position, b.pos)
-        return a_dist > b_dist
-    })
-    for enemy in gs.level.enemies do draw_enemy(enemy)
     if gs.dbg_enemy != nil {
         rl.DrawSphere(gs.dbg_enemy.pos + {0, 0.5, 0}, 0.05, rl.VIOLET)
     }
-
-    draw_editor(gs.editor)
 
     // Debug grid
     //    for y in 0..=57 {
