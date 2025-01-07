@@ -89,7 +89,7 @@ init :: proc() {
         player = {
 //            pos = {0, 0.5, 0},
 //            pos = {13.5, 0.5, 43},
-            col_radius = 0.1,
+            col_radius = 0.2,
             hp = 100,
             armor = 0,
         },

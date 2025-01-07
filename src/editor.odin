@@ -8,6 +8,7 @@ Editor :: struct {
 
     sel: union {Item, Enemy},
     sel_index: int,
+    pointed: union {^Item, ^Enemy},
 }
 
 create_editor :: proc() -> Editor {
@@ -16,6 +17,22 @@ create_editor :: proc() -> Editor {
         sel = create_item(item_cfg[.Ammo_Box], {0, 0, 0}),
     }
     return editor
+}
+
+highlight_item :: proc(item: $Actor) {
+    bodyPos := item.pos
+    body := rl.BoundingBox {
+        min = bodyPos - {item.col_radius, item.half_height, item.col_radius},
+        max = bodyPos + {item.col_radius, item.half_height, item.col_radius},
+    }
+    rl.DrawBoundingBox(body, rl.ORANGE)
+}
+
+draw_editor :: proc(editor: Editor) {
+    switch p in editor.pointed {
+    case ^Item: highlight_item(p)
+    case ^Enemy: highlight_item(p)
+    }
 }
 
 draw_editor_hud ::proc(editor: Editor) {
@@ -30,6 +47,18 @@ update_editor_input :: proc(editor: ^Editor) {
         switch s in editor.sel {
         case Item:  append(&gs.level.items, s)
         case Enemy: append(&gs.level.enemies, s)
+        }
+    }
+    if rl.IsMouseButtonPressed(.RIGHT) {
+        switch p in editor.pointed {
+        case ^Item:
+            for &item, i in gs.level.items {
+                if &item == p do ordered_remove(&gs.level.items, i)
+            }
+        case ^Enemy:
+            for &enemy, i in gs.level.enemies {
+                if &enemy == p do ordered_remove(&gs.level.enemies, i)
+            }
         }
     }
     if rl.IsKeyPressed(.KP_MULTIPLY) do editor.snap = !editor.snap
@@ -57,6 +86,21 @@ update_editor_item :: proc(editor: ^Editor) {
     switch &s in editor.sel {
     case Item: _update_editor_item(&s, editor.snap)
     case Enemy: _update_editor_item(&s, editor.snap)
+    }
+
+    // TODO: use raycast instead
+    editor.pointed = nil
+    for &item in gs.level.items {
+        if rl.Vector3Distance(item.pos, gs.camera.target) < item.col_radius {
+            editor.pointed = &item
+            break
+        }
+    }
+    for &enemy in gs.level.enemies {
+        if rl.Vector3Distance(enemy.pos, gs.camera.target) < enemy.col_radius {
+            editor.pointed = &enemy
+            break
+        }
     }
 }
 

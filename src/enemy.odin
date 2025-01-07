@@ -121,6 +121,7 @@ get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
     if len(gs.level.enemies) == 0 do return {}
 
     // TODO: optimize, don't check everyone
+    // TODO: slice instead of dynamic array? probably not, we don't know how many we hit
     enemiesHit := make([dynamic]EnemyHit, 0, len(gs.level.enemies), context.temp_allocator)
 
     for &enemy in gs.level.enemies {

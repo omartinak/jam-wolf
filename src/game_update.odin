@@ -57,29 +57,11 @@ update_game :: proc(dt: f32) {
     }
 
     update_weapon(dt)
-
     player_move(&gs.player, &gs.camera, dt)
 
     for &enemy in gs.level.enemies do update_enemy(&enemy, dt)
-
-
     for item, i in gs.level.items {
-        if rl.Vector3Distance(gs.player.pos, item.pos) < 0.5 {
-            switch item.type {
-            case .Clip:
-                gs.ammo += 1
-                show_message("+1 ammo")
-
-            case .Ammo_Box:
-                gs.ammo += 5
-                show_message("+5 ammo")
-
-            case .Armor:
-                gs.player.armor = 100
-                show_message("full armor")
-            }
-            unordered_remove(&gs.level.items, i)
-        }
+        if update_item(item) do unordered_remove(&gs.level.items, i)
     }
 
     if gs.message_time > 0 do gs.message_time -= dt

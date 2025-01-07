@@ -15,6 +15,7 @@ draw :: proc() {
 
     sort_and_draw_billboards()
 
+    draw_editor(gs.editor)
     if gs.dbg_enemy != nil {
         rl.DrawSphere(gs.dbg_enemy.pos + {0, 0.5, 0}, 0.05, rl.VIOLET)
     }
