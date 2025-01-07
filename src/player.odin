@@ -11,7 +11,7 @@ Player :: struct {
     armor: int,
 }
 
-player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32) {
+player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32, ignore_col := false) {
     speed :: 5
 
     forward := rl.Vector3Normalize(camera.target - camera.position)
@@ -34,7 +34,7 @@ player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32) {
 
     player.pos += player.velocity
 
-    slide(&player.pos, &player.velocity, player.col_radius)
+    if !ignore_col do slide(&player.pos, &player.velocity, player.col_radius)
 
     camera_target := camera.target - camera.position
     camera.position = player.pos

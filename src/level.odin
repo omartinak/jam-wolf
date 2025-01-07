@@ -37,22 +37,22 @@ init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
     level.items = {
         {
             tex = gs.textures[.Ammo_Box],
-            pos = {18, 0.2, 43},
+            pos = {18, 0.12, 43},
             type = .Ammo_Box,
         },
         {
             tex = gs.textures[.Ammo_Box],
-            pos = {18, 0.2, 42},
+            pos = {18, 0.12, 42},
             type = .Ammo_Box,
         },
         {
             tex = gs.textures[.Ammo_Box],
-            pos = {18, 0.2, 41},
+            pos = {18, 0.12, 41},
             type = .Ammo_Box,
         },
         {
             tex = gs.textures[.Armor],
-            pos = {22, 0.2, 38},
+            pos = {22, 0.12, 38},
             type = .Armor,
         },
     }

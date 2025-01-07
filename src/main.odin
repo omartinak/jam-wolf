@@ -99,7 +99,7 @@ init :: proc() {
     gss = &gs
 
 //    gs.level, gs.level_runtime = init_level()
-    gs.level, gs.level_runtime = load_level("data/levels/level01.json")
+    gs.level, gs.level_runtime = load_level("data/levels/level01a.json")
 
     gs.weapons[.Pistol] = create_weapon(pistol_cfg)
     gs.weapons[.Rifle] = create_weapon(rifle_cfg)
@@ -147,62 +147,68 @@ update :: proc() {
     if gs.dbg_enemy != nil && rl.IsKeyPressed(.KP_0) do gs.dbg.show_path = !gs.dbg.show_path
 
     if gs.editor.active {
-        update_editor_input(&gs.editor)
+        update_editor(dt)
     } else {
-        switch gs.cur_weapon {
-        case .Pistol:
-            if rl.IsMouseButtonPressed(.LEFT) && can_weapon_shoot() {
-                player_shoot()
-            }
-        case .Rifle: fallthrough
-        case .Machine_Gun:
-            if rl.IsMouseButtonDown(.LEFT) && can_weapon_shoot() {
-                player_shoot()
-            }
-        }
-        // TODO: mouse wheel to switch weapons
+        update_game(dt)
+    }
 
-        switch {
-        case rl.IsKeyPressed(.ONE):   gs.cur_weapon = .Pistol
-        case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
-        case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
-//        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
+    gs.dbg.update_time = rl.GetTime() - update_start
+}
+
+update_game :: proc(dt: f32) {
+    switch gs.cur_weapon {
+    case .Pistol:
+        if rl.IsMouseButtonPressed(.LEFT) && can_weapon_shoot() {
+            player_shoot()
         }
+    case .Rifle: fallthrough
+    case .Machine_Gun:
+        if rl.IsMouseButtonDown(.LEFT) && can_weapon_shoot() {
+            player_shoot()
+        }
+    }
+    // TODO: mouse wheel to switch weapons
+
+    switch {
+    case rl.IsKeyPressed(.ONE):   gs.cur_weapon = .Pistol
+    case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
+    case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
+    //        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
     }
 
     update_weapon(dt)
 
     player_move(&gs.player, &gs.camera, dt)
-//    dbg_print(0, "player %.2f", gs.player.pos.xz)
 
     for &enemy in gs.level.enemies do update_enemy(&enemy, dt)
 
-    update_editor(&gs.editor)
 
-    if !gs.editor.active {
-        for item, i in gs.level.items {
-            if rl.Vector3Distance(gs.player.pos, item.pos) < 0.5 {
-                switch item.type {
-                case .Clip:
-                    gs.ammo += 1
-                    show_message("+1 ammo")
+    for item, i in gs.level.items {
+        if rl.Vector3Distance(gs.player.pos, item.pos) < 0.5 {
+            switch item.type {
+            case .Clip:
+                gs.ammo += 1
+                show_message("+1 ammo")
 
-                case .Ammo_Box:
-                    gs.ammo += 5
-                    show_message("+5 ammo")
+            case .Ammo_Box:
+                gs.ammo += 5
+                show_message("+5 ammo")
 
-                case .Armor:
-                    gs.player.armor = 100
-                    show_message("full armor")
-                }
-                unordered_remove(&gs.level.items, i)
+            case .Armor:
+                gs.player.armor = 100
+                show_message("full armor")
             }
+            unordered_remove(&gs.level.items, i)
         }
     }
 
     if gs.message_time > 0 do gs.message_time -= dt
+}
 
-    gs.dbg.update_time = rl.GetTime() - update_start
+update_editor :: proc(dt: f32) {
+    update_editor_input(&gs.editor)
+    player_move(&gs.player, &gs.camera, dt, ignore_col = true)
+    update_editor_item(&gs.editor)
 }
 
 draw :: proc() {
