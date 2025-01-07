@@ -3,6 +3,10 @@ package game
 import "core:slice"
 import rl "vendor:raylib"
 
+Enemy_Type :: enum {
+    Cobra,
+}
+
 Enemy_Anim :: enum {
     Idle,
     Move,
@@ -37,6 +41,8 @@ Enemy :: struct {
     dest: Vec3,
 
     nav_data: Nav_Data,
+
+    type: Enemy_Type, // TODO: replace
 }
 
 Enemy_Cfg :: struct {
@@ -45,6 +51,7 @@ Enemy_Cfg :: struct {
     hit_radius: f32,
     half_height: f32,
     hp: int,
+    type: Enemy_Type, // TODO: replace
 }
 
 Enemies :: [dynamic]Enemy
@@ -63,6 +70,7 @@ create_enemy :: proc(cfg: Enemy_Cfg, pos: Vec3) -> Enemy {
         hit_radius = cfg.hit_radius,
         half_height = cfg.half_height,
         hp = cfg.hp,
+        type = cfg.type,
     }
     return enemy
 }

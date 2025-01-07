@@ -16,7 +16,7 @@ Item :: struct {
 }
 
 Item_Cfg :: struct {
-    type: Item_Type,
+    type: Item_Type, // TODO: replace
 }
 
 Items :: [dynamic]Item

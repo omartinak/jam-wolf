@@ -66,18 +66,10 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
 
     // TODO: temp solution
     for &item in level.items {
-        switch item.type {
-        case .Clip:     item.tex = gs.textures[.Clip]
-        case .Ammo_Box: item.tex = gs.textures[.Ammo_Box]
-        case .Armor:    item.tex = gs.textures[.Armor]
-        }
+        item = create_item(item_cfg[item.type], item.pos)
     }
     for &enemy in level.enemies {
-        enemy.anim = create_anim(cobra_cfg.anim)
-        enemy.dest = enemy.pos
-        enemy.col_radius = 0.25
-        enemy.hit_radius = 0.18
-        enemy.half_height = 0.33
+        enemy = create_enemy(enemy_cfg[enemy.type], enemy.pos)
     }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
