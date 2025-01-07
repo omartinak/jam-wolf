@@ -78,20 +78,10 @@ main :: proc() {
 init :: proc() {
     gs = Game_State {
         textures = create_textures(),
-
         camera = {
-//            position = {0, 0.5, 0},
-//            target = {0, 0.5, -1.0},
             up = {0, 1, 0},
             fovy = 45, // TODO
             projection = .PERSPECTIVE,
-        },
-        player = {
-//            pos = {0, 0.5, 0},
-//            pos = {13.5, 0.5, 43},
-            col_radius = 0.2,
-            hp = 100,
-            armor = 0,
         },
         ammo = 50,
     }
@@ -99,16 +89,11 @@ init :: proc() {
 
 //    gs.level, gs.level_runtime = create_test_level()
     gs.level, gs.level_runtime = load_level("data/levels/level01a.json")
+    gs.player = create_player(gs.level.player_start)
 
     gs.weapons[.Pistol] = create_weapon(pistol_cfg)
     gs.weapons[.Rifle] = create_weapon(rifle_cfg)
     gs.weapons[.Machine_Gun] = create_weapon(machinegun_cfg)
-
-    gs.player.pos = gs.level.player_start
-    gs.player.pos.z += 0.01 // TODO: fixes visible seams between tiles - wtf?
-    // TODO
-    gs.camera.position = gs.player.pos
-    gs.camera.target = gs.camera.position + {1, 0, 0}
 
     gs.editor = create_editor()
 }
@@ -119,4 +104,16 @@ destroy :: proc() {
     }
     destroy_level(gs.level, gs.level_runtime)
     destroy_textures(gs.textures)
+}
+
+restart :: proc() {
+    level_name := gs.level.file_name
+
+    destroy_level(gs.level, gs.level_runtime)
+
+    gs.cur_weapon = .Pistol
+    gs.ammo = 50
+
+    gs.level, gs.level_runtime = load_level(level_name)
+    gs.player = create_player(gs.level.player_start)
 }

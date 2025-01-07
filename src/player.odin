@@ -11,6 +11,22 @@ Player :: struct {
     armor: int,
 }
 
+create_player :: proc(pos: Vec3) -> Player {
+    player := Player {
+        pos = pos,
+        col_radius = 0.2,
+        hp = 100,
+        armor = 0,
+    }
+
+    // TODO
+    player.pos.z += 0.01 // TODO: fixes visible seams between tiles - wtf?
+    gs.camera.position = gs.player.pos
+    gs.camera.target = gs.camera.position + {1, 0, 0}
+
+    return player
+}
+
 player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32, ignore_col := false) {
     speed :: 5
 

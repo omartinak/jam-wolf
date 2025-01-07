@@ -54,6 +54,8 @@ update_game :: proc(dt: f32) {
     case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
     case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
     //        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
+
+    case rl.IsKeyPressed(.BACKSPACE): restart()
     }
 
     update_weapon(dt)
