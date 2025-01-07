@@ -48,7 +48,13 @@ update_game :: proc(dt: f32) {
             player_shoot()
         }
     }
-    // TODO: mouse wheel to switch weapons
+    if wheel := rl.GetMouseWheelMove(); wheel != 0 {
+        // TODO: doesn't skip non-owned weapons
+        new_weapon := gs.cur_weapon + Weapon_Type(wheel)
+        if new_weapon >= .Pistol && new_weapon <= .Machine_Gun {
+            change_weapon(new_weapon)
+         }
+    }
 
     switch {
     case rl.IsKeyPressed(.ONE):   change_weapon(.Pistol)
