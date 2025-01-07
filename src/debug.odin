@@ -14,6 +14,8 @@ Debug_Data :: struct {
 
     ui_state: Debug_UI_State,
     show_path: bool,
+    show_bbox: bool,
+
     update_time: f64,
     draw_time: f64,
 }
@@ -27,6 +29,13 @@ dbg_print :: proc(index: int, format: string, args: ..any) {
 dbg_draw_messages :: proc() {
     for cstr, i in gs.dbg.messages {
         rl.DrawTextEx({}, cstr, {10, f32(300 + i*20)}, 20, 2, rl.RAYWHITE)
+    }
+}
+
+dbg_input :: proc() {
+    if gs.dbg_enemy != nil {
+        if rl.IsKeyPressed(.KP_0) do gs.dbg.show_bbox = !gs.dbg.show_bbox
+        if rl.IsKeyPressed(.KP_1) do gs.dbg.show_path = !gs.dbg.show_path
     }
 }
 
@@ -64,12 +73,13 @@ dbg_draw_enemy :: proc() {
 
     y_pos := rl.GetScreenHeight() - 400
     rl.DrawText(fmt.ctprintf("enemy"), 10, y_pos, 20, rl.ORANGE)
-    rl.DrawText(fmt.ctprintf("0: path"), 100, y_pos, 20, gs.dbg.show_path ? rl.DARKBLUE : rl.GRAY)
-    rl.DrawText(fmt.ctprintf("hp: %d", gs.dbg_enemy.hp), 10, y_pos + 25, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("pos: %.2f", gs.dbg_enemy.pos), 10, y_pos + 50, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("anim: %v", gs.dbg_enemy.anim.cur_anim), 10, y_pos + 75, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("action: %v", gs.dbg_enemy.action), 10, y_pos + 100, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("dest: %.2f", gs.dbg_enemy.dest), 10, y_pos + 125, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("0: bbox"), 10, y_pos + 25, 20, gs.dbg.show_bbox ? rl.DARKBLUE : rl.GRAY)
+    rl.DrawText(fmt.ctprintf("1: path"), 95, y_pos + 25, 20, gs.dbg.show_path ? rl.DARKBLUE : rl.GRAY)
+    rl.DrawText(fmt.ctprintf("hp: %d", gs.dbg_enemy.hp), 10, y_pos + 50, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("pos: %.2f", gs.dbg_enemy.pos), 10, y_pos + 75, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("anim: %v", gs.dbg_enemy.anim.cur_anim), 10, y_pos + 100, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("action: %v", gs.dbg_enemy.action), 10, y_pos + 125, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("dest: %.2f", gs.dbg_enemy.dest), 10, y_pos + 150, 20, rl.WHITE)
 
     if gs.dbg.show_path do dbg_draw_bfs(gs.dbg_enemy.nav_data)
 }

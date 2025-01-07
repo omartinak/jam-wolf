@@ -144,7 +144,7 @@ update :: proc() {
         case .Full: gs.dbg.ui_state = .None
         }
     }
-    if gs.dbg_enemy != nil && rl.IsKeyPressed(.KP_0) do gs.dbg.show_path = !gs.dbg.show_path
+    dbg_input()
 
     if gs.editor.active {
         update_editor(dt)

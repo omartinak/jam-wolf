@@ -36,6 +36,7 @@ cobra_cfg := Enemy_Cfg {
     },
     col_radius = 0.25,
     hit_radius = 0.18,
+    half_height = 0.33,
     hp = 20,
 }
 

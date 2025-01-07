@@ -105,6 +105,7 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
         enemy.dest = enemy.pos
         enemy.col_radius = 0.25
         enemy.hit_radius = 0.18
+        enemy.half_height = 0.33
     }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
