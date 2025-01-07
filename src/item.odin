@@ -16,6 +16,7 @@ Item :: struct {
 }
 
 Item_Cfg :: struct {
+    y_off: f32,
     type: Item_Type, // TODO: replace
 }
 
@@ -23,7 +24,7 @@ Items :: [dynamic]Item
 
 create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
     item := Item {
-        pos = pos,
+        pos = pos + {0, cfg.y_off, 0},
         type = cfg.type,
     }
     // TODO: map Item_Type -> Tex?

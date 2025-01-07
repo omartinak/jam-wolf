@@ -20,11 +20,12 @@ Enemy_Action :: enum {
 }
 
 Enemy :: struct {
-    anim: Anim(Enemy_Anim),
     pos: Vec3,
     velocity: Vec3,
-    col_radius: f32,
 
+    anim: Anim(Enemy_Anim),
+
+    col_radius: f32,
     hit_radius: f32,
     half_height: f32,
 
@@ -51,6 +52,7 @@ Enemy_Cfg :: struct {
     hit_radius: f32,
     half_height: f32,
     hp: int,
+    y_off: f32,
     type: Enemy_Type, // TODO: replace
 }
 
@@ -64,8 +66,8 @@ EnemyHit :: struct {
 
 create_enemy :: proc(cfg: Enemy_Cfg, pos: Vec3) -> Enemy {
     enemy := Enemy {
+        pos = pos + {0, cfg.y_off, 0},
         anim = create_anim(cfg.anim),
-        pos = pos,
         col_radius = cfg.col_radius,
         hit_radius = cfg.hit_radius,
         half_height = cfg.half_height,

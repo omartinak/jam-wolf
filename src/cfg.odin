@@ -39,18 +39,23 @@ enemy_cfg := [Enemy_Type]Enemy_Cfg {
         hit_radius = 0.18,
         half_height = 0.33,
         hp = 20,
+        y_off = 0.38,
+        type = .Cobra,
     },
 }
 
 // TODO: union add ammo, armor, hp
 item_cfg := [Item_Type]Item_Cfg {
     .Clip = {
+        y_off = 0.12,
         type = .Clip,
     },
     .Ammo_Box = {
+        y_off = 0.12,
         type = .Ammo_Box,
     },
     .Armor = {
+        y_off = 0.12,
         type = .Armor,
     },
 }

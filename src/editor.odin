@@ -13,7 +13,7 @@ Editor :: struct {
 create_editor :: proc() -> Editor {
     editor := Editor {
         snap = true,
-        sel = create_item(item_cfg[.Ammo_Box], {0, 0.12, 0}),
+        sel = create_item(item_cfg[.Ammo_Box], {0, 0, 0}),
     }
     return editor
 }
@@ -45,10 +45,10 @@ update_editor_input :: proc(editor: ^Editor) {
         editor.sel_index = (editor.sel_index + int(wheel) + NUM) % NUM
 
         switch editor.sel_index {
-        case 0: editor.sel = create_item(item_cfg[.Clip], {0, 0.12, 0})
-        case 1: editor.sel = create_item(item_cfg[.Ammo_Box], {0, 0.12, 0})
-        case 2: editor.sel = create_item(item_cfg[.Armor], {0, 0.12, 0})
-        case 3: editor.sel = create_enemy(enemy_cfg[.Cobra], {0, 0.38, 0})
+        case 0: editor.sel = create_item(item_cfg[.Clip], {0, 0, 0})
+        case 1: editor.sel = create_item(item_cfg[.Ammo_Box], {0, 0, 0})
+        case 2: editor.sel = create_item(item_cfg[.Armor], {0, 0, 0})
+        case 3: editor.sel = create_enemy(enemy_cfg[.Cobra], {0, 0, 0})
         }
     }
 }
