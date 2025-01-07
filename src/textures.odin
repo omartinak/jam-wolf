@@ -9,8 +9,8 @@ Tex :: enum {
     Pistol01, Pistol02, Pistol03,
     Rifle01, Rifle02, Rifle03,
     Machine_Gun01, Machine_Gun02, Machine_Gun03,
-    Nuker01, Nuker02, Nuker03,
 
+    Pistol, Rifle, Machine_Gun,
     Clip, Ammo_Box, Armor, Brain,
 
     Cobra0, Cobra1, Cobra2, Cobra_Hit0, Cobra_Hit1, Cobra_Hit2, Cobra_Hit3, Cobra_Hit4,
@@ -35,9 +35,9 @@ create_textures :: proc() -> Textures {
         .Machine_Gun02 = rl.LoadTexture("data/graphics/lab/guns/gun1b.png"),
         .Machine_Gun03 = rl.LoadTexture("data/graphics/lab/guns/gun1c.png"),
 
-        .Nuker01 = rl.LoadTexture("data/graphics/lab/guns/gun4.png"),
-        .Nuker02 = rl.LoadTexture("data/graphics/lab/guns/gun4b.png"),
-        .Nuker03 = rl.LoadTexture("data/graphics/lab/guns/gun4c.png"),
+        .Pistol = rl.LoadTexture("data/graphics/lab/sprites/i_pistol.png"),
+        .Rifle = rl.LoadTexture("data/graphics/lab/sprites/i_rifle.png"),
+        .Machine_Gun = rl.LoadTexture("data/graphics/lab/sprites/i_nuker.png"),
 
         .Clip = rl.LoadTexture("data/graphics/lab/sprites/i_clip.png"),
         .Ammo_Box = rl.LoadTexture("data/graphics/lab/sprites/i_ammobox.png"),

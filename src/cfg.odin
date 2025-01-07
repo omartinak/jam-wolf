@@ -7,6 +7,7 @@ pistol_cfg := Weapon_Cfg {
     },
     x_off = 0,
     damage = 5,
+    owned = true,
 }
 
 rifle_cfg := Weapon_Cfg {
@@ -16,6 +17,7 @@ rifle_cfg := Weapon_Cfg {
     },
     x_off = 2,
     damage = 5,
+    owned = false,
 }
 
 machinegun_cfg := Weapon_Cfg {
@@ -25,6 +27,7 @@ machinegun_cfg := Weapon_Cfg {
     },
     x_off = -1,
     damage = 10,
+    owned = false,
 }
 
 enemy_cfg := [Enemy_Type]Enemy_Cfg {
@@ -46,6 +49,24 @@ enemy_cfg := [Enemy_Type]Enemy_Cfg {
 
 // TODO: union add ammo, armor, hp
 item_cfg := [Item_Type]Item_Cfg {
+    .Pistol = {
+        col_radius = 0.3,
+        half_height = 0.15,
+        y_off = 0.12,
+        type = .Pistol,
+    },
+    .Rifle = {
+        col_radius = 0.3,
+        half_height = 0.15,
+        y_off = 0.12,
+        type = .Rifle,
+    },
+    .Machine_Gun = {
+        col_radius = 0.3,
+        half_height = 0.15,
+        y_off = 0.12,
+        type = .Machine_Gun,
+    },
     .Clip = {
         col_radius = 0.3,
         half_height = 0.15,

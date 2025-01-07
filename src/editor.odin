@@ -70,15 +70,18 @@ update_editor_input :: proc(editor: ^Editor) {
     }
 
     if wheel := rl.GetMouseWheelMove(); wheel != 0 {
-        NUM :: 5
+        NUM :: 8
         editor.sel_index = (editor.sel_index + int(wheel) + NUM) % NUM
 
         switch editor.sel_index {
-        case 0: editor.sel = create_item(item_cfg[.Clip], {0, item_cfg[.Clip].y_off, 0})
-        case 1: editor.sel = create_item(item_cfg[.Ammo_Box], {0, item_cfg[.Ammo_Box].y_off, 0})
-        case 2: editor.sel = create_item(item_cfg[.Armor], {0, item_cfg[.Armor].y_off, 0})
-        case 3: editor.sel = create_item(item_cfg[.Exit], {0, item_cfg[.Exit].y_off, 0})
-        case 4: editor.sel = create_enemy(enemy_cfg[.Cobra], {0, enemy_cfg[.Cobra].y_off, 0})
+        case 0: editor.sel = create_item(item_cfg[.Pistol], {0, item_cfg[.Pistol].y_off, 0})
+        case 1: editor.sel = create_item(item_cfg[.Rifle], {0, item_cfg[.Rifle].y_off, 0})
+        case 2: editor.sel = create_item(item_cfg[.Machine_Gun], {0, item_cfg[.Machine_Gun].y_off, 0})
+        case 3: editor.sel = create_item(item_cfg[.Clip], {0, item_cfg[.Clip].y_off, 0})
+        case 4: editor.sel = create_item(item_cfg[.Ammo_Box], {0, item_cfg[.Ammo_Box].y_off, 0})
+        case 5: editor.sel = create_item(item_cfg[.Armor], {0, item_cfg[.Armor].y_off, 0})
+        case 6: editor.sel = create_item(item_cfg[.Exit], {0, item_cfg[.Exit].y_off, 0})
+        case 7: editor.sel = create_enemy(enemy_cfg[.Cobra], {0, enemy_cfg[.Cobra].y_off, 0})
         }
     }
 }

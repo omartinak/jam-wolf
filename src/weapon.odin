@@ -6,7 +6,6 @@ Weapon_Type :: enum {
     Pistol,
     Rifle,
     Machine_Gun,
-//    Nuker,
 }
 
 Weapon_Anim :: enum {
@@ -18,12 +17,14 @@ Weapon :: struct {
     anim: Anim(Weapon_Anim),
     x_off: i32,
     damage: int,
+    owned: bool,
 }
 
 Weapon_Cfg :: struct {
     anim: [Weapon_Anim]Anim_Cfg(Weapon_Anim),
     x_off: i32,
     damage: int,
+    owned: bool,
 }
 
 Weapons :: [Weapon_Type]Weapon
@@ -33,6 +34,7 @@ create_weapon :: proc(cfg: Weapon_Cfg) -> Weapon {
         anim = create_anim(cfg.anim),
         x_off = cfg.x_off,
         damage = cfg.damage,
+        owned = cfg.owned,
     }
     return weapon
 }
@@ -68,3 +70,10 @@ play_weapon_anim :: proc() {
     weapon := &gs.weapons[gs.cur_weapon]
     play_anim(&weapon.anim, Weapon_Anim.Fire)
 }
+
+change_weapon :: proc(weapon_type: Weapon_Type) {
+    if gs.weapons[weapon_type].owned {
+        gs.cur_weapon = weapon_type
+    }
+}
+

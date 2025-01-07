@@ -3,9 +3,14 @@ package game
 import rl "vendor:raylib"
 
 Item_Type :: enum {
+    Pistol,
+    Rifle,
+    Machine_Gun,
+
     Clip,
     Ammo_Box,
     Armor,
+
     Exit,
 }
 
@@ -35,11 +40,14 @@ create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
         type = cfg.type,
     }
     // TODO: map Item_Type -> Tex?
-    switch cfg.type {
-    case .Clip:     item.tex = gs.textures[.Clip]
-    case .Ammo_Box: item.tex = gs.textures[.Ammo_Box]
-    case .Armor:    item.tex = gs.textures[.Armor]
-    case .Exit:     item.tex = gs.textures[.Brain]
+    switch item.type {
+    case .Pistol:      item.tex = gs.textures[.Pistol]
+    case .Rifle:       item.tex = gs.textures[.Rifle]
+    case .Machine_Gun: item.tex = gs.textures[.Machine_Gun]
+    case .Clip:        item.tex = gs.textures[.Clip]
+    case .Ammo_Box:    item.tex = gs.textures[.Ammo_Box]
+    case .Armor:       item.tex = gs.textures[.Armor]
+    case .Exit:        item.tex = gs.textures[.Brain]
     }
     return item
 }
@@ -47,6 +55,20 @@ create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
 update_item :: proc(item: Item) -> bool {
     if rl.Vector3Distance(gs.player.pos, item.pos) < (item.col_radius + gs.player.col_radius) {
         switch item.type {
+        case .Pistol:
+            gs.weapons[.Pistol].owned = true
+            show_message("You got pistol!")
+
+        case .Rifle:
+            gs.weapons[.Rifle].owned = true
+            if gs.cur_weapon == .Pistol do change_weapon(.Rifle)
+            show_message("You got rifle!")
+
+        case .Machine_Gun:
+            gs.weapons[.Machine_Gun].owned = true
+            if gs.cur_weapon == .Pistol || gs.cur_weapon == .Rifle do change_weapon(.Machine_Gun)
+            show_message("You got machine gun!")
+
         case .Clip:
             gs.ammo += 1
             show_message("+1 ammo")
@@ -57,7 +79,7 @@ update_item :: proc(item: Item) -> bool {
 
         case .Armor:
             gs.player.armor = 100
-            show_message("full armor")
+            show_message("Full armor")
 
         case .Exit:
             show_message("Congratulations! Restarting level...")

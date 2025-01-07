@@ -51,10 +51,9 @@ update_game :: proc(dt: f32) {
     // TODO: mouse wheel to switch weapons
 
     switch {
-    case rl.IsKeyPressed(.ONE):   gs.cur_weapon = .Pistol
-    case rl.IsKeyPressed(.TWO):   gs.cur_weapon = .Rifle
-    case rl.IsKeyPressed(.THREE): gs.cur_weapon = .Machine_Gun
-    //        case rl.IsKeyPressed(.FOUR):  gs.cur_weapon = .Nuker
+    case rl.IsKeyPressed(.ONE):   change_weapon(.Pistol)
+    case rl.IsKeyPressed(.TWO):   change_weapon(.Rifle)
+    case rl.IsKeyPressed(.THREE): change_weapon(.Machine_Gun)
     case rl.IsKeyPressed(.BACKSPACE): gs.should_restart = true
     }
 

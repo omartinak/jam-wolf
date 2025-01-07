@@ -23,7 +23,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -40,7 +40,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -57,7 +57,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -74,7 +74,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -91,7 +91,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 2
+			"type": 5
 		},
 		{
 			"tex": {
@@ -108,7 +108,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -125,7 +125,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -142,7 +142,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -159,7 +159,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -176,7 +176,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -193,7 +193,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -210,7 +210,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -227,7 +227,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -244,7 +244,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -261,7 +261,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 0
+			"type": 3
 		},
 		{
 			"tex": {
@@ -278,7 +278,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -295,7 +295,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -312,7 +312,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -329,7 +329,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -346,7 +346,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -363,7 +363,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -380,7 +380,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -397,7 +397,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -414,7 +414,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -431,7 +431,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -448,7 +448,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -465,7 +465,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -482,7 +482,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -499,7 +499,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -516,7 +516,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 1
+			"type": 4
 		},
 		{
 			"tex": {
@@ -533,7 +533,7 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 2
+			"type": 5
 		},
 		{
 			"tex": {
@@ -550,7 +550,24 @@
 			],
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
-			"type": 3
+			"type": 6
+		},
+		{
+			"tex": {
+				"id": 15,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				39.50000000,
+				0.12000000,
+				51.50000000
+			],
+			"col_radius": 0.30000001,
+			"half_height": 0.15000001,
+			"type": 1
 		}
 	],
 	"enemies": [
