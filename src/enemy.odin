@@ -66,7 +66,7 @@ EnemyHit :: struct {
 
 create_enemy :: proc(cfg: Enemy_Cfg, pos: Vec3) -> Enemy {
     enemy := Enemy {
-        pos = pos + {0, cfg.y_off, 0},
+        pos = pos,
         anim = create_anim(cfg.anim),
         col_radius = cfg.col_radius,
         hit_radius = cfg.hit_radius,

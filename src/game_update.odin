@@ -32,6 +32,7 @@ update :: proc() {
         update_game(dt)
     }
 
+    if gs.message_time > 0 do gs.message_time -= dt
     gs.dbg.update_time = rl.GetTime() - update_start
 }
 
@@ -65,7 +66,6 @@ update_game :: proc(dt: f32) {
         if update_item(item) do unordered_remove(&gs.level.items, i)
     }
 
-    if gs.message_time > 0 do gs.message_time -= dt
     if gs.should_restart do restart()
 }
 

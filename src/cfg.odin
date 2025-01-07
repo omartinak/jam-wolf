@@ -47,25 +47,25 @@ enemy_cfg := [Enemy_Type]Enemy_Cfg {
 // TODO: union add ammo, armor, hp
 item_cfg := [Item_Type]Item_Cfg {
     .Clip = {
-        col_radius = 0.2,
+        col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Clip,
     },
     .Ammo_Box = {
-        col_radius = 0.2,
+        col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Ammo_Box,
     },
     .Armor = {
-        col_radius = 0.2,
+        col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Armor,
     },
     .Exit = {
-        col_radius = 0.2,
+        col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Exit,

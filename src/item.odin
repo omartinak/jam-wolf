@@ -29,7 +29,7 @@ Items :: [dynamic]Item
 
 create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
     item := Item {
-        pos = pos + {0, cfg.y_off, 0},
+        pos = pos,
         col_radius = cfg.col_radius,
         half_height = cfg.half_height,
         type = cfg.type,
