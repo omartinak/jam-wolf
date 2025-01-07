@@ -10,7 +10,7 @@ Editor :: struct {
     sel_index: int,
 }
 
-init_editor :: proc() -> Editor {
+create_editor :: proc() -> Editor {
     editor := Editor {
         snap = true,
         sel = create_item(ammo_box_cfg, {0, 0.12, 0}),

@@ -98,7 +98,7 @@ init :: proc() {
     }
     gss = &gs
 
-//    gs.level, gs.level_runtime = init_level()
+//    gs.level, gs.level_runtime = create_test_level()
     gs.level, gs.level_runtime = load_level("data/levels/level01a.json")
 
     gs.weapons[.Pistol] = create_weapon(pistol_cfg)
@@ -111,7 +111,7 @@ init :: proc() {
     gs.camera.position = gs.player.pos
     gs.camera.target = gs.camera.position + {1, 0, 0}
 
-    gs.editor = init_editor()
+    gs.editor = create_editor()
 }
 
 destroy :: proc() {

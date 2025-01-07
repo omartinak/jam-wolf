@@ -2,11 +2,6 @@
 	"file_name": "data/levels/level01a.json",
 	"grid_file": "data/levels/level01.png",
 	"atlas": 0,
-	"pos": [
-		-16.00000000,
-		0.00000000,
-		-8.00000000
-	],
 	"player_start": [
 		34.50000000,
 		0.50000000,

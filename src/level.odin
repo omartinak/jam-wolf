@@ -12,7 +12,6 @@ Level :: struct {
     grid_file: string,
     atlas: Tex,
 
-    pos: Vec3,
     player_start: Vec3,
 
     items: Items,
@@ -26,36 +25,11 @@ Level_Runtime :: struct {
     model: rl.Model,
 }
 
-init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
-    level.file_name = "data/levels/level01.json"
+create_test_level :: proc() -> (level: Level, runtime: Level_Runtime) {
+    level.file_name = "data/levels/level_test.json"
     level.grid_file = "data/levels/level01.png"
     level.atlas = .Level01_Atlas
-    level.pos = {-16, 0, -8}
-    level.player_start = {13.5, 0.5, 43}
-
-    // TODO: not necessary?
-    level.items = {
-        {
-            tex = gs.textures[.Ammo_Box],
-            pos = {18, 0.12, 43},
-            type = .Ammo_Box,
-        },
-        {
-            tex = gs.textures[.Ammo_Box],
-            pos = {18, 0.12, 42},
-            type = .Ammo_Box,
-        },
-        {
-            tex = gs.textures[.Ammo_Box],
-            pos = {18, 0.12, 41},
-            type = .Ammo_Box,
-        },
-        {
-            tex = gs.textures[.Armor],
-            pos = {22, 0.12, 38},
-            type = .Armor,
-        },
-    }
+    level.player_start = {29.5, 0.5, 51.5}
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
     defer rl.UnloadImage(im_map)
@@ -65,8 +39,6 @@ init_level :: proc() -> (level: Level, runtime: Level_Runtime) {
     runtime.model = rl.LoadModelFromMesh(rl.GenMeshCubicmap(im_map, {1, 1, 1}))
 
     runtime.model.materials[0].maps[rl.MaterialMapIndex.ALBEDO].texture = gs.textures[level.atlas]
-
-    save_level(level)
 
     return level, runtime
 }
