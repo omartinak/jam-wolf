@@ -3,44 +3,17 @@ package game
 import rl "vendor:raylib"
 
 enemy_ai :: proc(enemy: ^Enemy, dt: f32) {
-    enemy.action_time -= dt
-    enemy_path(enemy) // TODO
+    enemy.dist = rl.Vector3Distance(enemy.pos, gs.player.pos)
 
-    switch enemy.action {
-    case .Idle:
-        if enemy.action_time <= 0 {
-        //                enemy_roam(enemy)
-        //                enemy_path(enemy)
-            enemy.action = .Move
-        }
-    case .Move:
-        if rl.Vector3DistanceSqrt(enemy.pos, enemy.dest) < 0.2 {
-            rnd := rl.GetRandomValue(1, 10)
-            switch rnd {
-            //                case 1..=2:
-            //                    enemy.action_time = 1
-            //                    enemy.action = .Idle
+    // TODO: crashes when saving level with goals
+    enemy.goals = get_applicable_goals(enemy)
 
-            case:
-            //                    enemy_roam(enemy)
-            //                    enemy_path(enemy)
-            }
-        } else {
-            SPEED :: 0.5
+    if enemy.cur_goal == nil && len(enemy.goals) > 0 {
+        enemy.cur_goal = enemy.goals[0]
+    }
 
-            dir := rl.Vector2Normalize((enemy.dest - enemy.pos).xz)
-            enemy.velocity = {dir.x, 0, dir.y} * SPEED * dt
-            enemy.pos += enemy.velocity
-
-            // TODO: use pathfinding instead of sliding and save performance
-            slide(&enemy.pos, &enemy.velocity, enemy.col_radius)
-
-            dbg_print(2, "%.2f", enemy.velocity)
-            dbg_print(3, "dest %v", enemy.dest)
-
-            // TODO: stagger when hit
-            if enemy.anim.cur_anim == .Idle do play_anim(&enemy.anim, Enemy_Anim.Move)
-        }
+    if cur_goal, ok := enemy.cur_goal.?; ok {
+        cur_goal.execute(enemy, dt)
     }
 }
 
@@ -56,8 +29,9 @@ enemy_roam :: proc(enemy: ^Enemy) {
 //    fmt.println(enemy.nav_data.path)
 }
 
-enemy_path :: proc(enemy: ^Enemy) {
-    bfs(enemy.pos, gs.player.pos, &enemy.nav_data)
+enemy_path :: proc(enemy: ^Enemy, dest: Vec3) {
+//    bfs(enemy.pos, gs.player.pos, &enemy.nav_data)
+    bfs(enemy.pos, dest, &enemy.nav_data)
     if len(enemy.nav_data.path) < 2 do return
 
     dx := f32(enemy.nav_data.path[1].x)

@@ -75,11 +75,19 @@ dbg_draw_enemy :: proc() {
     rl.DrawText(fmt.ctprintf("enemy"), 10, y_pos, 20, rl.ORANGE)
     rl.DrawText(fmt.ctprintf("0: bbox"), 10, y_pos + 25, 20, gs.dbg.show_bbox ? rl.DARKBLUE : rl.GRAY)
     rl.DrawText(fmt.ctprintf("1: path"), 95, y_pos + 25, 20, gs.dbg.show_path ? rl.DARKBLUE : rl.GRAY)
-    rl.DrawText(fmt.ctprintf("hp: %d", gs.dbg_enemy.hp), 10, y_pos + 50, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("pos: %.2f", gs.dbg_enemy.pos), 10, y_pos + 75, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("anim: %v", gs.dbg_enemy.anim.cur_anim), 10, y_pos + 100, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("action: %v", gs.dbg_enemy.action), 10, y_pos + 125, 20, rl.WHITE)
-    rl.DrawText(fmt.ctprintf("dest: %.2f", gs.dbg_enemy.dest), 10, y_pos + 150, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("pos: %.2f", gs.dbg_enemy.pos), 10, y_pos + 50, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("anim: %v", gs.dbg_enemy.anim.cur_anim), 10, y_pos + 75, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("hp: %d", gs.dbg_enemy.hp), 10, y_pos + 100, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("ammo: %d", gs.dbg_enemy.ammo), 10, y_pos + 125, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("dist: %.2f", gs.dbg_enemy.dist), 10, y_pos + 150, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("dest: %.2f", gs.dbg_enemy.dest), 10, y_pos + 175, 20, rl.WHITE)
+    cur_goal := gs.dbg_enemy.cur_goal.? or_else {}
+    rl.DrawText(fmt.ctprintf("cur goal: %v", cur_goal.name), 10, y_pos + 200, 20, rl.WHITE)
+    rl.DrawText(fmt.ctprintf("goals:"), 10, y_pos + 225, 20, rl.WHITE)
+    for goal, i in gs.dbg_enemy.goals {
+        rl.DrawText(fmt.ctprintf("  %v", goal.name), 10, y_pos + 250 + i32(i)*25, 20, rl.WHITE)
+        // TODO: crashes when enemy selected and press F2
+    }
 
     if gs.dbg.show_path do dbg_draw_bfs(gs.dbg_enemy.nav_data)
 }

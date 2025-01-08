@@ -31,12 +31,15 @@ Enemy :: struct {
 
     dead: bool,
     hp: int,
+    ammo: int,
 
     hit_splashes: [dynamic]Hit_Splash,
 
-    action: Enemy_Action,
-    action_time: f32,
+    goals: [dynamic]Ai_Goal,
+    cur_goal: Maybe(Ai_Goal),
+    dist: f32,
     dest: Vec3,
+    dest_ammo: Maybe(Vec3),
 
     nav_data: Nav_Data,
 

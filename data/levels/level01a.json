@@ -568,6 +568,40 @@
 			"col_radius": 0.30000001,
 			"half_height": 0.15000001,
 			"type": 1
+		},
+		{
+			"tex": {
+				"id": 21,
+				"width": 32,
+				"height": 32,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				41.50000000,
+				0.12000000,
+				30.50000000
+			],
+			"col_radius": 0.30000001,
+			"half_height": 0.15000001,
+			"type": 6
+		},
+		{
+			"tex": {
+				"id": 18,
+				"width": 48,
+				"height": 48,
+				"mipmaps": 1,
+				"format": 7
+			},
+			"pos": [
+				41.50000000,
+				0.12000000,
+				23.50000000
+			],
+			"col_radius": 0.30000001,
+			"half_height": 0.15000001,
+			"type": 4
 		}
 	],
 	"enemies": [
@@ -587,7 +621,7 @@
 					{
 						"tex": [
 							{
-								"id": 21,
+								"id": 27,
 								"width": 64,
 								"height": 64,
 								"mipmaps": 1,
@@ -600,67 +634,6 @@
 					{
 						"tex": [
 							{
-								"id": 21,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 22,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 23,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 24,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							}
-						],
-						"time": 0.10000000,
-						"transition": 0
-					},
-					{
-						"tex": [
-							{
-								"id": 24,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 25,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
-								"id": 26,
-								"width": 64,
-								"height": 64,
-								"mipmaps": 1,
-								"format": 7
-							},
-							{
 								"id": 27,
 								"width": 64,
 								"height": 64,
@@ -669,6 +642,67 @@
 							},
 							{
 								"id": 28,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 29,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							}
+						],
+						"time": 0.10000000,
+						"transition": 0
+					},
+					{
+						"tex": [
+							{
+								"id": 30,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							}
+						],
+						"time": 0.10000000,
+						"transition": 0
+					},
+					{
+						"tex": [
+							{
+								"id": 30,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 31,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 32,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 33,
+								"width": 64,
+								"height": 64,
+								"mipmaps": 1,
+								"format": 7
+							},
+							{
+								"id": 34,
 								"width": 64,
 								"height": 64,
 								"mipmaps": 1,
@@ -689,12 +723,14 @@
 			"half_height": 0.33000001,
 			"dead": false,
 			"hp": 20,
-			"hit_anim": false,
-			"death_anim": false,
-			"anim_frame": 0,
-			"anim_time": 0.00000000,
-			"action": 0,
-			"action_time": 0.00000000,
+			"ammo": 0,
+			"hit_splashes": [
+
+			],
+			"goals": [
+
+			],
+			"dist": 5.83733702,
 			"dest": [
 				0.00000000,
 				0.00000000,
