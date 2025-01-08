@@ -158,7 +158,13 @@ get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
     })
     hit := enemiesHit[0]
 
-    append(&hit.enemy.hit_splashes, create_hit_splash(blood_splash_cfg, hit.point))
+    // Fake (only visual) spread
+    spread := Vec3 {
+        f32(rl.GetRandomValue(-10, 10)) / 300,
+        f32(rl.GetRandomValue(-10, 10)) / 300,
+        f32(rl.GetRandomValue(-10, 10)) / 300,
+    }
+    append(&hit.enemy.hit_splashes, create_hit_splash(blood_splash_cfg, hit.point + spread))
 
     return hit
 }

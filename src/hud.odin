@@ -5,7 +5,7 @@ import rl "vendor:raylib"
 
 draw_crosshair :: proc() {
     center := Vec2{f32(rl.GetScreenWidth() / 2), f32(rl.GetScreenHeight() / 2)}
-    size := f32(rl.GetScreenHeight() / 70)
+    size := f32(rl.GetScreenHeight() / 140)
     color :: rl.RAYWHITE
 
     rl.DrawLineEx(center - {size, 0}, center - {4, 0}, 2, color)
