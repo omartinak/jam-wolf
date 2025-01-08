@@ -92,6 +92,12 @@ item_cfg := [Item_Type]Item_Cfg {
         y_off = 0.12,
         type = .Armor,
     },
+    .Health = {
+        col_radius = 0.3,
+        half_height = 0.15,
+        y_off = 0.12,
+        type = .Health,
+    },
     .Exit = {
         col_radius = 0.3,
         half_height = 0.15,

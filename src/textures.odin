@@ -11,7 +11,7 @@ Tex :: enum {
     Machine_Gun01, Machine_Gun02, Machine_Gun03,
 
     Pistol, Rifle, Machine_Gun,
-    Clip, Ammo_Box, Armor, Brain,
+    Clip, Ammo_Box, Armor, Brain, Health,
 
     Blood0, Blood1, Blood2, Blood3, Blood4,
 
@@ -45,6 +45,7 @@ create_textures :: proc() -> Textures {
         .Ammo_Box = rl.LoadTexture("data/graphics/lab/sprites/i_ammobox.png"),
         .Armor = rl.LoadTexture("data/graphics/lab/sprites/i_armor.png"),
         .Brain = rl.LoadTexture("data/graphics/lab/sprites/brain.png"),
+        .Health = rl.LoadTexture("data/graphics/lab/sprites/i_health.png"),
 
         .Blood0 = rl.LoadTexture("data/graphics/lab/sprites/bloodspr_0.png"),
         .Blood1 = rl.LoadTexture("data/graphics/lab/sprites/bloodspr_1.png"),
