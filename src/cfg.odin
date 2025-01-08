@@ -30,6 +30,13 @@ machinegun_cfg := Weapon_Cfg {
     owned = false,
 }
 
+blood_splash_cfg := Hit_Splash_Cfg {
+    anim = {
+        .Splash = { tex = {.Blood0, .Blood1, .Blood2, .Blood3, .Blood4}, time = 0.05, },
+    },
+    color = {200, 0, 0, 255},
+}
+
 enemy_cfg := [Enemy_Type]Enemy_Cfg {
     .Cobra = {
         anim = {

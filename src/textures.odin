@@ -13,6 +13,8 @@ Tex :: enum {
     Pistol, Rifle, Machine_Gun,
     Clip, Ammo_Box, Armor, Brain,
 
+    Blood0, Blood1, Blood2, Blood3, Blood4,
+
     Cobra0, Cobra1, Cobra2, Cobra_Hit0, Cobra_Hit1, Cobra_Hit2, Cobra_Hit3, Cobra_Hit4,
 }
 
@@ -43,6 +45,12 @@ create_textures :: proc() -> Textures {
         .Ammo_Box = rl.LoadTexture("data/graphics/lab/sprites/i_ammobox.png"),
         .Armor = rl.LoadTexture("data/graphics/lab/sprites/i_armor.png"),
         .Brain = rl.LoadTexture("data/graphics/lab/sprites/brain.png"),
+
+        .Blood0 = rl.LoadTexture("data/graphics/lab/sprites/bloodspr_0.png"),
+        .Blood1 = rl.LoadTexture("data/graphics/lab/sprites/bloodspr_1.png"),
+        .Blood2 = rl.LoadTexture("data/graphics/lab/sprites/bloodspr_2.png"),
+        .Blood3 = rl.LoadTexture("data/graphics/lab/sprites/bloodspr_3.png"),
+        .Blood4 = rl.LoadTexture("data/graphics/lab/sprites/bloodspr_4.png"),
 
         .Cobra0 = rl.LoadTexture("data/graphics/lab/sprites/cobra0.png"),
         .Cobra1 = rl.LoadTexture("data/graphics/lab/sprites/cobra1.png"),

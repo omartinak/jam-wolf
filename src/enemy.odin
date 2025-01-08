@@ -32,10 +32,7 @@ Enemy :: struct {
     dead: bool,
     hp: int,
 
-    hit_anim: bool,
-    death_anim: bool,
-    anim_frame: int,
-    anim_time: f32,
+    hit_splashes: [dynamic]Hit_Splash,
 
     action: Enemy_Action,
     action_time: f32,
@@ -61,6 +58,7 @@ Enemies :: [dynamic]Enemy
 EnemyHit :: struct {
     enemy: ^Enemy,
     hit: bool,
+    point: Vec3,
     dist: f32,
 }
 
@@ -79,11 +77,17 @@ create_enemy :: proc(cfg: Enemy_Cfg, pos: Vec3) -> Enemy {
 
 destroy_enemy :: proc(enemy: Enemy) {
     destroy_anim(enemy.anim)
+    for hit_splash in enemy.hit_splashes do destroy_hit_splash(hit_splash)
+    delete(enemy.hit_splashes)
 }
 
 draw_enemy :: proc(enemy: Enemy, opacity: u8 = 255) {
     frame := get_anim_frame(enemy.anim)
     rl.DrawBillboard(gs.camera, frame, enemy.pos, 0.75, {255, 255, 255, opacity})
+
+    for hit_splash in enemy.hit_splashes {
+        draw_hit_splash(hit_splash)
+    }
 
     if gs.dbg.show_bbox {
         bodyPos := enemy.pos
@@ -100,10 +104,22 @@ update_enemy :: proc(enemy: ^Enemy, dt: f32) {
         enemy_ai(enemy, dt)
     }
     update_anim(&enemy.anim, dt)
+
+    // TODO: hit_splash position should be moved together with enemy
+    //       it sort of works without it because hit_splash is drawn after enenmy
+    for &hit_splash, i in enemy.hit_splashes {
+        update_hit_splash(&hit_splash, dt)
+
+        if !hit_splash.anim.playing {
+            destroy_hit_splash(hit_splash)
+            // TODO: unordered_remove is bad? will skip swapped anim?
+            unordered_remove(&enemy.hit_splashes, i)
+        }
+    }
 }
 
-check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray, check_dead := false) -> bool {
-    if !check_dead && enemy.dead do return {}
+check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray, check_dead := false) -> (bool, Vec3) {
+    if !check_dead && enemy.dead do return false, {}
 
     bodyPos := enemy.pos
     body := rl.BoundingBox {
@@ -112,9 +128,9 @@ check_enemy_collision :: proc(enemy: Enemy, ray: rl.Ray, check_dead := false) ->
     }
 
     colBody := rl.GetRayCollisionBox(ray, body)
-    if colBody.hit do return true
+    if colBody.hit do return true, colBody.point
 
-    return false
+    return false, {}
 }
 
 get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
@@ -125,11 +141,12 @@ get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
     enemiesHit := make([dynamic]EnemyHit, 0, len(gs.level.enemies), context.temp_allocator)
 
     for &enemy in gs.level.enemies {
-        hit := check_enemy_collision(enemy, ray, check_dead)
+        hit, point := check_enemy_collision(enemy, ray, check_dead)
         if hit {
             append(&enemiesHit, EnemyHit {
                 enemy = &enemy,
                 hit = hit,
+                point = point,
                 dist = rl.Vector3Distance(enemy.pos, gs.camera.position),
             })
         }
@@ -139,5 +156,9 @@ get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
     slice.sort_by(enemiesHit[:], proc(a, b: EnemyHit) -> bool {
         return a.dist < b.dist
     })
-    return enemiesHit[0]
+    hit := enemiesHit[0]
+
+    append(&hit.enemy.hit_splashes, create_hit_splash(blood_splash_cfg, hit.point))
+
+    return hit
 }
