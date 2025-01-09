@@ -16,7 +16,7 @@ Item_Type :: enum {
 }
 
 Item :: struct {
-    tex: rl.Texture2D, // TODO: shouldn't be store here or in the level file, take from enum array
+    tex: rl.Texture2D, // TODO: not necessary? take from enum array?
     pos: Vec3,
 
     col_radius: f32,
@@ -25,6 +25,7 @@ Item :: struct {
 }
 
 Item_Cfg :: struct {
+    tex: Tex,
     col_radius: f32,
     half_height: f32,
     y_off: f32,
@@ -35,23 +36,11 @@ Items :: [dynamic]Item
 
 create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
     item := Item {
+        tex = gs.textures[cfg.tex],
         pos = pos,
         col_radius = cfg.col_radius,
         half_height = cfg.half_height,
         type = cfg.type,
-    }
-    // TODO: map Item_Type -> Tex?
-
-    // TODO: put textures type in the config
-    switch item.type {
-    case .Pistol:      item.tex = gs.textures[.Pistol]
-    case .Rifle:       item.tex = gs.textures[.Rifle]
-    case .Machine_Gun: item.tex = gs.textures[.Machine_Gun]
-    case .Clip:        item.tex = gs.textures[.Clip]
-    case .Ammo_Box:    item.tex = gs.textures[.Ammo_Box]
-    case .Armor:       item.tex = gs.textures[.Armor]
-    case .Health:      item.tex = gs.textures[.Health]
-    case .Exit:        item.tex = gs.textures[.Brain]
     }
     return item
 }

@@ -57,48 +57,56 @@ enemy_cfg := [Enemy_Type]Enemy_Cfg {
 // TODO: union add ammo, armor, hp
 item_cfg := [Item_Type]Item_Cfg {
     .Pistol = {
+        tex = .Pistol,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Pistol,
     },
     .Rifle = {
+        tex = .Rifle,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Rifle,
     },
     .Machine_Gun = {
+        tex = .Machine_Gun,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Machine_Gun,
     },
     .Clip = {
+        tex = .Clip,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Clip,
     },
     .Ammo_Box = {
+        tex = .Ammo_Box,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Ammo_Box,
     },
     .Armor = {
+        tex = .Armor,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Armor,
     },
     .Health = {
+        tex = .Health,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
         type = .Health,
     },
     .Exit = {
+        tex = .Brain,
         col_radius = 0.3,
         half_height = 0.15,
         y_off = 0.12,
