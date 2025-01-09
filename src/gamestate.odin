@@ -9,7 +9,6 @@ Game_State :: struct {
     textures: Textures,
 
     level: Level,
-    level_runtime: Level_Runtime,
     should_restart: bool,
 
     message: cstring,

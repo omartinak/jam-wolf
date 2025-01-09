@@ -34,7 +34,7 @@ adj :: proc(tile: Vec2i, visited: []Vec2i) -> [dynamic]Vec2i {
     }
 
     for at, _ in atiles {
-        wall := is_wall(at)
+        wall := is_wall(gs.level, at)
         // TODO: it sometimes finds path across corners
         // Avoid corners
 //        switch i {

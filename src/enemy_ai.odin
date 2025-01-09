@@ -20,7 +20,7 @@ enemy_roam :: proc(enemy: ^Enemy) {
     z := i32(enemy.pos.z)
 
     rnd_tile := rl.GetRandomValue(0, 3)
-    it := get_roam_tile(gs.level_runtime, x, z)[rnd_tile]
+    it := get_roam_tile(gs.level, x, z)[rnd_tile]
     dx := f32(it.x)
     dz := f32(it.y)
     enemy.dest = {dx, 0, dz} + {0.5, 0, 0.5} // Go to the middle of a tile

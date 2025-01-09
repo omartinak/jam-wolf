@@ -94,7 +94,7 @@ dbg_draw_enemy :: proc() {
 dbg_draw_bfs :: proc(nav_data: Nav_Data) {
     SIZE :: 18 // TODO: derive from screen size
 
-    pos := Vec2i{(rl.GetScreenWidth() - gs.level_runtime.grid_tex.width * SIZE) / 2, 50}
+    pos := Vec2i{(rl.GetScreenWidth() - gs.level.grid_tex.width * SIZE) / 2, 50}
 
     rc := rl.Rectangle {
         x = f32(nav_data.start.x * SIZE + pos.x),
@@ -111,15 +111,15 @@ dbg_draw_bfs :: proc(nav_data: Nav_Data) {
     }
     rl.DrawRectangleRec(rc, {255, 0, 0, 128})
 
-    for y in 0..<gs.level_runtime.grid_tex.height {
-        for x in 0..<gs.level_runtime.grid_tex.width {
+    for y in 0..<gs.level.grid_tex.height {
+        for x in 0..<gs.level.grid_tex.width {
             rc = rl.Rectangle {
                 x = f32(x * SIZE + pos.x),
                 y = f32(y * SIZE + pos.y),
                 width = SIZE,
                 height = SIZE,
             }
-            if gs.level_runtime.grid[x + y * gs.level_runtime.grid_tex.width].r == 255 {
+            if gs.level.grid[x + y * gs.level.grid_tex.width].r == 255 {
                 rl.DrawRectangleRec(rc, {255, 255, 255, 128})
             }
             rl.DrawRectangleLinesEx(rc, 1, {0, 0, 255, 60})
@@ -141,8 +141,8 @@ dbg_draw_bfs :: proc(nav_data: Nav_Data) {
 }
 
 dbg_draw_grid :: proc() {
-    for y in 0..=gs.level_runtime.grid_tex.height {
-        for x in 0..=gs.level_runtime.grid_tex.width {
+    for y in 0..=gs.level.grid_tex.height {
+        for x in 0..=gs.level.grid_tex.width {
             box := rl.BoundingBox {
                 min = {f32(x), 0, f32(y)},
                 max = {f32(x+1), 1, f32(y+1)},

@@ -67,8 +67,8 @@ init :: proc() {
     }
     gss = &gs
 
-//    gs.level, gs.level_runtime = create_test_level()
-    gs.level, gs.level_runtime = load_level("data/levels/level01a.json")
+//    gs.level = create_test_level()
+    gs.level = load_level("data/levels/level01a.json")
     gs.player = create_player(gs.level.player_start)
 
     gs.weapons[.Pistol] = create_weapon(pistol_cfg)
@@ -82,14 +82,14 @@ destroy :: proc() {
     for weapon in gs.weapons {
         destroy_weapon(weapon)
     }
-    destroy_level(gs.level, gs.level_runtime)
+    destroy_level(gs.level)
     destroy_textures(gs.textures)
 }
 
 restart :: proc() {
     level_name := gs.level.file_name
 
-    destroy_level(gs.level, gs.level_runtime)
+    destroy_level(gs.level)
 
     gs.should_restart = false
     gs.cur_weapon = .Pistol
@@ -103,7 +103,7 @@ restart :: proc() {
     gs.dbg = {}
     gs.dbg_enemy = nil
 
-    gs.level, gs.level_runtime = load_level(level_name)
+    gs.level = load_level(level_name)
     gs.player = create_player(gs.level.player_start)
 
     // Editor data intentionally not reset

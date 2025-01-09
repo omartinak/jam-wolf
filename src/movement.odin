@@ -4,12 +4,12 @@ import rl "vendor:raylib"
 
 slide :: proc(pos, velocity: ^Vec3, radius: f32) {
 // TODO: optimize - spatial accel struct, check only adjacent tiles, merge tiles
-    for y in 0..<gs.level_runtime.grid_tex.height {
-        for x in 0..<gs.level_runtime.grid_tex.width {
+    for y in 0..<gs.level.grid_tex.height {
+        for x in 0..<gs.level.grid_tex.width {
             rc := rl.Rectangle{f32(x), f32(y), 1, 1}
 
             // TODO: unify collision check and penetration
-            if is_wall(x, y) && rl.CheckCollisionCircleRec(pos.xz, radius, rc) {
+            if is_wall(gs.level, x, y) && rl.CheckCollisionCircleRec(pos.xz, radius, rc) {
                 correction := get_penetration(pos^, velocity^, rc, radius)
                 pos^ += correction
             }

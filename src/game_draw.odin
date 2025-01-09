@@ -11,7 +11,7 @@ draw :: proc() {
 
     rl.BeginMode3D(gs.camera)
 
-    draw_level(gs.level_runtime)
+    draw_level(gs.level)
 
     sort_and_draw_billboards()
 

@@ -8,9 +8,12 @@ import rl "vendor:raylib"
 
 Level :: struct {
     file_name: string,
-
     grid_file: string,
     atlas: Tex,
+
+    grid_tex: rl.Texture2D,
+    grid: [^]rl.Color,
+    model: rl.Model,
 
     player_start: Vec3,
 
@@ -18,14 +21,7 @@ Level :: struct {
     enemies: Enemies,
 }
 
-// TODO: can mark field for marshalling?
-Level_Runtime :: struct {
-    grid_tex: rl.Texture2D,
-    grid: [^]rl.Color,
-    model: rl.Model,
-}
-
-create_test_level :: proc() -> (level: Level, runtime: Level_Runtime) {
+create_test_level :: proc() -> (level: Level) {
     level.file_name = "data/levels/level_test.json"
     level.grid_file = "data/levels/level01.png"
     level.atlas = .Level01_Atlas
@@ -34,24 +30,24 @@ create_test_level :: proc() -> (level: Level, runtime: Level_Runtime) {
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
     defer rl.UnloadImage(im_map)
 
-    runtime.grid_tex = rl.LoadTextureFromImage(im_map)
-    runtime.grid = rl.LoadImageColors(im_map)
-    runtime.model = rl.LoadModelFromMesh(rl.GenMeshCubicmap(im_map, {1, 1, 1}))
+    level.grid_tex = rl.LoadTextureFromImage(im_map)
+    level.grid = rl.LoadImageColors(im_map)
+    level.model = rl.LoadModelFromMesh(rl.GenMeshCubicmap(im_map, {1, 1, 1}))
 
-    runtime.model.materials[0].maps[rl.MaterialMapIndex.ALBEDO].texture = gs.textures[level.atlas]
+    level.model.materials[0].maps[rl.MaterialMapIndex.ALBEDO].texture = gs.textures[level.atlas]
 
-    return level, runtime
+    return level
 }
 
-destroy_level :: proc(level: Level, runtime: Level_Runtime) {
+destroy_level :: proc(level: Level) {
     delete(level.items)
     for enemy in level.enemies do destroy_enemy(enemy)
     delete(level.enemies)
     delete(level.grid_file)
 
-    rl.UnloadImageColors(runtime.grid)
-    rl.UnloadTexture(runtime.grid_tex)
-    rl.UnloadModel(runtime.model)
+    rl.UnloadImageColors(level.grid)
+    rl.UnloadTexture(level.grid_tex)
+    rl.UnloadModel(level.model)
 }
 
 parse_vec3 :: proc(value: json.Value) -> Vec3 {
@@ -62,7 +58,7 @@ parse_vec3 :: proc(value: json.Value) -> Vec3 {
     return vec
 }
 
-load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime) {
+load_level :: proc(level_file: string) -> (level: Level) {
     data, ok := os.read_entire_file(level_file, context.temp_allocator)
     if !ok {
         fmt.eprintfln("Unable to read level file: %v", level_file)
@@ -106,13 +102,13 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
     defer rl.UnloadImage(im_map)
 
-    runtime.grid_tex = rl.LoadTextureFromImage(im_map)
-    runtime.grid = rl.LoadImageColors(im_map)
-    runtime.model = rl.LoadModelFromMesh(rl.GenMeshCubicmap(im_map, {1, 1, 1}))
+    level.grid_tex = rl.LoadTextureFromImage(im_map)
+    level.grid = rl.LoadImageColors(im_map)
+    level.model = rl.LoadModelFromMesh(rl.GenMeshCubicmap(im_map, {1, 1, 1}))
 
-    runtime.model.materials[0].maps[rl.MaterialMapIndex.ALBEDO].texture = gs.textures[level.atlas]
+    level.model.materials[0].maps[rl.MaterialMapIndex.ALBEDO].texture = gs.textures[level.atlas]
 
-    return level, runtime
+    return level
 }
 
 marshal_vec3 :: proc(vec: Vec3) -> json.Array {
@@ -157,27 +153,27 @@ save_level :: proc(level: Level, level_file := "") {
     }
 }
 
-draw_level :: proc(runtime: Level_Runtime) {
+draw_level :: proc(level: Level) {
     LEVEL_OFFSET :: Vec3{0.5, 0, 0.5} // Each tile is generated to be -0.5..0.5, so we need to shift the level
-    rl.DrawModel(runtime.model, LEVEL_OFFSET, 1, rl.WHITE)
+    rl.DrawModel(level.model, LEVEL_OFFSET, 1, rl.WHITE)
 }
 
 // TODO: temp solution
-get_roam_tile :: proc(runtime: Level_Runtime, x, z: i32) -> (ret: [4][2]i32) {
+get_roam_tile :: proc(level: Level, x, z: i32) -> (ret: [4][2]i32) {
     ret = {{x, z}, {x, z}, {x, z}, {x, z}}
-    if (x-1) >= 0 && runtime.grid[x-1+z*runtime.grid_tex.width].r != 255 do ret[0] = {x-1, z}
-    if (x+1) < runtime.grid_tex.width && runtime.grid[x+1+z*runtime.grid_tex.width].r != 255 do ret[1] = {x+1, z}
-    if (z-1) >= 0 && runtime.grid[x+(z-1)*runtime.grid_tex.width].r != 255 do ret[2] = {x, z-1}
-    if (z+1) < runtime.grid_tex.height && runtime.grid[x+(z+1)*runtime.grid_tex.width].r != 255 do ret[3] = {x, z+1}
+    if (x-1) >= 0 && level.grid[x-1+z*level.grid_tex.width].r != 255 do ret[0] = {x-1, z}
+    if (x+1) < level.grid_tex.width && level.grid[x+1+z*level.grid_tex.width].r != 255 do ret[1] = {x+1, z}
+    if (z-1) >= 0 && level.grid[x+(z-1)*level.grid_tex.width].r != 255 do ret[2] = {x, z-1}
+    if (z+1) < level.grid_tex.height && level.grid[x+(z+1)*level.grid_tex.width].r != 255 do ret[3] = {x, z+1}
     return ret
 }
 
 is_wall :: proc {is_wall_i32, is_wall_Vec2i}
 
-is_wall_i32 :: proc(x, y: i32) -> bool {
-    return gs.level_runtime.grid[x + y * gs.level_runtime.grid_tex.width].r == 255
+is_wall_i32 :: proc(level: Level, x, y: i32) -> bool {
+    return level.grid[x + y * level.grid_tex.width].r == 255
 }
 
-is_wall_Vec2i :: proc(t: Vec2i) -> bool {
-    return is_wall_i32(t.x, t.y)
+is_wall_Vec2i :: proc(level: Level, t: Vec2i) -> bool {
+    return is_wall_i32(level, t.x, t.y)
 }
