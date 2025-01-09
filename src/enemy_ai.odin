@@ -6,7 +6,8 @@ enemy_ai :: proc(enemy: ^Enemy, dt: f32) {
     enemy.dist = rl.Vector3Distance(enemy.pos, gs.player.pos)
     enemy.goals = get_applicable_goals(enemy)
 
-    if enemy.cur_goal == nil && len(enemy.goals) > 0 {
+    if len(enemy.goals) > 0 && enemy.goals[0] != enemy.cur_goal {
+        enemy.last_goal = enemy.cur_goal
         enemy.cur_goal = enemy.goals[0]
     }
 

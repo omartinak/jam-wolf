@@ -18,13 +18,19 @@ ai_goals := [?]Ai_Goal {
         score = 0.1,
     },
     {
+        name = "Go to Last Known Location",
+        precond = can_lkl,
+        execute = lkl,
+        score = 0.2,
+    },
+    {
         name = "Get Ammo",
         precond = can_get_ammo,
         execute = get_ammo,
         score = 0.3,
     },
     {
-        name = "Attack Position",
+        name = "Go to Attack Position",
         precond = can_attack_position,
         execute = attack_position,
         score = 0.6,
@@ -35,6 +41,23 @@ ai_goals := [?]Ai_Goal {
         execute = attack,
         score = 1.0,
     },
+    // TODO: hit react - stagger
+    // TODO: roam
+}
+
+get_applicable_goals :: proc(enemy: ^Enemy) -> [dynamic]Ai_Goal {
+    goals := make([dynamic]Ai_Goal, context.temp_allocator)
+
+    for goal in ai_goals {
+        if goal.precond(enemy) do append(&goals, goal)
+    }
+
+    // TODO: randomize if same score
+    slice.sort_by(goals[:], proc(a, b: Ai_Goal) -> bool {
+        return a.score > b.score
+    })
+
+    return goals
 }
 
 can_idle :: proc(enemy: ^Enemy) -> bool {
@@ -76,56 +99,48 @@ can_attack_position :: proc(enemy: ^Enemy) -> bool {
     return sees_player && has_ammo
 }
 
-can_attack :: proc(enemy: ^Enemy) -> bool {
-    dist := rl.Vector3Distance(enemy.pos, gs.player.pos)
-    in_position := dist >= 2 && dist <= 4
+can_lkl :: proc(enemy: ^Enemy) -> bool {
     has_ammo := enemy.ammo > 0
+    return enemy.last_pos != nil && has_ammo
+}
+
+can_attack :: proc(enemy: ^Enemy) -> bool {
+    // TODO: line of sight check
+    dist := rl.Vector3Distance(enemy.pos, gs.player.pos)
+//    in_position := dist >= 2 && dist <= 4
+    in_position := dist <= 4
+    has_ammo := enemy.ammo > 0
+//    timeout := enemy.attack_time <= 0
+
+//    return in_position && has_ammo && timeout
     return in_position && has_ammo
 }
 
-get_applicable_goals :: proc(enemy: ^Enemy) -> [dynamic]Ai_Goal {
-    goals := make([dynamic]Ai_Goal, context.temp_allocator)
-
-    for goal in ai_goals {
-        if goal.precond(enemy) do append(&goals, goal)
-    }
-
-    // TODO: randomize if same score
-    slice.sort_by(goals[:], proc(a, b: Ai_Goal) -> bool {
-        return a.score > b.score
-    })
-
-    return goals
-}
-
 idle :: proc(enemy: ^Enemy, dt: f32) {
-    enemy.cur_goal = nil // TODO
+//    enemy.cur_goal = nil // TODO
     // Not visibile in current goal, needs proper interrupt
+//    return true
+//    return can_idle(enemy) // always true
 }
 
 get_ammo :: proc(enemy: ^Enemy, dt: f32) {
-    if dest, ok := enemy.dest_ammo.?; ok {
-        // TODO: is dest valid?
-        enemy_path(enemy, dest.pos)
+    if dest_ammo, ok := enemy.dest_ammo.?; ok {
+        enemy_path(enemy, dest_ammo.pos)
 
-        if rl.Vector3DistanceSqrt(enemy.pos, enemy.dest) < 0.2 {
+        if rl.Vector3DistanceSqrt(enemy.pos, dest_ammo.pos) < 0.5 {
             enemy.ammo += 5
-            enemy.cur_goal = nil
-            // TODO: remove ammo item
-            // TODO: what if the index is not valid anymore - items array has changed?
+            // TODO: what if the item is not valid anymore - items array has changed?
             //       generation handle?
             for &item, i in gs.level.items {
-                if &item == dest {
+                if &item == dest_ammo {
                     unordered_remove(&gs.level.items, i)
                     break
                 }
             }
             enemy.dest_ammo = nil
         } else {
-            SPEED :: 0.5
-
             dir := rl.Vector2Normalize((enemy.dest - enemy.pos).xz)
-            enemy.velocity = {dir.x, 0, dir.y} * SPEED * dt
+            enemy.velocity = {dir.x, 0, dir.y} * enemy.speed * dt
             enemy.pos += enemy.velocity
 
             // TODO: use pathfinding instead of sliding and save performance
@@ -140,18 +155,52 @@ get_ammo :: proc(enemy: ^Enemy, dt: f32) {
     }
 }
 
+lkl :: proc(enemy: ^Enemy, dt: f32) {
+    // TODO: set last pos when sees player
+    if last_pos, ok := enemy.last_pos.?; ok {
+        enemy_path(enemy, last_pos)
+
+        // TODO: loose target, lkl
+        // TODO: configurable tolerance, snap to final pos?
+        // TODO: magically getting ammo?
+        if rl.Vector3Distance(enemy.pos, last_pos) > 0.5 {
+            dir := rl.Vector2Normalize((enemy.dest - enemy.pos).xz)
+            enemy.velocity = {dir.x, 0, dir.y} * enemy.speed * dt
+            enemy.pos += enemy.velocity
+
+            // TODO: use pathfinding instead of sliding and save performance
+            slide(&enemy.pos, &enemy.velocity, enemy.col_radius)
+
+            //            dbg_print(2, "%.2f", enemy.velocity)
+            //            dbg_print(3, "dest %v", enemy.dest)
+
+            // TODO: stagger when hit
+            if enemy.anim.cur_anim == .Idle do play_anim(&enemy.anim, Enemy_Anim.Move)
+        } else {
+            enemy.last_pos = nil
+        }
+    }
+}
+
+// TODO:
+//   enemy shoot projectiles
+//   enemy drop remaining ammo
+//   alert when hurt - maybe
+//   see long distance, but line of sight
+//   noise alert
+//   enemies shoot projectiles
+//   debug - show all enemies on map, change color based on state - idle, attack pos, attack
+//     los - bresenham
+//     noise - flood fill with limited depth
+//   player death - fall down
+//   player hit - red vignette
+
 attack_position :: proc(enemy: ^Enemy, dt: f32) {
     enemy_path(enemy, gs.player.pos)
 
-    // TODO: min, max range
-    // TODO: loose target, lkl
-    if rl.Vector3Distance(enemy.pos, gs.player.pos) < 4 {
-        enemy.cur_goal = nil
-    } else {
-        SPEED :: 0.5
-
+    if rl.Vector3Distance(enemy.pos, gs.player.pos) > 4 {
         dir := rl.Vector2Normalize((enemy.dest - enemy.pos).xz)
-        enemy.velocity = {dir.x, 0, dir.y} * SPEED * dt
+        enemy.velocity = {dir.x, 0, dir.y} * enemy.speed * dt
         enemy.pos += enemy.velocity
 
         // TODO: use pathfinding instead of sliding and save performance
@@ -163,8 +212,20 @@ attack_position :: proc(enemy: ^Enemy, dt: f32) {
         // TODO: stagger when hit
         if enemy.anim.cur_anim == .Idle do play_anim(&enemy.anim, Enemy_Anim.Move)
     }
+    set_last_pos(enemy, gs.player.pos)
 }
 
 attack :: proc(enemy: ^Enemy, dt: f32) {
-    enemy.cur_goal = nil // TODO
+    // TODO: lesser chance to hit if the player is moving, maybe based on velocity
+    if enemy.attack_time <= 0 {
+        damage_player(&gs.player, 5)
+        enemy.ammo -= 1
+
+        play_anim(&enemy.anim, enemy.cobra_attack == .Left ? Enemy_Anim.Attack_Left : Enemy_Anim.Attack_Right)
+
+        // TODO: last pos when seen?
+        set_last_pos(enemy, gs.player.pos)
+        enemy.cobra_attack = enemy.cobra_attack == .Left ? .Right : .Left
+        enemy.attack_time = 1
+    }
 }

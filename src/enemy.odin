@@ -11,17 +11,20 @@ Enemy_Anim :: enum {
     Idle,
     Move,
     Hit,
+    Attack_Left,
+    Attack_Right,
     Death,
 }
 
-Enemy_Action :: enum {
-    Idle,
-    Move,
+Cobra_Attack :: enum {
+    Right,
+    Left,
 }
 
 Enemy :: struct {
     pos: Vec3,
     velocity: Vec3,
+    speed: f32,
 
     anim: Anim(Enemy_Anim),
 
@@ -36,10 +39,15 @@ Enemy :: struct {
     hit_splashes: [dynamic]Hit_Splash,
 
     goals: [dynamic]Ai_Goal,
+    last_goal: Maybe(Ai_Goal),
     cur_goal: Maybe(Ai_Goal),
     dist: f32,
     dest: Vec3,
     dest_ammo: Maybe(^Item),
+    attack_time: f32,
+    cobra_attack: Cobra_Attack,
+    last_pos: Maybe(Vec3),
+    last_pos_time: f32,
 
     nav_data: Nav_Data,
 
@@ -48,6 +56,7 @@ Enemy :: struct {
 
 Enemy_Cfg :: struct {
     anim: [Enemy_Anim]Anim_Cfg(Enemy_Anim),
+    speed: f32,
     col_radius: f32,
     hit_radius: f32,
     half_height: f32,
@@ -68,11 +77,13 @@ EnemyHit :: struct {
 create_enemy :: proc(cfg: Enemy_Cfg, pos: Vec3) -> Enemy {
     enemy := Enemy {
         pos = pos,
+        speed = cfg.speed,
         anim = create_anim(cfg.anim),
         col_radius = cfg.col_radius,
         hit_radius = cfg.hit_radius,
         half_height = cfg.half_height,
         hp = cfg.hp,
+        ammo = 10,
         type = cfg.type,
     }
     return enemy
@@ -111,6 +122,12 @@ update_enemy :: proc(enemy: ^Enemy, dt: f32) {
         enemy_ai(enemy, dt)
     }
     update_anim(&enemy.anim, dt)
+
+    enemy.attack_time -= dt
+    enemy.last_pos_time -= dt
+    if enemy.last_pos_time <= 0 {
+        enemy.last_pos = nil
+    }
 
     // TODO: hit_splash position should be moved together with enemy
     //       it sort of works without it because hit_splash is drawn after enenmy
@@ -176,8 +193,9 @@ get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
     return hit
 }
 
-deal_damage :: proc(enemy: ^Enemy, dmg: int) {
+damage_enemy :: proc(enemy: ^Enemy, dmg: int) {
     enemy.hp -= dmg
+    set_last_pos(enemy, gs.player.pos)
 
     if enemy.hp > 0 {
         play_anim(&enemy.anim, Enemy_Anim.Hit)
@@ -187,7 +205,13 @@ deal_damage :: proc(enemy: ^Enemy, dmg: int) {
 
         // TODO: not ideal
         enemy.goals = nil
+        enemy.last_goal = nil
         enemy.cur_goal = nil
         enemy.dest_ammo = nil
     }
+}
+
+set_last_pos :: proc(enemy: ^Enemy, pos: Vec3) {
+    enemy.last_pos = gs.player.pos
+    enemy.last_pos_time = 15
 }

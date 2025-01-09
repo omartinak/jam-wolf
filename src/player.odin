@@ -78,7 +78,11 @@ player_shoot :: proc() {
 
         enemy_hit := get_enemy_hit(ray)
         if enemy_hit.hit {
-            deal_damage(enemy_hit.enemy, dmg)
+            damage_enemy(enemy_hit.enemy, dmg)
         }
     }
+}
+
+damage_player :: proc(player: ^Player, dmg: int) {
+    player.hp = max(player.hp - dmg, 0)
 }
