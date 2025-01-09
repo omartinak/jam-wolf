@@ -47,29 +47,59 @@ destroy_level :: proc(level: Level, runtime: Level_Runtime) {
     delete(level.items)
     for enemy in level.enemies do destroy_enemy(enemy)
     delete(level.enemies)
-    delete(level.grid_file)
 
     rl.UnloadImageColors(runtime.grid)
     rl.UnloadTexture(runtime.grid_tex)
     rl.UnloadModel(runtime.model)
 }
 
+parse_vec3 :: proc(value: json.Value) -> Vec3 {
+    vec: Vec3
+    vec.x = f32(value.(json.Array)[0].(json.Float))
+    vec.y = f32(value.(json.Array)[1].(json.Float))
+    vec.z = f32(value.(json.Array)[2].(json.Float))
+    return vec
+}
+
 load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime) {
-    level_data, ok := os.read_entire_file(level_file, context.temp_allocator)
+    data, ok := os.read_entire_file(level_file, context.temp_allocator)
     if !ok {
         fmt.eprintfln("Unable to read level file: %v", level_file)
         return
     }
 
-    json.unmarshal(level_data, &level) // TODO: handle error
-    level.file_name = level_file // TODO: should not be marshalled
-
-    // TODO: temp solution
-    for &item in level.items {
-        item = create_item(item_cfg[item.type], item.pos)
+    json_data, err := json.parse(data, allocator = context.temp_allocator)
+    if err != .None {
+        fmt.eprintfln("Failed to parse level file: %v", level_file)
+        fmt.eprintfln("Error: %v", err)
+        return
     }
-    for &enemy in level.enemies {
-        enemy = create_enemy(enemy_cfg[enemy.type], enemy.pos)
+
+    root := json_data.(json.Object)
+
+    level.file_name = level_file
+    level.grid_file = root["grid_file"].(json.String)
+    level.atlas = .Level01_Atlas
+    level.player_start = parse_vec3(root["player_start"])
+
+    level.items = make(Items, len(root["items"].(json.Array)))
+    for value, i in root["items"].(json.Array) {
+        obj := value.(json.Object)
+
+        pos := parse_vec3(obj["pos"])
+        type := Item_Type(obj["type"].(json.Float)) // Why does it parse as Float?
+
+        level.items[i] = create_item(item_cfg[type], pos)
+    }
+
+    level.enemies = make(Enemies, len(root["enemies"].(json.Array)))
+    for value, i in root["enemies"].(json.Array) {
+        obj := value.(json.Object)
+
+        pos := parse_vec3(obj["pos"])
+        type := Enemy_Type(obj["type"].(json.Float)) // Why does it parse as float?
+
+        level.enemies[i] = create_enemy(enemy_cfg[type], pos)
     }
 
     im_map := rl.LoadImage(strings.clone_to_cstring(level.grid_file, context.temp_allocator)) // TODO: path, to textures?
@@ -84,10 +114,46 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
     return level, runtime
 }
 
+marshal_vec3 :: proc(vec: Vec3) -> json.Array {
+    array := make(json.Array, 3, context.temp_allocator)
+    array[0] = json.Float(vec.x)
+    array[1] = json.Float(vec.y)
+    array[2] = json.Float(vec.z)
+    return array
+}
+
 save_level :: proc(level: Level, level_file := "") {
     file_name := (level_file == "") ? level.file_name : level_file
-    if level_data, err := json.marshal(level, {pretty = true}, allocator = context.temp_allocator); err == nil {
-        os.write_entire_file(file_name, level_data)
+
+    level_data := make(json.Object, context.temp_allocator)
+
+    // TODO: root keys are saved in different order
+    level_data["grid_file"] = level.grid_file
+    level_data["player_start"] = marshal_vec3(level.player_start)
+
+    items_json := make(json.Array, len(level.items), context.temp_allocator)
+    for item, i in level.items {
+        obj := make(json.Object, context.temp_allocator)
+        obj["pos"] = marshal_vec3(item.pos)
+        obj["type"] = json.Integer(item.type)
+        items_json[i] = obj
+    }
+    level_data["items"] = items_json
+
+    enemies_json := make(json.Array, len(level.enemies), context.temp_allocator)
+    for enemy, i in level.enemies {
+        obj := make(json.Object, context.temp_allocator)
+        obj["pos"] = marshal_vec3(enemy.pos)
+        obj["type"] = json.Integer(enemy.type)
+        enemies_json[i] = obj
+    }
+    level_data["enemies"] = enemies_json
+
+    if json_data, err := json.marshal(level_data, {pretty = true}, allocator = context.temp_allocator); err == nil {
+        file_name = fmt.tprintf("%v_new.json", file_name[:len(file_name)-5])
+        if !os.write_entire_file(file_name, json_data) {
+            fmt.eprintfln("Unable to save level file: %v", file_name)
+        }
     }
 }
 

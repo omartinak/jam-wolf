@@ -41,6 +41,8 @@ create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
         type = cfg.type,
     }
     // TODO: map Item_Type -> Tex?
+
+    // TOD: put textures type in the config
     switch item.type {
     case .Pistol:      item.tex = gs.textures[.Pistol]
     case .Rifle:       item.tex = gs.textures[.Rifle]

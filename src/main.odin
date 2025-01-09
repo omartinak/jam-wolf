@@ -1,28 +1,11 @@
 package game
 
-import "base:runtime"
 import "core:mem"
 import "core:fmt"
-import "core:prof/spall"
-import "core:sync"
 import rl "vendor:raylib"
 
 _ :: mem
 _ :: fmt
-_ :: runtime
-
-spall_ctx: spall.Context
-@(thread_local) spall_buffer: spall.Buffer
-
-//@(instrumentation_enter)
-//spall_enter :: proc "contextless" (proc_address, call_site_return_address: rawptr, loc: runtime.Source_Code_Location) {
-//    spall._buffer_begin(&spall_ctx, &spall_buffer, "", "", loc)
-//}
-//
-//@(instrumentation_exit)
-//spall_exit :: proc "contextless" (proc_address, call_site_return_address: rawptr, loc: runtime.Source_Code_Location) {
-//    spall._buffer_end(&spall_ctx, &spall_buffer)
-//}
 
 main :: proc() {
     when ODIN_DEBUG {
@@ -47,12 +30,7 @@ main :: proc() {
         }
     }
 
-    spall_ctx = spall.context_create("jam-wolf_trace.spall")
-    defer spall.context_destroy(&spall_ctx)
-
-    buffer_backing := make([]u8, spall.BUFFER_DEFAULT_SIZE)
-    spall_buffer = spall.buffer_create(buffer_backing, u32(sync.current_thread_id()))
-    defer spall.buffer_destroy(&spall_ctx, &spall_buffer) // TODO: it's not deallocated
+    create_profiler()
 
     rl.InitWindow(1920, 1200, "jam-wolf")
 //    rl.InitWindow(1280, 800, "jam-wolf")
@@ -73,6 +51,8 @@ main :: proc() {
     destroy()
     rl.CloseAudioDevice()
     rl.CloseWindow()
+
+    destroy_profiler()
 }
 
 init :: proc() {

@@ -56,6 +56,7 @@ can_get_ammo :: proc(enemy: ^Enemy) -> bool {
     @(static) enemy_pos: Vec3
     enemy_pos = enemy.pos
 
+    // TODO: doesn't work?
     slice.sort_by(ammo[:], proc(a, b: Item) -> bool {
         a_dist := rl.Vector3DistanceSqrt(enemy_pos, a.pos)
         b_dist := rl.Vector3DistanceSqrt(enemy_pos, b.pos)
