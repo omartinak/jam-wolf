@@ -47,6 +47,7 @@ destroy_level :: proc(level: Level, runtime: Level_Runtime) {
     delete(level.items)
     for enemy in level.enemies do destroy_enemy(enemy)
     delete(level.enemies)
+    delete(level.grid_file)
 
     rl.UnloadImageColors(runtime.grid)
     rl.UnloadTexture(runtime.grid_tex)
@@ -78,7 +79,7 @@ load_level :: proc(level_file: string) -> (level: Level, runtime: Level_Runtime)
     root := json_data.(json.Object)
 
     level.file_name = level_file
-    level.grid_file = root["grid_file"].(json.String)
+    level.grid_file = json.clone_string(root["grid_file"].(json.String), context.allocator) or_else ""
     level.atlas = .Level01_Atlas
     level.player_start = parse_vec3(root["player_start"])
 
@@ -150,7 +151,6 @@ save_level :: proc(level: Level, level_file := "") {
     level_data["enemies"] = enemies_json
 
     if json_data, err := json.marshal(level_data, {pretty = true}, allocator = context.temp_allocator); err == nil {
-        file_name = fmt.tprintf("%v_new.json", file_name[:len(file_name)-5])
         if !os.write_entire_file(file_name, json_data) {
             fmt.eprintfln("Unable to save level file: %v", file_name)
         }

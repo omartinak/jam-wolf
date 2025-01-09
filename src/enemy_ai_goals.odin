@@ -44,11 +44,11 @@ can_idle :: proc(enemy: ^Enemy) -> bool {
 can_get_ammo :: proc(enemy: ^Enemy) -> bool {
     if enemy.ammo > 0 do return false
 
-    ammo := make([dynamic]Item, context.temp_allocator)
-    for item in gs.level.items {
+    ammo := make([dynamic]^Item, context.temp_allocator)
+    for &item in gs.level.items {
         // TODO: Clip and prio
         if item.type == .Ammo_Box {
-            append(&ammo, item)
+            append(&ammo, &item)
         }
     }
     if len(ammo) == 0 do return false
@@ -56,13 +56,16 @@ can_get_ammo :: proc(enemy: ^Enemy) -> bool {
     @(static) enemy_pos: Vec3
     enemy_pos = enemy.pos
 
+    // TODO: what if multiple enemies select the same ammo_box?
+    //       smart objects - claim
+    //       claim smart - every enemy should select closest ammo, not first come first serve
     // TODO: doesn't work?
-    slice.sort_by(ammo[:], proc(a, b: Item) -> bool {
+    slice.sort_by(ammo[:], proc(a, b: ^Item) -> bool {
         a_dist := rl.Vector3DistanceSqrt(enemy_pos, a.pos)
         b_dist := rl.Vector3DistanceSqrt(enemy_pos, b.pos)
         return a_dist < b_dist
     })
-    enemy.dest_ammo = ammo[0].pos // TODO
+    enemy.dest_ammo = ammo[0]
 
     return true
 }
@@ -102,12 +105,22 @@ idle :: proc(enemy: ^Enemy, dt: f32) {
 
 get_ammo :: proc(enemy: ^Enemy, dt: f32) {
     if dest, ok := enemy.dest_ammo.?; ok {
-        enemy_path(enemy, dest)
+        // TODO: is dest valid?
+        enemy_path(enemy, dest.pos)
 
         if rl.Vector3DistanceSqrt(enemy.pos, enemy.dest) < 0.2 {
             enemy.ammo += 5
             enemy.cur_goal = nil
             // TODO: remove ammo item
+            // TODO: what if the index is not valid anymore - items array has changed?
+            //       generation handle?
+            for &item, i in gs.level.items {
+                if &item == dest {
+                    unordered_remove(&gs.level.items, i)
+                    break
+                }
+            }
+            enemy.dest_ammo = nil
         } else {
             SPEED :: 0.5
 

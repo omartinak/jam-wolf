@@ -39,7 +39,7 @@ Enemy :: struct {
     cur_goal: Maybe(Ai_Goal),
     dist: f32,
     dest: Vec3,
-    dest_ammo: Maybe(Vec3),
+    dest_ammo: Maybe(^Item),
 
     nav_data: Nav_Data,
 
