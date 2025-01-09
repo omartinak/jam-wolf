@@ -86,7 +86,6 @@ dbg_draw_enemy :: proc() {
     rl.DrawText(fmt.ctprintf("goals:"), 10, y_pos + 225, 20, rl.WHITE)
     for goal, i in gs.dbg_enemy.goals {
         rl.DrawText(fmt.ctprintf("  %v", goal.name), 10, y_pos + 250 + i32(i)*25, 20, rl.WHITE)
-        // TODO: crashes when enemy selected and press F2
     }
 
     if gs.dbg.show_path do dbg_draw_bfs(gs.dbg_enemy.nav_data)

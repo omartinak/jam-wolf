@@ -104,6 +104,10 @@ draw_enemy :: proc(enemy: Enemy, opacity: u8 = 255) {
 
 update_enemy :: proc(enemy: ^Enemy, dt: f32) {
     if !enemy.dead {
+        // TODO: this is brittle
+        //       ai data is deallocated every frame by temp_allocator
+        //       if enemy_ai is not called every frame crashes happen
+        //       because for example dbg uses the data
         enemy_ai(enemy, dt)
     }
     update_anim(&enemy.anim, dt)
@@ -170,4 +174,20 @@ get_enemy_hit :: proc(ray: rl.Ray, check_dead := false) -> EnemyHit {
     append(&hit.enemy.hit_splashes, create_hit_splash(blood_splash_cfg, hit.point + spread))
 
     return hit
+}
+
+deal_damage :: proc(enemy: ^Enemy, dmg: int) {
+    enemy.hp -= dmg
+
+    if enemy.hp > 0 {
+        play_anim(&enemy.anim, Enemy_Anim.Hit)
+    } else {
+        enemy.dead = true
+        play_anim(&enemy.anim, Enemy_Anim.Death)
+
+        // TODO: not ideal
+        enemy.goals = nil
+        enemy.cur_goal = nil
+        enemy.dest_ammo = nil
+    }
 }

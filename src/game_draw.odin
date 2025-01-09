@@ -31,14 +31,16 @@ draw :: proc() {
 
     draw_minimap()
     draw_crosshair()
+
     if !gs.editor.active {
         draw_weapon()
         draw_hud()
+
+        if gs.dbg_enemy != nil {
+            dbg_draw_enemy()
+        }
     }
     draw_editor_hud(gs.editor)
-    if gs.dbg_enemy != nil {
-        dbg_draw_enemy()
-    }
 
     if gs.message_time > 0 {
         FONT_SIZE :: 40

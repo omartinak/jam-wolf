@@ -95,6 +95,16 @@ restart :: proc() {
     gs.cur_weapon = .Pistol
     gs.ammo = 50
 
+    gs.message = ""
+    gs.message_time = 0
+
+//    gs.camera = {}
+
+    gs.dbg = {}
+    gs.dbg_enemy = nil
+
     gs.level, gs.level_runtime = load_level(level_name)
     gs.player = create_player(gs.level.player_start)
+
+    // Editor data intentionally not reset
 }

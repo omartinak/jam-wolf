@@ -4,8 +4,6 @@ import rl "vendor:raylib"
 
 enemy_ai :: proc(enemy: ^Enemy, dt: f32) {
     enemy.dist = rl.Vector3Distance(enemy.pos, gs.player.pos)
-
-    // TODO: crashes when saving level with goals
     enemy.goals = get_applicable_goals(enemy)
 
     if enemy.cur_goal == nil && len(enemy.goals) > 0 {
