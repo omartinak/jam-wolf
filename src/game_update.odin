@@ -37,30 +37,10 @@ update :: proc() {
 }
 
 update_game :: proc(dt: f32) {
-    switch gs.cur_weapon {
-    case .Pistol:
-        if rl.IsMouseButtonPressed(.LEFT) && can_weapon_shoot() {
-            player_shoot()
-        }
-    case .Rifle: fallthrough
-    case .Machine_Gun:
-        if rl.IsMouseButtonDown(.LEFT) && can_weapon_shoot() {
-            player_shoot()
-        }
-    }
-    if wheel := rl.GetMouseWheelMove(); wheel != 0 {
-        // TODO: doesn't skip non-owned weapons
-        new_weapon := gs.cur_weapon + Weapon_Type(wheel)
-        if new_weapon >= .Pistol && new_weapon <= .Machine_Gun {
-            change_weapon(new_weapon)
-         }
-    }
+    game_input()
 
-    switch {
-    case rl.IsKeyPressed(.ONE):   change_weapon(.Pistol)
-    case rl.IsKeyPressed(.TWO):   change_weapon(.Rifle)
-    case rl.IsKeyPressed(.THREE): change_weapon(.Machine_Gun)
-    case rl.IsKeyPressed(.BACKSPACE): gs.should_restart = true
+    if !gs.player.dead {
+        player_input()
     }
 
     update_weapon(dt)
@@ -78,4 +58,41 @@ update_editor :: proc(dt: f32) {
     update_editor_input(&gs.editor)
     player_move(&gs.player, &gs.camera, dt, ignore_col = true)
     update_editor_item(&gs.editor)
+}
+
+player_input :: proc() {
+    switch gs.cur_weapon {
+    case .Pistol:
+        if rl.IsMouseButtonPressed(.LEFT) && can_weapon_shoot() {
+            player_shoot()
+        }
+    case .Rifle: fallthrough
+    case .Machine_Gun:
+        if rl.IsMouseButtonDown(.LEFT) && can_weapon_shoot() {
+            player_shoot()
+        }
+    }
+    if wheel := rl.GetMouseWheelMove(); wheel != 0 {
+    // TODO: doesn't skip non-owned weapons
+        new_weapon := gs.cur_weapon + Weapon_Type(wheel)
+        if new_weapon >= .Pistol && new_weapon <= .Machine_Gun {
+            change_weapon(new_weapon)
+        }
+    }
+
+    switch {
+    case rl.IsKeyPressed(.ONE):   change_weapon(.Pistol)
+    case rl.IsKeyPressed(.TWO):   change_weapon(.Rifle)
+    case rl.IsKeyPressed(.THREE): change_weapon(.Machine_Gun)
+    case rl.IsKeyPressed(.BACKSPACE): gs.should_restart = true
+    }
+
+    if rl.IsKeyDown(.W) do gs.player.move_forward += 1
+    if rl.IsKeyDown(.S) do gs.player.move_forward -= 1
+    if rl.IsKeyDown(.A) do gs.player.move_right -= 1
+    if rl.IsKeyDown(.D) do gs.player.move_right += 1
+}
+
+game_input :: proc() {
+    if rl.IsKeyPressed(.BACKSPACE) do gs.should_restart = true
 }

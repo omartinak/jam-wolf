@@ -96,7 +96,7 @@ can_get_ammo :: proc(enemy: ^Enemy) -> bool {
 can_attack_position :: proc(enemy: ^Enemy) -> bool {
     sees_player := rl.Vector3Distance(enemy.pos, gs.player.pos) < 7
     has_ammo := enemy.ammo > 0
-    return sees_player && has_ammo
+    return !gs.player.dead && sees_player && has_ammo
 }
 
 can_lkl :: proc(enemy: ^Enemy) -> bool {
@@ -113,7 +113,7 @@ can_attack :: proc(enemy: ^Enemy) -> bool {
 //    timeout := enemy.attack_time <= 0
 
 //    return in_position && has_ammo && timeout
-    return in_position && has_ammo
+    return !gs.player.dead && in_position && has_ammo
 }
 
 idle :: proc(enemy: ^Enemy, dt: f32) {
@@ -183,7 +183,6 @@ lkl :: proc(enemy: ^Enemy, dt: f32) {
 }
 
 // TODO:
-//   enemy shoot projectiles
 //   enemy drop remaining ammo
 //   alert when hurt - maybe
 //   see long distance, but line of sight
@@ -212,19 +211,18 @@ attack_position :: proc(enemy: ^Enemy, dt: f32) {
         // TODO: stagger when hit
         if enemy.anim.cur_anim == .Idle do play_anim(&enemy.anim, Enemy_Anim.Move)
     }
-    set_last_pos(enemy, gs.player.pos)
+    set_last_pos(enemy, gs.player.pos, gs.player.dead)
 }
 
 attack :: proc(enemy: ^Enemy, dt: f32) {
     // TODO: lesser chance to hit if the player is moving, maybe based on velocity
     if enemy.attack_time <= 0 {
-        damage_player(&gs.player, 5)
+        damage_player(&gs.player, enemy.dmg)
         enemy.ammo -= 1
 
         play_anim(&enemy.anim, enemy.cobra_attack == .Left ? Enemy_Anim.Attack_Left : Enemy_Anim.Attack_Right)
+        set_last_pos(enemy, gs.player.pos, gs.player.dead)
 
-        // TODO: last pos when seen?
-        set_last_pos(enemy, gs.player.pos)
         enemy.cobra_attack = enemy.cobra_attack == .Left ? .Right : .Left
         enemy.attack_time = 1
     }

@@ -35,6 +35,7 @@ Enemy :: struct {
     dead: bool,
     hp: int,
     ammo: int,
+    dmg: int,
 
     hit_splashes: [dynamic]Hit_Splash,
 
@@ -61,6 +62,7 @@ Enemy_Cfg :: struct {
     hit_radius: f32,
     half_height: f32,
     hp: int,
+    dmg: int,
     y_off: f32,
     type: Enemy_Type, // TODO: replace
 }
@@ -84,6 +86,7 @@ create_enemy :: proc(cfg: Enemy_Cfg, pos: Vec3) -> Enemy {
         half_height = cfg.half_height,
         hp = cfg.hp,
         ammo = 10,
+        dmg = cfg.dmg,
         type = cfg.type,
     }
     return enemy
@@ -211,7 +214,12 @@ damage_enemy :: proc(enemy: ^Enemy, dmg: int) {
     }
 }
 
-set_last_pos :: proc(enemy: ^Enemy, pos: Vec3) {
-    enemy.last_pos = gs.player.pos
-    enemy.last_pos_time = 15
+set_last_pos :: proc(enemy: ^Enemy, pos: Vec3, reset := false) {
+    if !reset {
+        enemy.last_pos = Vec3{gs.player.pos.x, 0, gs.player.pos.z}
+        enemy.last_pos_time = 15
+    } else {
+        enemy.last_pos = nil
+        enemy.last_pos_time = 0
+    }
 }

@@ -33,8 +33,12 @@ draw :: proc() {
     draw_crosshair()
 
     if !gs.editor.active {
-        draw_weapon()
-        draw_hud()
+        if !gs.player.dead {
+            draw_weapon()
+            draw_hud()
+        } else {
+            draw_dead()
+        }
 
         if gs.dbg_enemy != nil {
             dbg_draw_enemy()

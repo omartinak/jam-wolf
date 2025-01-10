@@ -7,8 +7,12 @@ Player :: struct {
     velocity: Vec3,
     col_radius: f32,
 
+    move_forward: f32,
+    move_right: f32,
+
     hp: int,
     armor: int,
+    dead: bool,
 }
 
 create_player :: proc(pos: Vec3) -> Player {
@@ -35,16 +39,8 @@ player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32, ignore_col := 
     right := forward.zyx
     right.x *= -1
 
-    forward_mag: f32
-    right_mag: f32
-
-    if rl.IsKeyDown(.W) do forward_mag += 1
-    if rl.IsKeyDown(.S) do forward_mag -= 1
-    if rl.IsKeyDown(.A) do right_mag -= 1
-    if rl.IsKeyDown(.D) do right_mag += 1
-
     // TODO: diag movement
-    player.velocity = forward * forward_mag + right * right_mag
+    player.velocity = forward * player.move_forward + right * player.move_right
     player.velocity = rl.Vector3Normalize(player.velocity)
     player.velocity *= speed * dt
 
@@ -59,6 +55,9 @@ player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32, ignore_col := 
     mouse_delta := rl.GetMouseDelta()
     camera_yaw(camera, -mouse_delta.x * 0.001)
     camera_pitch(camera, -mouse_delta.y * 0.001)
+
+    gs.player.move_forward = 0
+    gs.player.move_right = 0
 }
 
 player_shoot :: proc() {
@@ -85,4 +84,9 @@ player_shoot :: proc() {
 
 damage_player :: proc(player: ^Player, dmg: int) {
     player.hp = max(player.hp - dmg, 0)
+    if player.hp <= 0 {
+        player.dead = true
+        // TODO: easing to animate fall
+        player.pos.y = 0.1
+    }
 }

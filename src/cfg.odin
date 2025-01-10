@@ -52,6 +52,7 @@ enemy_cfg := [Enemy_Type]Enemy_Cfg {
         hit_radius = 0.18,
         half_height = 0.33,
         hp = 20,
+        dmg = 10,
         y_off = 0.38,
         type = .Cobra,
     },

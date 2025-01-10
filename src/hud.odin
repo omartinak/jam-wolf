@@ -27,6 +27,19 @@ draw_hud :: proc() {
     rl.DrawTextEx({}, ammo, center + {400, 0}, 40, 2, rl.RAYWHITE)
 }
 
+draw_dead :: proc() {
+    x := rl.GetScreenWidth() / 2
+    y := rl.GetScreenHeight() - 150
+
+    msg := fmt.ctprintf("You are dead!")
+    w := rl.MeasureText(msg, 40)
+    rl.DrawText(msg, x - w/2, y, 40, {150, 0, 0, 255})
+
+    msg = fmt.ctprintf("Press 'backspace' to restart...")
+    w = rl.MeasureText(msg, 30)
+    rl.DrawText(msg, x - w/2, y + 50, 30, {150, 0, 0, 255})
+}
+
 show_message :: proc(msg: cstring) {
     gs.message = msg
     gs.message_time = 3
