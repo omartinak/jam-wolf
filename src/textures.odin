@@ -18,6 +18,8 @@ Tex :: enum {
     Cobra0, Cobra1, Cobra2,
     Cobra_Att0, Cobra_Att1, Cobra_Att2,
     Cobra_Hit0, Cobra_Hit1, Cobra_Hit2, Cobra_Hit3, Cobra_Hit4,
+
+    Blood_Overlay,
 }
 
 Textures :: [Tex]rl.Texture2D
@@ -66,6 +68,8 @@ create_textures :: proc() -> Textures {
         .Cobra_Hit2 = rl.LoadTexture("data/graphics/lab/sprites/cobrahit2.png"),
         .Cobra_Hit3 = rl.LoadTexture("data/graphics/lab/sprites/cobrahit3.png"),
         .Cobra_Hit4 = rl.LoadTexture("data/graphics/lab/sprites/cobrahit4.png"),
+
+        .Blood_Overlay = rl.LoadTexture("data/graphics/blood_overlay.png"),
     }
     return textures
 }

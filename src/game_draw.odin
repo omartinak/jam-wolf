@@ -29,6 +29,7 @@ draw :: proc() {
 
     rl.EndMode3D()
 
+    if gs.player.hit_time > 0 do draw_hit()
     draw_minimap()
     draw_crosshair()
 

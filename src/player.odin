@@ -12,6 +12,8 @@ Player :: struct {
 
     hp: int,
     armor: int,
+    hit_time: f32,
+    hit_time_max: f32,
     dead: bool,
 }
 
@@ -21,6 +23,7 @@ create_player :: proc(pos: Vec3) -> Player {
         col_radius = 0.2,
         hp = 100,
         armor = 0,
+        hit_time_max = 0.5,
     }
 
     // TODO
@@ -29,6 +32,10 @@ create_player :: proc(pos: Vec3) -> Player {
     gs.camera.target = gs.camera.position + {1, 0, 0}
 
     return player
+}
+
+update_player :: proc(player: ^Player, dt: f32) {
+    if player.hit_time > 0 do player.hit_time -= dt
 }
 
 player_move :: proc(player: ^Player, camera: ^rl.Camera, dt: f32, ignore_col := false) {
@@ -84,6 +91,8 @@ player_shoot :: proc() {
 
 damage_player :: proc(player: ^Player, dmg: int) {
     player.hp = max(player.hp - dmg, 0)
+    player.hit_time = player.hit_time_max
+
     if player.hp <= 0 {
         player.dead = true
         // TODO: easing to animate fall

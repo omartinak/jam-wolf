@@ -1,6 +1,7 @@
 package game
 
 import "core:fmt"
+import "core:math"
 import rl "vendor:raylib"
 
 draw_crosshair :: proc() {
@@ -38,6 +39,30 @@ draw_dead :: proc() {
     msg = fmt.ctprintf("Press 'backspace' to restart...")
     w = rl.MeasureText(msg, 30)
     rl.DrawText(msg, x - w/2, y + 50, 30, {150, 0, 0, 255})
+}
+
+draw_hit :: proc() {
+    w := rl.GetScreenWidth()
+    h := rl.GetScreenHeight()
+
+    tex := gs.textures[.Blood_Overlay]
+    src := rl.Rectangle {
+        x = 0,
+        y = 0,
+        width = f32(tex.width),
+        height = f32(tex.height),
+    }
+    dst := rl.Rectangle {
+        x = 0,
+        y = 0,
+        width = f32(w),
+        height = f32(h),
+    }
+
+    a := u8(math.lerp(f32(0), f32(40), gs.player.hit_time * 1/gs.player.hit_time_max))
+
+    rl.DrawRectangle(0, 0, w, h, {255, 0, 0, a})
+    rl.DrawTexturePro(gs.textures[.Blood_Overlay], src, dst, {0, 0}, 0, {255, 255, 255, a})
 }
 
 show_message :: proc(msg: cstring) {

@@ -44,6 +44,7 @@ update_game :: proc(dt: f32) {
     }
 
     update_weapon(dt)
+    update_player(&gs.player, dt)
     player_move(&gs.player, &gs.camera, dt)
 
     for &enemy in gs.level.enemies do update_enemy(&enemy, dt)
