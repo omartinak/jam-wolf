@@ -1,5 +1,6 @@
 package game
 
+import "core:fmt"
 import rl "vendor:raylib"
 
 update :: proc() {
@@ -57,6 +58,7 @@ update_game :: proc(dt: f32) {
 
 update_editor :: proc(dt: f32) {
     update_editor_input(&gs.editor)
+    player_input_move()
     player_move(&gs.player, &gs.camera, dt, ignore_col = true)
     update_editor_item(&gs.editor)
 }
@@ -86,12 +88,18 @@ player_input :: proc() {
     case rl.IsKeyPressed(.TWO):   change_weapon(.Rifle)
     case rl.IsKeyPressed(.THREE): change_weapon(.Machine_Gun)
     case rl.IsKeyPressed(.BACKSPACE): gs.should_restart = true
+    case rl.IsKeyPressed(.TAB): kill_all_enemies()
     }
 
+    player_input_move()
+}
+
+player_input_move :: proc() {
     if rl.IsKeyDown(.W) do gs.player.move_forward += 1
     if rl.IsKeyDown(.S) do gs.player.move_forward -= 1
     if rl.IsKeyDown(.A) do gs.player.move_right -= 1
     if rl.IsKeyDown(.D) do gs.player.move_right += 1
+    fmt.println("input move")
 }
 
 game_input :: proc() {

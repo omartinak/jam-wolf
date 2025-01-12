@@ -223,3 +223,9 @@ set_last_pos :: proc(enemy: ^Enemy, pos: Vec3, reset := false) {
         enemy.last_pos_time = 0
     }
 }
+
+kill_all_enemies :: proc() {
+    for &enemy in gs.level.enemies {
+        damage_enemy(&enemy, enemy.hp)
+    }
+}

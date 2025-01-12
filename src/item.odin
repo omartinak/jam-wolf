@@ -12,23 +12,27 @@ Item_Type :: enum {
     Armor,
     Health,
 
-    Exit,
+    Brain,
 }
 
 Item :: struct {
     tex: rl.Texture2D, // TODO: not necessary? take from enum array?
     pos: Vec3,
+    scale: f32,
 
     col_radius: f32,
     half_height: f32,
+    destructible: bool,
     type: Item_Type,
 }
 
 Item_Cfg :: struct {
     tex: Tex,
+    scale: f32,
     col_radius: f32,
     half_height: f32,
     y_off: f32,
+    destructible: bool,
     type: Item_Type, // TODO: replace
 }
 
@@ -38,6 +42,7 @@ create_item :: proc(cfg: Item_Cfg, pos: Vec3) -> Item {
     item := Item {
         tex = gs.textures[cfg.tex],
         pos = pos,
+        scale = cfg.scale,
         col_radius = cfg.col_radius,
         half_height = cfg.half_height,
         type = cfg.type,
@@ -78,10 +83,10 @@ update_item :: proc(item: Item) -> bool {
             gs.player.hp += 10
             show_message("+10 health")
 
-        case .Exit:
-            show_message("Congratulations! Restarting level...")
-            gs.should_restart = true
-            return false
+        case .Brain:
+//            show_message("Congratulations! Restarting level...")
+//            gs.should_restart = true
+//            return false
         }
         return true
     }
@@ -89,7 +94,7 @@ update_item :: proc(item: Item) -> bool {
 }
 
 draw_item :: proc(item: Item, opacity: u8 = 255) {
-    rl.DrawBillboard(gs.camera, item.tex, item.pos, 0.25, {255, 255, 255, opacity})
+    rl.DrawBillboard(gs.camera, item.tex, item.pos, item.scale, {255, 255, 255, opacity})
 
     if gs.dbg.show_bbox {
         bodyPos := item.pos
